@@ -1,0 +1,3483 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>المنصة الاختبارية لمادة التربية الإسلامية - المدرسة العربية العالمية الحديثة - تعز</title>
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <style>
+    :root {
+      --primary: #0f5132;
+      --primary-dark: #093621;
+      --accent: #b48a2d;
+      --accent-soft: #fdf8ec;
+      --navy: #102a43;
+      --bg: #f3f6f4;
+      --card: #ffffff;
+      --text: #102a43;
+      --muted: #52606d;
+      --success: #15803d;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --border: #d9e2ec;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    button,
+    .tab-btn,
+    .option-item,
+    input,
+    select {
+      touch-action: manipulation;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--navy), var(--primary-dark));
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--accent);
+      box-shadow: 0 4px 14px rgba(16, 42, 67, 0.16);
+    }
+
+    .brand-school {
+      font-size: 0.88rem;
+      color: #f3d078;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .brand-teacher {
+      font-size: 0.9rem;
+      color: #d9f2e6;
+      margin-top: 2px;
+    }
+
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .live-clock {
+      background: var(--accent-soft);
+      color: var(--navy);
+      border: 1px solid var(--accent);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.86rem;
+      font-weight: 800;
+      direction: ltr;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 18px auto 32px;
+      padding: 0 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 6px 20px rgba(16, 42, 67, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 11px 10px;
+      border: 2px solid var(--border);
+      background: #f8fafc;
+      color: var(--navy);
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.08s, background 0.12s;
+    }
+
+    .tab-btn:active {
+      transform: scale(0.98);
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.98rem;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .env-security-notice {
+      background: #fef2f2;
+      border: 1.5px solid #fca5a5;
+      color: #991b1b;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    .permission-quick-bar {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      color: #14532d;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .quick-perm-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .role-perm-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      font-size: 0.82rem;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .btn-req-perm {
+      background: #15803d;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-req-perm:hover {
+      background: #166534;
+    }
+
+    .btn-cam-check {
+      background: #0369a1;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-cam-check:hover {
+      background: #075985;
+    }
+
+    .env-actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-ext-open {
+      background: #1d4ed8;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-diag-check {
+      background: #0f766e;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .diag-report-box {
+      margin-top: 8px;
+      background: #fff;
+      border: 1px solid #fecaca;
+      color: #102a43;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.78rem;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    .pre-exam-rules {
+      background: var(--accent-soft);
+      border: 1.5px solid #e2c57b;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .pre-exam-rules-title {
+      font-weight: 800;
+      color: var(--navy);
+      font-size: 0.92rem;
+      margin-bottom: 8px;
+    }
+
+    .rules-list {
+      margin: 0;
+      padding-right: 18px;
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .rules-list li {
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .pledge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed #d9be78;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .pledge-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.08s, background 0.12s;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-allow-exam {
+      background: #15803d;
+      color: #fff;
+      padding: 8px 14px;
+      font-size: 0.88rem;
+    }
+
+    .btn-allow-exam.allowed {
+      background: #b45309;
+    }
+
+    .btn-voice-all {
+      background: #b45309;
+      color: #fff;
+    }
+
+    .btn-voice-all.active-talk {
+      background: #dc2626;
+    }
+
+    .btn-mic-check {
+      background: #0369a1;
+      color: #fff;
+      padding: 8px 13px;
+      font-size: 0.85rem;
+    }
+
+    .btn-mic-check:hover {
+      background: #075985;
+    }
+
+    .btn-crowd-mode {
+      background: #334155;
+      color: #fff;
+      padding: 8px 12px;
+      font-size: 0.84rem;
+    }
+
+    .btn-crowd-mode.active-crowd {
+      background: #7c2d12;
+    }
+
+    .btn-outline {
+      background: #fff;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background: #eef7f2;
+    }
+
+    .btn-sm {
+      padding: 6px 7px;
+      font-size: 0.72rem;
+      border-radius: 6px;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      flex: 1;
+      transition: transform 0.08s;
+    }
+
+    .btn-sm:active {
+      transform: scale(0.96);
+    }
+
+    .btn-warn-sm { background: #b48a2d; }
+    .btn-mic-sm { background: #0369a1; }
+    .btn-mic-sm.active-talk { background: #dc2626; }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .exam-layout {
+      display: grid;
+      grid-template-columns: 1fr 270px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .exam-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .timer-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--accent-soft);
+      border: 1px solid #e6cf94;
+      padding: 11px 15px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .timer-num {
+      font-size: 1.15rem;
+      color: var(--danger);
+      background: #fee2e2;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .total-timer-num {
+      font-size: 1.05rem;
+      color: var(--primary-dark);
+      background: #d1fae5;
+      padding: 3px 10px;
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      line-height: 1.65;
+      color: var(--navy);
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-item {
+      padding: 13px 15px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.02rem;
+      transition: transform 0.08s, border-color 0.12s, background 0.12s;
+      background: #fff;
+      line-height: 1.5;
+    }
+
+    .option-item:active {
+      transform: scale(0.99);
+    }
+
+    .option-item:hover {
+      border-color: var(--primary);
+      background: #f4fbf7;
+    }
+
+    .option-item.selected {
+      border-color: var(--primary);
+      background: #dcfce7;
+      font-weight: 700;
+    }
+
+    .student-warning-banner {
+      background: #fef2f2;
+      border: 1.5px solid var(--danger);
+      color: #991b1b;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .voice-live-banner {
+      background: #eff6ff;
+      border: 1.5px solid #0284c7;
+      color: #0c4a6e;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .cam-box {
+      background: var(--navy);
+      color: #fff;
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+      border: 2px solid var(--accent);
+    }
+
+    .cam-box video {
+      width: 100%;
+      min-height: 150px;
+      border-radius: 10px;
+      background: #091726;
+      object-fit: contain;
+      transform: scaleX(-1);
+    }
+
+    .student-media-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .student-mic-btn {
+      width: 100%;
+      padding: 10px 10px;
+      border-radius: 9px;
+      border: none;
+      background: #0369a1;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: transform 0.08s, background 0.12s;
+    }
+
+    .student-mic-btn:active {
+      transform: scale(0.98);
+    }
+
+    .student-mic-btn.talking {
+      background: #dc2626;
+    }
+
+    .student-cam-fix-btn {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.12);
+      color: #f8fafc;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .btn-guide-note {
+      font-size: 0.74rem;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.5;
+      text-align: right;
+    }
+
+    .teacher-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      background: #fff;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .controls-legend {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 9px 14px;
+      margin-bottom: 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .student-speaking-banner {
+      background: #ecfdf5;
+      border: 1.5px solid #16a34a;
+      color: #14532d;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      font-weight: 800;
+      font-size: 0.92rem;
+    }
+
+    .students-grid {
+      --tile-min: 225px;
+      --vid-h: 162px;
+      --gap: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(var(--tile-min), 1fr));
+      gap: var(--gap);
+      transition: all 0.15s ease;
+    }
+
+    .students-grid.compact-mode {
+      --tile-min: 145px;
+      --vid-h: 112px;
+      --gap: 8px;
+    }
+
+    .students-grid.large-mode {
+      --tile-min: 265px;
+      --vid-h: 192px;
+      --gap: 14px;
+    }
+
+    .students-grid.crowd-lite video {
+      display: none !important;
+    }
+
+    .students-grid.crowd-lite .student-tile {
+      background: #102a43;
+    }
+
+    @media (max-width: 600px) {
+      .students-grid {
+        --tile-min: 162px;
+        --vid-h: 124px;
+        --gap: 8px;
+      }
+      .students-grid.compact-mode {
+        --tile-min: 112px;
+        --vid-h: 88px;
+        --gap: 6px;
+      }
+    }
+
+    .student-tile {
+      background: #091726;
+      color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2.5px solid var(--success);
+      position: relative;
+      transition: 0.15s;
+    }
+
+    .student-tile.warning { border-color: var(--warning); }
+    .student-tile.danger {
+      border-color: var(--danger);
+      animation: pulseRed 1s infinite;
+    }
+    .student-tile.finished {
+      border-color: #38bdf8;
+      opacity: 0.95;
+    }
+
+    @keyframes pulseRed {
+      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
+
+    .student-tile video {
+      width: 100%;
+      height: var(--vid-h);
+      object-fit: contain;
+      background: #091726;
+      display: block;
+      transform: scaleX(-1);
+    }
+
+    .tile-info {
+      padding: 5px 6px;
+      font-size: 0.72rem;
+      background: rgba(16, 42, 67, 0.97);
+    }
+
+    .tile-name {
+      font-weight: 700;
+      font-size: 0.74rem;
+      line-height: 1.25;
+      margin-bottom: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tile-grade {
+      font-size: 0.64rem;
+      line-height: 1.2;
+      color: #f3d078;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tile-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      line-height: 1.2;
+      color: #cbd5e1;
+      margin-bottom: 4px;
+      gap: 3px;
+    }
+
+    .tile-actions {
+      display: flex;
+      gap: 4px;
+    }
+
+    .students-grid.compact-mode .tile-info { padding: 3px 5px; }
+    .students-grid.compact-mode .tile-name { font-size: 0.68rem; }
+    .students-grid.compact-mode .tile-grade,
+    .students-grid.compact-mode .tile-status span:first-child { display: none; }
+    .students-grid.compact-mode .tile-status { justify-content: center; margin-bottom: 3px; font-size: 0.62rem; }
+    .students-grid.compact-mode .btn-sm { padding: 4px 4px; font-size: 0.62rem; }
+
+    .alert-pill {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background: var(--danger);
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-weight: 800;
+      z-index: 2;
+    }
+
+    .status-banner {
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 14px;
+      font-weight: 700;
+    }
+
+    .status-ok { background: #dcfce7; color: #166534; }
+    .status-wait { background: #fef9c3; color: #854d0e; }
+
+    .feedback-box {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      line-height: 1.65;
+      font-size: 0.98rem;
+    }
+
+    .feedback-praise {
+      background: #ecfdf5;
+      border: 1.5px solid #16a34a;
+      color: #14532d;
+    }
+
+    .feedback-encourage {
+      background: #fffbeb;
+      border: 1.5px solid #d97706;
+      color: #78350f;
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;">
+
+  <header>
+    <div>
+      <div class="brand-school">المدرسة العربية العالمية الحديثة - تعز</div>
+      <h1 class="brand-title">المنصة الاختبارية لمادة التربية الإسلامية</h1>
+      <div class="brand-teacher">إشراف ومتابعة: أ. أحمد الحداد</div>
+    </div>
+
+    <div class="header-meta">
+      <div class="live-clock" id="liveClock">--:--:--</div>
+      <span class="badge" id="netIndicator">متصل بالشبكة</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="loginScreen" class="card" style="max-width: 590px; margin: 20px auto;">
+      <div id="envSecurityNotice" class="env-security-notice hidden">
+        <div id="envSecurityText"></div>
+        <div class="env-actions-row">
+          <button type="button" class="btn-ext-open" onclick="openInExternalBrowser()">🌐 فتح في متصفح خارجي</button>
+          <button type="button" class="btn-diag-check" onclick="runEnvironmentDiagnostics()">🔍 فحص سبب الحظر</button>
+        </div>
+        <div id="diagReportBox" class="diag-report-box hidden"></div>
+      </div>
+
+      <div class="permission-quick-bar">
+        <div>تجهيز وفحص الميكروفون والكاميرا قبل الدخول:</div>
+        <div class="quick-perm-actions">
+          <button type="button" class="btn-req-perm" id="requestMediaPermBtn" onclick="requestMicAndCameraPermission()">
+            🎙📷 طلب الإذن باستخدام المايك والكاميرا
+          </button>
+          <button type="button" class="btn-cam-check" id="checkCameraQuickBtn" onclick="verifyCameraOnly()">
+            📷 التحقق من الكاميرا
+          </button>
+        </div>
+        <div id="permStatusText" style="margin-top:6px; font-size:0.79rem; color:#166534;">
+          حالة الإذن: لم يُطلب بعد في هذه الجلسة.
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button type="button" class="tab-btn active" id="tabStudent" onclick="switchRole('student')">دخول طالب</button>
+        <button type="button" class="tab-btn" id="tabTeacher" onclick="switchRole('teacher')">لوحة المعلم</button>
+        <button type="button" class="tab-btn" id="tabPrincipal" onclick="switchRole('principal')">دخول المديرة</button>
+      </div>
+
+      <div id="studentLoginForm">
+        <div class="form-group">
+          <label>الاسم الكامل للطالب:</label>
+          <input type="text" id="studentNameInput" placeholder="اكتب اسمك الثلاثي..." />
+        </div>
+        <div class="form-group">
+          <label>الصف الدراسي (اختياري إذا كان الصف واضحاً من رمز الحصة):</label>
+          <select id="studentGradeSelect" onchange="toggleCustomGrade()">
+            <option value="">-- تحديد تلقائي من رمز الحصة أو اختر يدوياً --</option>
+            <option value="الصف الرابع">الصف الرابع</option>
+            <option value="الصف الخامس">الصف الخامس</option>
+            <option value="الصف السادس">الصف السادس</option>
+            <option value="الصف السابع">الصف السابع</option>
+            <option value="الصف الثامن">الصف الثامن</option>
+            <option value="الصف التاسع">الصف التاسع</option>
+            <option value="الصف العاشر">الصف العاشر</option>
+            <option value="الصف الثاني الثانوي">الصف الثاني الثانوي</option>
+            <option value="other">صف آخر (اكتبه يدوياً)...</option>
+          </select>
+          <input type="text" id="studentCustomGradeInput" class="hidden" style="margin-top: 8px;" placeholder="اكتب اسم الصف الدراسي..." />
+        </div>
+        <div class="form-group">
+          <label>رمز الحصة أو الجلسة (يتكيف تلقائياً مع أي رمز تكتبه):</label>
+          <input type="text" id="sessionCodeInput" placeholder="اكتب أي رمز حصة، مثل: g4-live أو g7-quiz أو 101..." />
+        </div>
+
+        <div class="pre-exam-rules">
+          <div class="pre-exam-rules-title">⚠ تنبيهات وتعليمات مهمة قبل بدء الاختبار:</div>
+          <ul class="rules-list">
+            <li><strong>ممنوع إغلاق الكاميرا</strong> أو حجبها بأي شكل طوال مدة الاختبار.</li>
+            <li><strong>ممنوع الالتفات</strong> أو مغادرة صفحة الاختبار أو الانتقال إلى نافذة أخرى.</li>
+            <li>لا يبدأ الاختبار فعلياً حتى يضغط المدرس على زر <strong>السماح ببدء الاختبار</strong>.</li>
+            <li>الاختبار يعمل بملء الشاشة مع مؤقت لكل سؤال ووقت إجمالي، وتُحسب الدرجة من <strong>5</strong>.</li>
+          </ul>
+          <label class="pledge-row">
+            <input type="checkbox" id="studentPledgeCheck" />
+            <span>أقرّ بالالتزام بجميع التنبيهات أعلاه وأمانة الحل.</span>
+          </label>
+        </div>
+
+        <button type="button" class="btn" style="width: 100%;" onclick="startStudentExam()">فتح الكاميرا وبدء الاختبار</button>
+      </div>
+
+      <div id="teacherLoginForm" class="hidden">
+        <div class="role-perm-box" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:space-between; align-items:center;">
+          <span>صلاحية الميكروفون والكاميرا للمعلم:</span>
+          <button type="button" class="btn-req-perm" onclick="requestMicAndCameraPermission()">
+            🎙📷 طلب الإذن باستخدام المايك والكاميرا
+          </button>
+        </div>
+        <div class="form-group">
+          <label>الصف الدراسي للحصة (اختياري؛ إذا تُرك تلقائياً يُستنتج من رمز الحصة):</label>
+          <select id="teacherGradeSelect" onchange="toggleTeacherCustomGrade()">
+            <option value="">-- تحديد تلقائي من رمز الحصة --</option>
+            <option value="الصف الرابع">الصف الرابع</option>
+            <option value="الصف الخامس">الصف الخامس</option>
+            <option value="الصف السادس">الصف السادس</option>
+            <option value="الصف السابع">الصف السابع</option>
+            <option value="الصف الثامن">الصف الثامن</option>
+            <option value="الصف التاسع">الصف التاسع</option>
+            <option value="الصف العاشر">الصف العاشر</option>
+            <option value="الصف الثاني الثانوي">الصف الثاني الثانوي</option>
+            <option value="other">صف آخر (اكتبه يدوياً)...</option>
+          </select>
+          <input type="text" id="teacherCustomGradeInput" class="hidden" style="margin-top: 8px;" placeholder="اكتب اسم الصف الدراسي..." />
+        </div>
+        <div class="form-group">
+          <label>رمز الحصة (أي رمز تكتبه يفتح جلسة مطابقة للطلاب):</label>
+          <input type="text" id="teacherSessionInput" placeholder="اكتب أي رمز حصة (مثال: g4-live أو g7-quiz أو حصة-أ)..." />
+        </div>
+        <div class="form-group">
+          <label>كلمة مرور المعلم:</label>
+          <input type="password" id="teacherPassInput" placeholder="أدخل كلمة المرور..." />
+        </div>
+        <button type="button" class="btn" style="width: 100%;" onclick="startSupervisorDashboard('teacher')">فتح غرفة المراقبة</button>
+      </div>
+
+      <div id="principalLoginForm" class="hidden">
+        <div class="role-perm-box" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:space-between; align-items:center;">
+          <span>تجهيز صلاحية الميكروفون والكاميرا للإدارة / المديرة:</span>
+          <button type="button" class="btn-req-perm" onclick="requestMicAndCameraPermission()">
+            🎙📷 طلب الإذن باستخدام المايك والكاميرا
+          </button>
+        </div>
+        <div class="form-group">
+          <label>الصف الدراسي للحصة (اختياري؛ إذا تُرك تلقائياً يُستنتج من رمز الحصة):</label>
+          <select id="principalGradeSelect" onchange="togglePrincipalCustomGrade()">
+            <option value="">-- تحديد تلقائي من رمز الحصة --</option>
+            <option value="الصف الرابع">الصف الرابع</option>
+            <option value="الصف الخامس">الصف الخامس</option>
+            <option value="الصف السادس">الصف السادس</option>
+            <option value="الصف السابع">الصف السابع</option>
+            <option value="الصف الثامن">الصف الثامن</option>
+            <option value="الصف التاسع">الصف التاسع</option>
+            <option value="الصف العاشر">الصف العاشر</option>
+            <option value="الصف الثاني الثانوي">الصف الثاني الثانوي</option>
+            <option value="other">صف آخر (اكتبه يدوياً)...</option>
+          </select>
+          <input type="text" id="principalCustomGradeInput" class="hidden" style="margin-top: 8px;" placeholder="اكتب اسم الصف الدراسي..." />
+        </div>
+        <div class="form-group">
+          <label>رمز الحصة المراد الاطلاع على سيرها:</label>
+          <input type="text" id="principalSessionInput" placeholder="اكتب رمز الحصة (نفس رمز الحصة المفتوحة)..." />
+        </div>
+        <div class="form-group">
+          <label>كلمة مرور الإدارة / المعلم:</label>
+          <input type="password" id="principalPassInput" placeholder="أدخل كلمة المرور..." />
+        </div>
+        <button type="button" class="btn" style="width: 100%;" onclick="startSupervisorDashboard('principal')">دخول المديرة للاطلاع (بدون كاميرا)</button>
+      </div>
+    </div>
+
+    <div id="studentExamScreen" class="hidden">
+      <div id="studentAlertBanner" class="student-warning-banner hidden"></div>
+      <div id="teacherVoiceBanner" class="voice-live-banner hidden">
+        <span id="teacherVoiceMsg">🔊 أ. أحمد الحداد يتحدث إليك الآن...</span>
+        <button type="button" class="btn" style="padding: 6px 12px; font-size: 0.82rem; background: #0284c7;" onclick="enableStudentIncomingAudio()">تشغيل الصوت</button>
+      </div>
+      <audio id="teacherVoiceAudio" autoplay playsinline></audio>
+
+      <div class="exam-layout">
+        <div class="card">
+          <div class="timer-bar">
+            <span id="questionCounter">السؤال 1 من 30</span>
+            <span>الوقت الكلي: <span class="total-timer-num" id="totalTimer">15:00</span></span>
+            <span>مؤقت السؤال: <span class="timer-num" id="questionTimer">30</span> ث</span>
+          </div>
+
+          <div class="question-text" id="questionText">...</div>
+          <div class="options-list" id="optionsContainer"></div>
+
+          <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.85rem; color: var(--muted);" id="violationCounterText">مرات التنبيه والمخالفة: 0</span>
+            <button type="button" class="btn" id="nextBtn" onclick="goToNextQuestion()">السؤال التالي ⬅</button>
+          </div>
+        </div>
+
+        <div class="cam-box">
+          <video id="localVideo" autoplay muted playsinline></video>
+          <div id="camStatusLabel" style="font-size: 0.8rem; margin-top: 8px; color: #d1fae5;">
+            الكاميرا مفعلة
+          </div>
+          <div class="student-media-controls">
+            <button type="button" class="student-mic-btn" id="studentTalkBtn" onclick="toggleStudentMicToTeacher()">
+              🎙 تحدث للمعلم (خاص)
+            </button>
+            <button type="button" class="student-cam-fix-btn" onclick="verifyAndRefreshStudentCamera()">
+              📷 التحقق من الكاميرا وإعادة ضبطها
+            </button>
+            <div class="btn-guide-note">
+              • <strong>تحدث للمعلم (خاص):</strong> يفتح صوتك للمعلم فقط عند الاستفسار.<br />
+              • <strong>التحقق من الكاميرا:</strong> يفحص حالة الكاميرا ويعيد إرسال البث فوراً.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="finishScreen" class="card hidden" style="max-width: 600px; margin: 32px auto; text-align: center;">
+      <div class="brand-school" style="color: var(--accent);">المدرسة العربية العالمية الحديثة - تعز</div>
+      <h2 style="margin-top: 4px; color: var(--primary-dark);">انتهى الاختبار بنجاح</h2>
+      <p id="finalScoreText" style="font-size: 1.2rem; font-weight: 800; color: var(--navy);"></p>
+      <p id="finalGradeFiveText" style="font-size: 1.15rem; font-weight: 800; color: var(--primary);"></p>
+      <div id="studentEncouragementBox" class="feedback-box"></div>
+      <div id="uploadStatusBox" class="status-banner status-wait">
+        جاري إرسال إجاباتك إلى Google Drive وتجهيز ملف النتيجة...
+      </div>
+      <div style="margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+        <button type="button" class="btn" onclick="downloadResultPDF()">📄 تحميل النتيجة PDF مصممة</button>
+        <button type="button" class="btn btn-outline" onclick="downloadResultFile()">تحميل نسخة نصية (.txt)</button>
+      </div>
+    </div>
+
+    <div id="teacherDashboardScreen" class="hidden">
+      <div class="teacher-toolbar">
+        <div>
+          <strong>الجهة:</strong> <span id="activeRoleBadge" style="color: var(--primary-dark); font-weight: 800;">المعلم</span>
+          &nbsp;|&nbsp;
+          <strong>رمز الحصة:</strong> <span id="activeSessionBadge" style="color: var(--primary); font-weight: 800;"></span>
+          &nbsp;|&nbsp;
+          <strong>الصف:</strong> <span id="activeGradeBadge" style="color: var(--accent); font-weight: 800;"></span>
+          &nbsp;|&nbsp;
+          <strong>الطلاب:</strong> <span id="connectedCount">0</span>
+          &nbsp;|&nbsp;
+          <span id="examPermissionBadge" style="font-weight: 800; color: #b45309;">🔒 بدء الاختبار مغلق</span>
+          &nbsp;|&nbsp;
+          <span id="voiceStatusText" style="font-weight: 700; color: #0369a1;">الميكروفون متوقف</span>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+          <button type="button" class="btn btn-allow-exam" id="allowExamBtn" onclick="toggleAllowExamStart()">
+            🔓 السماح ببدء الاختبار
+          </button>
+          <button type="button" class="btn btn-voice-all" id="talkAllBtn" onclick="toggleVoiceBroadcast('ALL')">
+            🎙 صوت للجميع
+          </button>
+          <button type="button" class="btn btn-mic-check" id="micCheckBtn" onclick="testAndLockTeacherMic()">
+            🎤 فحص وتثبيت الميكروفون
+          </button>
+          <button type="button" class="btn btn-crowd-mode" id="crowdModeBtn" onclick="toggleCrowdLiteMode()">
+            ⚡ وضع التزاحم (إخفاء الفيديو الثقيل)
+          </button>
+          <button type="button" class="btn btn-outline" style="padding: 8px 12px; font-size: 0.85rem;" id="tileSizeBtn" onclick="cycleTileSizeMode()">
+            📐 حجم المربعات: تلقائي
+          </button>
+        </div>
+      </div>
+
+      <div class="controls-legend">
+        <span><strong>🎙 صوت للجميع:</strong> بث الصوت لكل التلاميذ.</span>
+        <span><strong>🎤 صوت (على مربع التلميذ):</strong> التحدث مع تلميذ واحد فقط.</span>
+        <span><strong>🔔 تنبيه (على مربع التلميذ):</strong> إرسال تنبيه فوري بظهور شريط تحذير وصوت لدى التلميذ.</span>
+        <span id="principalPrivacyNote" class="hidden"><strong>🛡 وضع المديرة:</strong> صورتك مخفية تماماً عن المعلم والتلاميذ.</span>
+      </div>
+
+      <div id="studentSpeakingBanner" class="student-speaking-banner hidden"></div>
+      <audio id="studentVoiceAudio" autoplay playsinline></audio>
+
+      <div id="emptyRoomMsg" class="card" style="text-align: center; color: var(--muted);">
+        في انتظار دخول الطلاب بالرمز المحدد... ستظهر مربعات الفيديو هنا تلقائياً.
+      </div>
+
+      <div class="students-grid" id="studentsGrid"></div>
+    </div>
+  </div>
+
+<script>
+const G4_QUESTIONS = [
+  { q: "1. ما المقصود بـ «توحيد الربوبية»؟", options: ["أ) إفراد الله بالعبادة الظاهرة والباطنة.", "ب) إفراد الله بالخلق والملك والتدبير والرزق والإحياء والإماتة.", "ج) الإيمان بالملائكة والكتب والرسل فقط.", "د) التزام أحكام الصيام والزكاة دون غيرهما."], correct: 1, seconds: 30 },
+  { q: "2. إذا رأى المسلم تعاقب الليل والنهار ونزول الغيث وإنبات الزرع، فبماذا يستدل على ربوبية الله؟", options: ["أ) بأن الطبيعة تتحرك تلقائياً دون مدبر.", "ب) بأن هذه الأفعال العظيمة لا تصدر إلا عن ربٍّ قادرٍ مدبّرٍ حكيم.", "ج) بأن الكواكب هي التي تدير شؤون الأرض مستقلة.", "د) بأن تدبير الكون موكّل إلى الإنسان وحده."], correct: 1, seconds: 30 },
+  { q: "3. لماذا كان إقرار مشركي قريش بتوحيد الربوبية غير كافٍ لدخولهم في الإسلام؟", options: ["أ) لأنهم أنكروا وجود السماوات والأرض.", "ب) لأنهم لم يقروا بأن الله هو الخالق.", "ج) لأنهم أشركوا معه غيره في العبادة، وتوحيد الربوبية يستلزم توحيد الألوهية.", "د) لأنهم لم يعرفوا معنى الرزق والمطر."], correct: 2, seconds: 30 },
+  { q: "4. أي عبارة تعبّر بدقة عن أثر الإيمان بتوحيد الربوبية في نفس المؤمن؟", options: ["أ) الاتكال على المخلوقين في جلب المنافع ودفع المضار.", "ب) الخوف من المخلوقين أكثر من الخوف من الله.", "ج) الطمأنينة واليقين بأن تصريف الأمور بيد الله وحده فلا يضره شيء إلا بإذنه.", "د) الاستغناء عن الدعاء واللجوء إلى الله."], correct: 2, seconds: 30 },
+  { q: "5. ما جوهر «توحيد الألوهية»؟", options: ["أ) دراسة تاريخ الأنبياء والغزوات فقط.", "ب) صرف جميع أنواع العبادة — كالدعاء والذبح والنذر والخشوع — لله وحده لا شريك له.", "ج) معرفة عدد سور القرآن الكريم وأجزائه.", "د) الاقتصار على الصلاة دون سائر العبادات."], correct: 1, seconds: 30 },
+  { q: "6. أيٌّ من التصرفات الآتية يُعدّ من صور «توحيد الألوهية»؟", options: ["أ) دعاء الله وحده في الشدة والرخاء وطلب العون منه.", "ب) سؤال غير الله فيما لا يقدر عليه إلا الله.", "ج) تعليق التمائم لرفع البلاء اعتقاداً أنها تدفع الضر بذاتها.", "د) تقديم القرابين لغير الله تقرباً إليه."], correct: 0, seconds: 30 },
+  { q: "7. ما الفرق بين «الربوبية» و«الألوهية» في أبسط صورة؟", options: ["أ) الربوبية هي العبادة، والألوهية هي الخلق.", "ب) الربوبية هي فعل الله تعالى، والألوهية هي فعل العبد من تعبّدٍ لله.", "ج) الربوبية خاصة بالأنبياء، والألوهية عامة لكل الناس.", "د) لا يوجد أي فرق بينهما في المعنى أو الاستعمال."], correct: 1, seconds: 30 },
+  { q: "8. ما الحكمة من أن يبدأ الأنبياء دعوتهم بتوحيد الألوهية؟", options: ["أ) لأنه أسهل من تعلم القراءة والكتابة.", "ب) لأنه الأساس الذي تُبنى عليه صحة الأعمال وقبول العبادات.", "ج) لأنه يختص بقوم نوح عليه السلام وحدهم.", "د) لأنه يأتي بعد الفرائض العملية في المرتبة."], correct: 1, seconds: 30 },
+  { q: "9. ما المنهج الصحيح في «توحيد الأسماء والصفات»؟", options: ["أ) إثبات ما أثبته الله لنفسه أو أثبته له رسوله ﷺ من غير تحريف ولا تعطيل ولا تكييف ولا تمثيل.", "ب) تشبيه صفات الله بصفات المخلوقات.", "ج) إنكار أسماء الله الحسنى والاكتفاء بلفظ «الله».", "د) تخيّل هيئة الصفات الإلهية وصورتها."], correct: 0, seconds: 30 },
+  { q: "10. إذا وصف الله نفسه بأنه «سميع بصير»، فما الواجب على المسلم؟", options: ["أ) إنكار صفة البصر والبقاء على السمع فقط.", "ب) إثبات السمع والبصر لله كما يليق بجلاله، مع الجزم بأنه لا يشبه خلقه في سمعهم وبصرهم.", "ج) القول إن الله يسمع ولا يبصر.", "د) القول إن سمع الله مثل سمع الإنسان تماماً."], correct: 1, seconds: 30 },
+  { q: "11. ماذا يعني «التمثيل» الذي نُهينا عنه في باب الأسماء والصفات؟", options: ["أ) قراءة القرآن بصوت جميل.", "ب) القول إن صفات الله تماثل وتشابه صفات المخلوقين.", "ج) حفظ الأسماء الحسنى وحسابها.", "د) الدعاء بأسماء الله الحسنى."], correct: 1, seconds: 30 },
+  { q: "12. أيٌّ من الآتي يُعدّ من ثمرات الإيمان بأسماء الله وصفاته في حياة التلميذ؟", options: ["أ) الشعور بمراقبة الله في السر والعلن فيبتعد عن الغش والأذى.", "ب) التهاون في الواجبات لأن الله غفور رحيم.", "ج) اليأس من رحمة الله عند الخطأ.", "د) الغرور بالنفس عند النجاح."], correct: 0, seconds: 30 },
+  { q: "13. ما تكملة الحديث الشريف: «لا يؤمن أحدكم حتى يحب لأخيه...»؟", options: ["أ) ما يحب لنفسه.", "ب) ما يملك من المال.", "ج) ما يأكله في بيته.", "د) ما يطلبه من الدنيا."], correct: 0, seconds: 30 },
+  { q: "14. ما المقصود بـ «أخيه» في هذا الحديث؟", options: ["أ) الأخ الشقيق فقط.", "ب) أخوه في الإسلام (ويمتد التعامل الحسن لعموم الناس).", "ج) الجار الملاصق للبيت فقط.", "د) الصديق في المدرسة فقط."], correct: 1, seconds: 30 },
+  { q: "15. ما معنى «لا يؤمن أحدكم» هنا؟", options: ["أ) أنه خرج من الملة وصار كافراً بمجرد التقصير.", "ب) نفي كمال الإيمان الواجب لا أصله، أي لا يبلغ الإيمان الكامل المستحق.", "ج) أن الحديث خاص بالصحابة رضي الله عنهم فقط.", "د) أنه لا يحتاج إلى عمل صالح مع هذا الخلق."], correct: 1, seconds: 30 },
+  { q: "16. أي موقف يعكس الفهم الصحيح لهذا الحديث؟", options: ["أ) حسد زميل تفوّق في الاختبار وتمنّي زوال نعمته.", "ب) إخفاء معلومة مفيدة عن الزملاء ليبقى المتفوق الوحيد.", "ج) فرح الطالب بنجاح زميله ومساعدته في فهم المسألة الصعبة كما يحب أن يُساعد.", "د) السخرية من زميل أخطأ في الإجابة."], correct: 2, seconds: 30 },
+  { q: "17. ما المقصود بقوله ﷺ: «ما لا يعنيه»؟", options: ["أ) ما لا يخصه ولا يهمه في دينه أو شأنه المشروع مما فيه فضول أو تدخل فيما لا يعني.", "ب) أداء الصلوات الخمس في أوقاتها.", "ج) بر الوالدين وطلب العلم النافع.", "د) قراءة القرآن الكريم."], correct: 0, seconds: 30 },
+  { q: "18. ما أثر تطبيق هذا الحديث في حياة المسلم؟", options: ["أ) كثرة الجدال والثرثرة في شؤون الآخرين.", "ب) حفظ الوقت واللسان والقلب، وزيادة التركيز على ما ينفع في الدنيا والآخرة.", "ج) الانعزال الكامل وترك مساعدة المحتاجين.", "د) إهمال النصيحة الواجبة عند رؤية المنكر."], correct: 1, seconds: 30 },
+  { q: "19. أيٌّ من السلوكيات الآتية يُعدّ «مما لا يعني» ويدخل في الفضول؟", options: ["أ) مراجعة الدروس استعداداً للامتحان.", "ب) مساعدة الوالدين في ترتيب المنزل.", "ج) تتبع أخبار الناس الخاصة والتدخل في أمورهم دون حاجة أو مصلحة.", "د) السلام على المارة وإماطة الأذى عن الطريق."], correct: 2, seconds: 30 },
+  { q: "20. لماذا ربط النبي ﷺ ترك ما لا يعني بـ «حُسن إسلام المرء»؟", options: ["أ) لأن حُسن الإسلام يظهر في ضبط السلوك وتوجيه الجهد نحو النافع المفيد.", "ب) لأن الإسلام يأمر بكثرة السؤال عما لا يفيد.", "ج) لأن الترك يكون في الأمور الدينية فقط دون الدنيوية.", "د) لأن من ترك ما لا يعنيه لا يحتاج إلى صدق أو أمانة."], correct: 0, seconds: 30 },
+  { q: "21. ما الفرق بين «شرط الوضوء» و«ركن الوضوء»؟", options: ["أ) الشرط يكون قبل الوضوء ويستمر معه وهو خارج عنه، أما الركن فجزء من نفس الوضوء لا يصح بدونه.", "ب) الشرط جزء داخل الوضوء، والركن يكون قبله.", "ج) الشرط مستحب والركن مكروه.", "د) لا فرق بين الشرط والركن في صحة الوضوء."], correct: 0, seconds: 30 },
+  { q: "22. أيٌّ من الآتي يُعدّ من «شروط الوضوء»؟", options: ["أ) غسل الوجه.", "ب) مسح الرأس.", "ج) طهارة الماء ودخول الوقت (لصاحب الحدث الدائم) وزوال ما يمنع وصول الماء.", "د) غسل الرجلين إلى الكعبين."], correct: 2, seconds: 30 },
+  { q: "23. أيٌّ من الآتي يُعدّ من «أركان الوضوء»؟", options: ["أ) النية، وغسل الوجه، وغسل اليدين إلى المرفقين، ومسح الرأس، وغسل الرجلين إلى الكعبين، والترتيب (والموالاة عند من يوجبها).", "ب) السواك عند كل وضوء.", "ج) التسمية في أول الوضوء عند من يراها سنة.", "د) الزيادة على الغسلة الأولى."], correct: 0, seconds: 30 },
+  { q: "24. إذا توضأ شخص ونسِي غسل قدميه، فما حكم وضوئه؟", options: ["أ) وضوؤه صحيح وتجزئه الصلاة.", "ب) وضوؤه غير مكتمل لترك ركن، فيغسل قدميه (وما بعدها إن لزم الترتيب) وتصح صلاته.", "ج) يكفيه مسح الجورب دون غسل.", "د) يترك الصلاة حتى اليوم التالي."], correct: 1, seconds: 30 },
+  { q: "25. ما السبب الرئيس الذي دفع النبي ﷺ إلى الإذن لصحابته بالهجرة إلى الحبشة؟", options: ["أ) فتح بلاد الحبشة عسكرياً.", "ب) اشتداد أذى قريش على المسلمين في مكة ورغبتهم في مكان آمن يعبدون الله فيه.", "ج) البحث عن التجارة فقط.", "د) هجرة النبي ﷺ نفسه إلى الحبشة."], correct: 1, seconds: 30 },
+  { q: "26. لماذا اختار النبي ﷺ «الحبشة» تحديداً للهجرة الأولى؟", options: ["أ) لأن ملكها النجاشي كان معروفاً بالعدل ولا يُظلم عنده أحد.", "ب) لأنها أقرب مكان إلى المدينة المنورة.", "ج) لأن أهلها كانوا جميعاً مسلمين قبل الهجرة.", "د) لأنها كانت خالية من السكان."], correct: 0, seconds: 30 },
+  { q: "27. ماذا نتعلم من صبر الصحابة في الهجرة إلى الحبشة؟", options: ["أ) الهروب من المسؤولية عند أول صعوبة.", "ب) حفظ الدين والتضحية في سبيل العقيدة، وحُسن اختيار المكان الآمن عند الضرورة.", "ج) أن الهجرة كانت مرة واحدة فقط في التاريخ.", "د) أن من هاجر إلى الحبشة لم يعد إلى مكة أبداً."], correct: 1, seconds: 30 },
+  { q: "28. متى خرج النبي ﷺ إلى الطائف وما هدفه الأساسي من ذلك؟", options: ["أ) خرج بعد اشتداد الأذى في مكة ووفاة أبي طالب وخديجة رضي الله عنها، التماساً للنصرة والمنعة وتبليغ الدعوة.", "ب) خرج بعد فتح مكة لجمع الغنائم.", "ج) خرج في رحلة صيد ونزهة مع أهل مكة.", "د) خرج بعد غزوة تبوك."], correct: 0, seconds: 30 },
+  { q: "29. كيف استقبل أهل الطائف دعوة النبي ﷺ؟", options: ["أ) آمنوا جميعاً من أول لحظة واستقبلوه بالترحاب.", "ب) ردّوا دعوته رداً قاسياً وأغروا سفهاءهم بإيذائه وقذفه بالحجارة حتى أُدميت قدماه الشريفتان.", "ج) عرضوا عليه أن يكون ملكاً عليهم فوراً.", "د) عقدوا معه صلحاً لمدة عشر سنوات."], correct: 1, seconds: 30 },
+  { q: "30. ما أعظم درس أخلاقي نأخذه من موقف النبي ﷺ في الطائف حين جاءه ملك الجبال؟", options: ["أ) رد الإساءة بمثلها ومضاعفتها.", "ب) الحلم وضبط النفس والعفو، ورجاء أن يخرج الله من أصلابهم من يعبده ولا يشرك به شيئاً.", "ج) ترك الدعوة إلى الله نهائياً.", "د) لوم زيد بن حارثة رضي الله عنه على مرافقته."], correct: 1, seconds: 30 }
+];
+
+const G5_QUESTIONS = [
+  { q: "1. ما الغاية الكبرى التي خُلق الإنسان لأجلها كما بينها القرآن الكريم؟", options: ["أ) جمع المال والتفاخر به في الدنيا.", "ب) عبادة الله وحده لا شريك له وتحقيق العبودية له في كل شؤون الحياة.", "ج) اللهو واللعب والعيش بلا مسؤولية.", "د) السيطرة على غيره دون ضابط أخلاقي أو شرعي."], correct: 1, seconds: 35 },
+  { q: "2. ما المعنى الشامل لـ «العبادة» التي خُلق الإنسان لأجلها؟", options: ["أ) أداء الصلاة في المسجد فقط.", "ب) صيام شهر رمضان فقط.", "ج) اسم جامع لكل ما يحبه الله ويرضاه من الأقوال والأعمال الظاهرة والباطنة.", "د) حفظ القرآن الكريم دون عمل به."], correct: 2, seconds: 35 },
+  { q: "3. لماذا لم يُخلق الإنسان عبثاً ولا سُدىً؟", options: ["أ) لأنه مكلّف ومسؤول عن أفعاله وسيُجازى على عمله يوم القيامة.", "ب) لأن الحياة الدنيا هي دار الخلود الدائمة.", "ج) لأن الإنسان لا يخطئ ولا يُحاسب.", "د) لأن العبادة تقتصر على الملائكة وحدهم."], correct: 0, seconds: 35 },
+  { q: "4. أي موقف يعبّر عن استشعار الحكمة من خلق الإنسان في حياة التلميذ؟", options: ["أ) إهمال واجباته الدينية والدنيوية بحجة أنه صغير.", "ب) ربط دراسته وطاعته لوالديه وأمانته بنيّة التقرب إلى الله وإرضائه.", "ج) الغش في الاختبار لتحقيق درجة عالية بأي وسيلة.", "د) التكبر على زملائه لكونه متفوقاً."], correct: 1, seconds: 35 },
+  { q: "5. ما المقصود بكون الإنسان «خليفة في الأرض»؟", options: ["أ) أنه شريك لله في الخلق والملك المطلق.", "ب) أنه مستخلَف في عمارة الأرض وإصلاحها وفق شرع الله وأمره.", "ج) أنه لا يُسأل عما يفعل في الأرض.", "د) أن الخلافة مختصة بالملوك والقادة فقط دون سائر الناس."], correct: 1, seconds: 35 },
+  { q: "6. كيف يمارس الإنسان خلافته في الأرض على الوجه الصحيح؟", options: ["أ) بإفساد البيئة وتلويثها وقطع الأشجار دون حاجة.", "ب) بظلم الناس وهضم حقوقهم.", "ج) بالعمل النافع، وإصلاح الأرض، والعدل، وحفظ الأمانة، ورعاية المخلوقات.", "د) بالبطالة والكسل وانتظار الرزق بلا سعي."], correct: 2, seconds: 35 },
+  { q: "7. ما الفرق بين «إعمار الأرض» و«الإفساد فيها»؟", options: ["أ) إعمار الأرض يكون بالبناء والعدل والصلاح، والإفساد يكون بالظلم والتخريب ونشر الشر.", "ب) إعمار الأرض خاص بالمدن الكبرى فقط.", "ج) الإفساد يكون في الممتلكات العامة فقط دون الأخلاق.", "د) لا فرق بينهما في نظر الشريعة."], correct: 0, seconds: 35 },
+  { q: "8. إذا رأى طالب زميلاً يرمي النفايات في فناء المدرسة، فما السلوك الذي يجسّد معنى الاستخلاف؟", options: ["أ) يشاركه في رمي النفايات.", "ب) يلتزم النظافة ويوجه زميله بلطف إلى الحفاظ على نظافة المدرسة لأنها مكان مشترك للجميع.", "ج) يترك المكان دون أي اهتمام لأن عمال النظافة موجودون.", "د) يسخر منه أمام بقية الطلاب."], correct: 1, seconds: 35 },
+  { q: "9. ما المقصود بـ «المرقة» في الحديث الشريف؟", options: ["أ) الخبز الجاف.", "ب) ما يُطبخ من اللحم أو الخضار ويكون له سائل أو ماء يُؤكل به.", "ج) التمر والماء البارد فقط.", "د) الحلوى التي تُعد في المناسبات."], correct: 1, seconds: 35 },
+  { q: "10. ما الحكمة من توجيه النبي ﷺ إلى إكثار ماء المرقة وتعاهد الجيران؟", options: ["أ) إفساد طعم الطعام لكي لا يأكله أحد.", "ب) تيسير الإحسان على المسلم حتى ولو كان إمكاناته محدودة، وتقوية المحبة بين الجيران.", "ج) إلزام الجار بقبول الطعام حتى لو لم يحتج إليه.", "د) الاستغناء عن إكرام الجار إذا لم يتوفر اللحم الكثير."], correct: 1, seconds: 35 },
+  { q: "11. أيٌّ من الصور الآتية تُعدّ من إكرام الجار؟", options: ["أ) رفع صوت التلفاز أو الضجيج في أوقات راحة الجيران.", "ب) إهداء شيء من الطعام أو الفاكهة للجار وتفقّد أحواله.", "ج) وضع القمامة أمام باب الجار.", "د) مراقبة بيت الجار وتتبع أسراره."], correct: 1, seconds: 35 },
+  { q: "12. ماذا نستفيد من عبارة «وتعاهد جيرانك» في الحديث؟", options: ["أ) الاهتمام المستمر بأحوال الجيران وتفقّد حاجاتهم لا الاكتفاء بمرة واحدة في العمر.", "ب) زيارة الجيران في أوقات غير مناسبة دون استئذان.", "ج) الاقتصار على الجار القريب نسباً فقط دون غيره.", "د) عدم السؤال عن الجار إلا عند وقوع مشكلة كبيرة."], correct: 0, seconds: 35 },
+  { q: "13. كيف يسبّ الرجل والديه كما وضّح النبي ﷺ؟", options: ["أ) بأن يسبّ أباه مباشرة أو يسبّ أمه مباشرة، أو يسبّ رجلًا فيسبّ ذلك الرجل أباه وأمه.", "ب) بأن يرفع صوته عليهما في الحديث فقط.", "ج) بأن يتأخر في تلبية طلباتهما أحياناً.", "د) بأن ينساهما في الدعاء بعد الصلاة."], correct: 0, seconds: 35 },
+  { q: "14. ما السبب في أن استجرار سبّ الآخرين للوالدين يُعدّ من سبّ الرجل والديه؟", options: ["أ) لأن المتسبب في السب هو الذي فتح باب الإهانة لوالديه بسوء فعله أو كلامه.", "ب) لأن الآخرين لا يتحملون أي مسؤولية عن سبّهما.", "ج) لأن سب الوالدين لا يقع إلا عن طريق غير الأبناء.", "د) لأن ذلك يحدث بالخطأ دائماً."], correct: 0, seconds: 35 },
+  { q: "15. ما معنى «الكبائر» في هذا الحديث؟", options: ["أ) الذنوب الصغيرة التي تُكفّر بالوضوء والصلوات الخمس.", "ب) الذنوب العظيمة التي توعّد الله عليها بالعذاب الشديد أو اللعن أو الغضب، ولا تُكفّر إلا بالتوبة النصوح.", "ج) الأعمال المستحبة التي يزيد بها الأجر.", "د) الأخطاء غير المقصودة في الكلام."], correct: 1, seconds: 35 },
+  { q: "16. ما الواجب على المسلم تجاه والديه انطلاقاً من هذا الحديث؟", options: ["أ) تجنب كل ما يجلِب لهما الإساءة أو الإهانة، ومقابلتهما بالبر والاحترام وخفض الجناح.", "ب) مجادلة من يسيء إليهما بالشتم المتبادل في كل مكان.", "ج) الاكتفاء بالإنفاق عليهما دون حسن الخطاب.", "د) طاعتهما إذا أمرا بمعصية الله."], correct: 0, seconds: 35 },
+  { q: "17. ما الفرق الأساسي بين «ركن الصلاة» و«سنة الصلاة»؟", options: ["أ) الركن جزء من ماهية الصلاة لا تصح بدونه، بينما السنة تكمّل الصلاة ويزيد بها الأجر ولا تبطل الصلاة بتركها.", "ب) السنة واجبة لا تصح الصلاة بدونها، والركن مستحب.", "ج) الركن يكون قبل الصلاة، والسنة تكون بعدها دائماً.", "د) لا يوجد فرق بين الركن والسنة في حكم الترك."], correct: 0, seconds: 35 },
+  { q: "18. أيٌّ من الآتي يُعدّ من «أركان الصلاة»؟", options: ["أ) دعاء الاستفتاح.", "ب) قراءة سورة بعد الفاتحة في الركعتين الأوليين.", "ج) القيام مع القدرة، وتكبيرة الإحرام، وقراءة الفاتحة، والركوع، والسجود، والسلام.", "د) وضع اليد اليمنى على اليسرى في القيام."], correct: 2, seconds: 35 },
+  { q: "19. أيٌّ من الآتي يُعدّ من «سنن الصلاة»؟", options: ["أ) السجود على الأعضاء السبعة.", "ب) الطمأنينة في الركوع والسجود.", "ج) رفع اليدين عند تكبيرة الإحرام وعند الركوع والرفع منه، والتأمين بعد الفاتحة.", "د) الجلوس للتشهد الأخير."], correct: 2, seconds: 35 },
+  { q: "20. أيٌّ من الآتي يُعدّ من «مبطلات الصلاة»؟", options: ["أ) الخشوع وتدبر آيات القرآن.", "ب) الكلام العمد لغير مصلحة الصلاة، أو الأكل والشرب عمداً، أو انتقاض الوضوء.", "ج) السجود على سبعة أعضاء.", "د) قراءة التشهد الأول."], correct: 1, seconds: 35 },
+  { q: "21. إذا ضحك المصلي بصوت مسموع أو أكل أثناء الصلاة عمداً، فما الحكم؟", options: ["أ) صلاته صحيحة ويكفيه سجود السهو.", "ب) تبطل صلاته ويجب عليه إعادتها بعد الوضوء إن انتقض وضوؤه.", "ج) تصح صلاته إذا كان في الركعة الأخيرة.", "د) تُحسب له نصف صلاة."], correct: 1, seconds: 35 },
+  { q: "22. إذا نسي المصلي قراءة الفاتحة في ركعة من صلاته، فما الحكم؟", options: ["أ) صلاته صحيحة ولا شيء عليه.", "ب) لأن الفاتحة ركن، فإن تذكر قبل أن يركع قرأها، وإن تذكر بعد أن ركع أو سلم فإنه يعود ليأتي بالركعة أو يعيدها بحسب التفصيل الفقهي المقرر.", "ج) يكفيه قراءة سورة قصيرة بدلاً منها في الركعة التالية.", "د) يكتفي بالتسبيح بدلاً من الفاتحة."], correct: 1, seconds: 35 },
+  { q: "23. متى وقعت «المؤاخاة بين المهاجرين والأنصار»؟", options: ["أ) في مكة قبل الهجرة بعشر سنوات.", "ب) في المدينة المنورة عقب وصول النبي ﷺ إليها لتأسيس المجتمع الإسلامي المتماسك.", "ج) بعد فتح مكة مباشرة.", "د) في غزوة تبوك."], correct: 1, seconds: 35 },
+  { q: "24. ما الهدف الأسمى من المؤاخاة بين المهاجرين والأنصار؟", options: ["أ) تقسيم الغنائم قبل وقوع المعارك.", "ب) إزالة العصبية القبلية وإقامة الأخوة الإيمانية، وتخفيف معاناة المهاجرين الذين تركوا ديارهم وأموالهم.", "ج) إلغاء العمل والتكسب في المدينة.", "د) جعل المهاجرين حكاماً على الأنصار دون مشورة."], correct: 1, seconds: 35 },
+  { q: "25. كيف ضرب الأنصار أروع الأمثلة في الإيثار مع إخوانهم المهاجرين؟", options: ["أ) قاسموهم بيوتهم وأموالهم، بل إن بعضهم عرض أن يختار له من زوجتيه ليتزوجها المهاجر بعد انقضاء عدتها.", "ب) اشترطوا عليهم أجراً مضاعفاً مقابل الإقامة في المدينة.", "ج) اكتفوا بالسلام عليهم دون تقديم أي دعم مادي أو معنوي.", "د) رفضوا استقبالهم في منازلهم."], correct: 0, seconds: 35 },
+  { q: "26. ماذا نتعلم من المؤاخاة في واقعنا المعاصر؟", options: ["أ) التنافس على إيذاء الآخرين.", "ب) بناء الروابط على أساس الدين والأخوة، والتعاون والإيثار ومساعدة المحتاج والوافد والنازح.", "ج) اقتصار التعاون على أبناء القبيلة أو الحي الواحد فقط.", "د) تجاهل أحوال الجيران والمحتاجين."], correct: 1, seconds: 35 },
+  { q: "27. ما المقصود بـ «وثيقة المدينة» (الصحيفة)؟", options: ["أ) معاهدة تجارية مع قريش في مكة.", "ب) أول دستور مدني وسياسي وضعه النبي ﷺ في المدينة لتنظيم العلاقة بين سكانها من المسلمين واليهود وغيرهم.", "ج) سورة من سور القرآن الكريم نزلت في الطائف.", "د) رسالة أرسلها النبي ﷺ إلى ملك الحبشة."], correct: 1, seconds: 35 },
+  { q: "28. أيٌّ من المبادئ الآتية تضمنتها «وثيقة المدينة»؟", options: ["أ) إقرار الأمن والتعايش، وحفظ الحقوق، وجعل المرجعية العليا في الفصل في المنازعات إلى الله ورسوله ﷺ.", "ب) إباحة الاعتداء العشوائي بين سكان المدينة دون سبب.", "ج) إلغاء أي التزام بالدفاع عن المدينة عند تعرضها للخطر.", "د) تفضيل الظالم على المظلوم إذا كان من العشيرة نفسها."], correct: 0, seconds: 35 },
+  { q: "29. ما أهمية «وثيقة المدينة» في بناء الدولة الإسلامية الأولى؟", options: ["أ) أرست قواعد الاستقرار السياسي والاجتماعي والأمني، وبيّنت أن الولاء في المجتمع الإسلامي يقوم على العهد والمواطنة والإيمان لا على الثارات القبلية.", "ب) جعلت المدينة بلا قيادة أو نظام يحفظ الأمن.", "ج) اقتصرت أحكامها على المسائل الزراعية فقط.", "د) كانت وثيقة سرية لم يُعمل بها."], correct: 0, seconds: 35 },
+  { q: "30. إذا وقع خلاف أو نزاع بين طرفين في ظل أحكام «وثيقة المدينة»، فإلى من يُردّ الحكم؟", options: ["أ) إلى زعماء القبائل للثأر والقتال.", "ب) إلى الله ورسوله ﷺ والنظام المقرر في الصحيفة لتحقيق العدل وحقن الدماء.", "ج) إلى من يملك قوة أكبر من المتنازعين.", "د) يُترك النزاع بلا حل."], correct: 1, seconds: 35 }
+];
+
+const G6_QUESTIONS = [
+  { q: "1. ما المقصود بـ «وحدانية الله» في العقيدة الإسلامية؟", options: ["أ) تعدد الآلهة مع وجود إله أكبر يوجهها.", "ب) تفرد الله تعالى وحده في ربوبيته وألوهيته وأسمائه وصفاته، فلا شريك له ولا ندّ ولا مثيل.", "ج) اقتصار قدرة الله على الكائنات الأرضية دون السماوية.", "د) أن الله يشارك المخلوقات في صفاتها على وجه المماثلة."], correct: 1, seconds: 30 },
+  { q: "2. ما الدليل العقلي والكوني الواضح على وحدانية الله تعالى؟", options: ["أ) انتظام الكون وتناسق قوانينه وتكامل سننه، ولو كان فيه آلهة متعددة لفسد النظام وتنازعوا.", "ب) حدوث الفوضى والتناقض الدائم في حركة الكواكب والنجوم.", "ج) عجز الإنسان عن التفكير والتأمل في آيات الطبيعة.", "د) أن المخلوقات تخلق نفسها بنفسها عند الحاجة."], correct: 0, seconds: 30 },
+  { q: "3. إذا أقرّ شخص بأن الله خالق السماوات والأرض، ولكنه يدعو غير الله أو يستغيث به في الشدائد، فما الخلل في توحيده؟", options: ["أ) لا خلل لديه ما دام يقر بالخلق.", "ب) أخلّ بتوحيد الألوهية لأنه لم يفرد الله بالعبادة وحدها.", "ج) أخلّ بوجوب الصوم فقط دون العقيدة.", "د) نقص علمه بالتاريخ الإسلامي فحسب."], correct: 1, seconds: 30 },
+  { q: "4. أي عبارة تعبّر عن أثر «وحدانية الله» في نفس المسلم؟", options: ["أ) الخوف من المخلوقين والاعتماد عليهم في كل أمر.", "ب) التشتت والقلق بسبب تعدد جهات التوجه والخوف.", "ج) تحرير القلب من الخوف والذل لغير الله، ومنحه الطمأنينة والثبات والاعتماد على الله وحده.", "د) الكبر والاستعلاء على عباد الله."], correct: 2, seconds: 30 },
+  { q: "5. لماذا حذّر القرآن الكريم من اتخاذ شريك مع الله في العبادة؟", options: ["أ) لأن الشرك يناقض حقيقة العبودية لله ويهدم أصل الدين ويظلم النفس ظلماً عظيماً.", "ب) لأن الشرك يقلل من أجر الصدقة فقط.", "ج) لأن الشرك مباح في أوقات الضرورة المطلقة.", "د) لأن الشرك يختص بالأمم السابقة ولا يقع في هذه الأمة."], correct: 0, seconds: 30 },
+  { q: "6. ما ركنا شهادة «أن لا إله إلا الله»؟", options: ["أ) الإثبات فقط دون النفي.", "ب) النفي («لا إله» أي نفي استحقاق العبادة عن كل ما سوى الله) والإثبات («إلا الله» أي إثبات العبادة لله وحده).", "ج) التسليم باللسان دون اعتقاد القلب أو العمل.", "د) معرفة أسماء الصحابة والأنبياء فقط."], correct: 1, seconds: 30 },
+  { q: "7. ما مقتضى شهادة «أن محمداً رسول الله»؟", options: ["أ) الاكتفاء بمحبته في القلب دون اتباع سنته.", "ب) تصديقه فيما أخبر، وطاعته فيما أمر، واجتناب ما نهى عنه وزجر، وأن لا يُعبد الله إلا بما شرع.", "ج) اعتباره قائداً سياسياً فقط دون رسالة أو تشريع.", "د) القول إنه ملك من الملائكة لا بشر."], correct: 1, seconds: 30 },
+  { q: "8. كيف تتكامل الشهادتان في حياة المسلم؟", options: ["أ) الأولى تحدد المعبود الحق، والثانية تبين الطريق الصحيح والمنهج المشروع لعبادته.", "ب) الأولى تخص الآخرة والثانية تخص الدنيا فقط.", "ج) يمكن العمل بالثانية دون الإيمان بالأولى.", "د) الأولى واجبة على الرجال والثانية على النساء."], correct: 0, seconds: 30 },
+  { q: "9. إذا ابتدع شخص عبادة لم يشرعها النبي ﷺ ولم يأمر بها، فبأي الشهادتين يرتبط هذا الخطأ؟", options: ["أ) بشهادة أن محمداً رسول الله؛ لأن العبادة لا تقبل إلا إذا كانت موافقة لهديه ﷺ.", "ب) بآداب الطعام والشراب فقط.", "ج) بمسائل الميراث والبيوع فحسب.", "د) لا يرتبط بالشهادتين بأي وجه."], correct: 0, seconds: 30 },
+  { q: "10. ما شرط صحة نطق الشهادتين وقبولهما عند الله؟", options: ["أ) نطقهما باللسان مع العلم بمعناهما والصدق والإخلاص واليقين والقبول والانقياد والمحبة.", "ب) نطقهما بسرعة دون فهم لمعناهما.", "ج) نطقهما رياءً أمام الناس لتحصيل مدحهم.", "د) نطقهما مع الشك في البعث والحساب."], correct: 0, seconds: 30 },
+  { q: "11. ما المقصود بـ «المعسر» في الحديث الشريف؟", options: ["أ) الغني الذي يماطل في السداد وهو قادر.", "ب) المدين أو المحتاج الذي يضيق عليه الحال ويعجز عن الوفاء أو يجد مشقة شديدة في قضاء حاجته.", "ج) التاجر الذي يربح أرباحاً كبيرة.", "د) المسافر الذي يملك مالاً فائضاً."], correct: 1, seconds: 30 },
+  { q: "12. ما الجزاء الذي وعد به النبي ﷺ من يسّر على معسر؟", options: ["أ) أن ييسّر الله عليه في الدنيا والآخرة.", "ب) أن يضاعف ماله في الدنيا دون حساب في الآخرة.", "ج) أن يُعفى من جميع العبادات المفروضة.", "د) أن يأخذ فائدة مقابل الإنظار."], correct: 0, seconds: 30 },
+  { q: "13. أيٌّ من التصرفات الآتية يُعدّ من صور «التيسير على المعسر»؟", options: ["أ) إمهال المدين المحتاج حتى يتيسر حاله، أو تخفيف الدين عنه، أو التنازل عن بعضه.", "ب) تهديده وفضحه أمام الناس وهو عاجز عن السداد.", "ج) زيادة المبلغ المطلوب منه بسبب تأخره في الدفع.", "د) مصادرة حاجاته الضرورية التي لا غنى له عنها."], correct: 0, seconds: 30 },
+  { q: "14. ما أثر هذا الحديث في بناء التكافل الاجتماعي بين أفراد المجتمع؟", options: ["أ) ينشر الجفاء والطمع ويزيد من الفجوة بين الناس.", "ب) يرسّخ الرحمة والتعاون ويخفف الكربات ويبث الطمأنينة والتماسك الاجتماعي.", "ج) يجعل الغني يتوقف عن العمل والكسب.", "د) يشجع على الاستدانة بلا حاجة أو نية سداد."], correct: 1, seconds: 30 },
+  { q: "15. ما الفرق بين «المعسر» و«المماطل» في التعامل المالي؟", options: ["أ) المعسر عاجز حقيقةً فيُرفق به ويُنظَر، أما المماطل فالقادر الذي يظلم الدائن بتأخير حقه بلا عذر.", "ب) كلاهما يستحق العقوبة نفسها دون تفريق.", "ج) المماطل هو الفقير العاجز دائماً.", "د) لا يوجد فرق بينهما في الشريعة."], correct: 0, seconds: 30 },
+  { q: "16. ما الحكمة الأساسية من تشريع «الزكاة» في الإسلام؟", options: ["أ) إنقاص أموال الأغنياء وإفقارهم.", "ب) تطهير نفس المزكي من الشح، ونماء المال وبركته، وسد حاجة الفقراء والمساكين والمستحقين.", "ج) جعلها ضريبة تُؤخذ من الفقراء لصالح الأغنياء.", "د) استبدالها بالصلاة والذكر في رمضان."], correct: 1, seconds: 30 },
+  { q: "17. كيف يرتبط «الصوم» بتحقيق التكافل الاجتماعي والرحمة بالضعفاء؟", options: ["أ) بأن يشعر الصائم عملياً بألم الجوع والعطش فيندفع إلى إطعام الجائعين ومواساة المحتاجين.", "ب) بأن يمنع الصائم من إخراج الصدقات والزكوات نهاراً.", "ج) بأن يجعل الصوم خاصاً بالفقراء دون الأغنياء.", "د) بأن يقلل من الاهتمام بشؤون الأسرة والجيران."], correct: 0, seconds: 30 },
+  { q: "18. ما الفارق الجوهري بين «الزكاة» و«الصوم» من حيث طبيعة العبادة؟", options: ["أ) الزكاة عبادة مالية واجبة بشروط (كالنصاب والحول في أموالها)، والصوم عبادة بدنية إمساكية عن المفطرات من الفجر إلى المغرب بنية.", "ب) الصوم عبادة مالية والزكاة عبادة بدنية فقط.", "ج) الزكاة تجب على كل طفل لم يبلغ ولم يملك نصاباً.", "د) الصوم لا يشترط له النية."], correct: 0, seconds: 30 },
+  { q: "19. متى يبدأ وقت الصوم اليومي ومتى ينتهي؟", options: ["أ) يبدأ من طلوع الشمس إلى غروبها.", "ب) يبدأ من طلوع الفجر الصادق إلى غروب الشمس.", "ج) يبدأ من منتصف الليل إلى الظهر.", "د) يبدأ من أذان الظهر إلى أذان العصر."], correct: 1, seconds: 30 },
+  { q: "20. أيٌّ من الآتي يُعدّ من مفطرات الصوم إذا وقع عمداً من الصائم؟", options: ["أ) الأكل أو الشرب عمداً.", "ب) المضمضة برفق دون بلع الماء.", "ج) نسيان الأكل أو الشرب في أثناء الصوم.", "د) الاغتسال للتبرد في نهار الصيف."], correct: 0, seconds: 30 },
+  { q: "21. أي عبارة تعبّر بدقة عن أثر «الزكاة والصوم» معاً في تهذيب المسلم؟", options: ["أ) الصوم يربي إرادة النفس وضبط شهواتها، والزكاة تربي قلبها على البذل والعطاء ومواساة المحتاجين.", "ب) يغني الصوم عن الزكاة لمن يصوم شهر رمضان كاملاً.", "ج) تغني الزكاة عن الصوم لمن يخرجها بانتظام.", "د) كلاهما عبادتان صوريتان لا أثر لهما في السلوك."], correct: 0, seconds: 30 },
+  { q: "22. لماذا سُمّيت «غزوة الأحزاب» بهذا الاسم، وما اسمها الآخر المشهور؟", options: ["أ) سُمّيت بذلك لأن القبائل والجهات المعادية تحالفت وتجمّعت لحرب المسلمين في المدينة، وتُعرف أيضاً بـ «غزوة الخندق».", "ب) سُمّيت بذلك لأن المسلمين تحالفوا مع قريش لفتح مكة.", "ج) سُمّيت بذلك لكثرة الغنائم التي وُزعت فيها قبل القتال.", "د) تُعرف بـ «غزوة بدر الكبرى»."], correct: 0, seconds: 30 },
+  { q: "23. من الذي أشار بحفر «الخندق» حول المدينة، وما دلالة ذلك؟", options: ["أ) سلمان الفارسي رضي الله عنه؛ ويدل على قبول النبي ﷺ للمشورة النافعة والأخذ بالأسباب الدفاعية المبتكرة.", "ب) أبو بكر الصديق رضي الله عنه؛ ويدل على ترك الدفاع داخل المدينة.", "ج) عمر بن الخطاب رضي الله عنه؛ ويدل على الهجوم المباشر في الصحراء.", "د) علي بن أبي طالب رضي الله عنه؛ ويدل على إنهاء الصيام."], correct: 0, seconds: 30 },
+  { q: "24. كيف تعامل المسلمون مع حفر الخندق في ظل البرد والجوع والخوف؟", options: ["أ) تفرقوا وتركوا العمل للنبي ﷺ وحده.", "ب) عملوا بروح الفريق الواحد والجد والصبر، وشاركهم النبي ﷺ في حفره ونقل التراب تشجيعاً وتثبيتاً.", "ج) استسلموا للأحزاب قبل وصولهم إلى الخندق.", "د) أغلقوا المساجد وامتنعوا عن الخروج."], correct: 1, seconds: 30 },
+  { q: "25. كيف نصر الله المؤمنين في غزوة الأحزاب؟", options: ["أ) بانتصار عسكري سريع في اليوم الأول من الحصار.", "ب) بتثبيت قلوب المؤمنين، وبثّ الفرقة والاختلاف بين صفوف الأحزاب، وإرسال ريح شديدة وجنود لم يروها ففرّقت جمعهم.", "ج) بعقد صلح دائم مع الأحزاب لمدة خمسين عاماً.", "د) بانسحاب المسلمين إلى الحبشة."], correct: 1, seconds: 30 },
+  { q: "26. ما أبرز درس نستفيده من غزوة الأحزاب؟", options: ["أ) أن الشدائد والمؤامرات مهما عظمت فإن التوكل على الله وحسن التخطيط والثبات كفيل بتجاوزها.", "ب) أن الاعتماد على الكثرة العددية وحده يضمن النصر دون تخطيط أو صبر.", "ج) أن الخلاف الداخلي لا يضر المجتمع وقت الأزمات.", "د) أن الشورى لا تُمارس في الأمور العسكرية."], correct: 0, seconds: 30 },
+  { q: "27. ما السبب المباشر لوقوع «غزوة بني قريظة»؟", options: ["أ) نقض يهود بني قريظة للعهد والميثاق الذي كان بينهم وبين المسلمين وتحالفهم مع الأحزاب في أحرج لحظات الحصار.", "ب) رغبة المسلمين في الاستيلاء على أراضيهم دون سبب.", "ج) خلاف تجاري بسيط في سوق المدينة.", "د) هجوم بني قريظة على مكة المكرمة."], correct: 0, seconds: 30 },
+  { q: "28. متى وقعت غزوة بني قريظة بالنسبة لغزوة الأحزاب؟", options: ["أ) قبل غزوة بدر بسنتين.", "ب) مباشرة بعد انصراف الأحزاب عن المدينة، لتأمين الجبهة الداخلية وحسم خطر الغدر.", "ج) بعد فتح مكة بعام كامل.", "د) في السنة الأولى للهجرة قبل بناء المسجد النبوي."], correct: 1, seconds: 30 },
+  { q: "29. من الذي حكم في أمر بني قريظة بعد نزولهم على حكمه، وما دلالة اختياره؟", options: ["أ) سعد بن معاذ رضي الله عنه؛ ويدل على عدالة التحكيم ومراعاة العدل وحسم الخيانة وفق حكم شرعي منصف.", "ب) أبو جهل؛ ويدل على العفو المطلق دون محاكمة.", "ج) حيي بن أخطب؛ ويدل على مكافأتهم على نقض العهد.", "د) عبد الله بن أبيّ بن سلول؛ ويدل على إهمال الأمر."], correct: 0, seconds: 30 },
+  { q: "30. ما الدرس المستفاد من غزوة بني قريظة في حفظ أمن المجتمع؟", options: ["أ) أن أمن المجتمع واستقراره لا يستقيمان مع الغدر ونقض العهود والخيانة الداخلية، وأن الحزم في حفظ الأمن ضرورة.", "ب) أن نقض المواثيق في أوقات الأزمات أمر مقبول ولا يترتب عليه أثر.", "ج) أن الدفاع عن المدينة واجب على النساء والأطفال فقط.", "د) أن العهود لا قيمة لها في حياة المسلمين."], correct: 0, seconds: 30 }
+];
+
+const G7_QUESTIONS = [
+  { q: "1. ما العلاقة التكاملية بين «الحواس (السمع والبصر)» و«العقل» و«الوحي» في التعرف على الله تعالى؟", options: ["أ) الحواس تنقل المشاهدات الكونية، والعقل يتدبرها ليستدل على الخالق، والوحي يهدي إلى الحقائق الغيبية وتفاصيل العبادة.", "ب) الحواس تغني عن العقل والوحي معاً في كل مسألة.", "ج) الوحي يعطّل عمل العقل ويمنعه من التفكر في الكون.", "د) العقل يدرك تفاصيل الغيب والعبادات دون حاجة إلى الوحي."], correct: 0, seconds: 30 },
+  { q: "2. لماذا عدّ القرآن الكريم تعطيل «السمع والبصر والعقل» عن التفكر في آيات الله سبباً للضلال؟", options: ["أ) لأن من لا يستعمل أدوات المعرفة التي وهبها الله له يعيش في غفلة كمن لا يسمع ولا يبصر.", "ب) لأن التفكر في الكون محرم على غير العلماء المتخصصين.", "ج) لأن السمع والبصر لا علاقة لهما بالإيمان واليقين.", "د) لأن معرفة الله تتحقق بالتقليد الأعمى فقط."], correct: 0, seconds: 30 },
+  { q: "3. أيٌّ من الآتي يُعدّ مجالاً يختص به «الوحي» ولا تستقل الحواس أو العقل بإدراكه؟", options: ["أ) معرفة دوران الأرض وتعاقب الليل والنهار.", "ب) معرفة أسماء الله وصفاته، وتفاصيل اليوم الآخر، وكيفيات العبادات.", "ج) ملاحظة نزول المطر وإنبات الزرع.", "د) التمييز بين الليل والنهار."], correct: 1, seconds: 30 },
+  { q: "4. كيف يستدل المسلم بـ «البصر» و«السمع» على عظمة الله تعالى؟", options: ["أ) بالنظر في إتقان خلق السماوات والأرض والكائنات، وسماع آيات الله المتلوة وتدبر معانيها.", "ب) بالاقتصار على النظر في الأمور العابرة دون تأمل.", "ج) بالاستماع إلى الشائعات دون تثبت.", "د) بإنكار ما لا يُرى بالعين المجردة وإن قام عليه الدليل."], correct: 0, seconds: 30 },
+  { q: "5. ما الواجب على المسلم تجاه نعمة «العقل» في طريق الإيمان؟", options: ["أ) إخضاعه للأهواء والتقليد بغير علم.", "ب) توظيفه في التدبر والاستدلال الصحيح، والوقوف به عند حدود طاقته في مسائل الغيب.", "ج) رفض نصوص الوحي إذا قصرت مداركه عن تصور كيفيتها.", "د) إهمال القراءة والتعلم والاكتفاء بالظنون."], correct: 1, seconds: 30 },
+  { q: "6. إذا تعارضت شبهة عقلية سطحية مع نص صريح من الوحي الصحيح، فما الموقف العلمي والإيماني السليم؟", options: ["أ) تقديم الوحي الصحيح واليقين بأن العقل السليم لا يناقض النقل الصحيح، وإنما القصور في الفهم.", "ب) ردّ الوحي فوراً دون بحث أو تثبت.", "ج) ترك الصلاة والعبادات حتى زوال الشبهة.", "د) إنكار وجود العقل ودوره في التكليف."], correct: 0, seconds: 30 },
+  { q: "7. ما الحكمة الأساسية من تشريع «آداب قضاء الحاجة» في الإسلام؟", options: ["أ) تحقيق الطهارة والنظافة، وحفظ الحياء والستر، ودفع الأذى عن النفس والناس والبيئة.", "ب) جعل قضاء الحاجة في الطرقات والظل أمراً مباحاً.", "ج) التشديد على المسلم وإيقاعه في الحرج.", "د) الاقتصار على النظافة الظاهرة دون الاستنزاه من النجاسة."], correct: 0, seconds: 30 },
+  { q: "8. أيٌّ من الآتي يُعدّ من السنن والآداب المشروعة عند دخول الخلاء والخروج منه؟", options: ["أ) الدخول بالرجل اليسرى مع قول «اللهم إني أعوذ بك من الخبث والخبائث»، والخروج باليمنى مع قول «غفرانك».", "ب) الدخول بالرجل اليمنى مع قراءة القرآن بصوت مرتفع.", "ج) استقبال القبلة أو استدبارها في الفضاء المفتوح بلا ساتر.", "د) قضاء الحاجة في الماء الراكد أو طريق الناس."], correct: 0, seconds: 30 },
+  { q: "9. ما الفرق بين «الاستنجاء» و«الاستجمار»؟", options: ["أ) الاستنجاء إزالة الخارج من السبيلين بالماء الطهور، والاستجمار إزالته بالأحجار أو المناديل الطاهرة المنقية.", "ب) الاستنجاء يكون بالتراب، والاستجمار يكون بالماء فقط.", "ج) الاستجمار يغني عن الوضوء والصلاة.", "د) كلاهما سنة لا علاقة له بصحة الصلاة."], correct: 0, seconds: 30 },
+  { q: "10. ما الفرق الفقهي بين «فروض الوضوء» و«سنن الوضوء»؟", options: ["أ) الفروض لا يصح الوضوء إلا بها، أما السنن ففعلها يزيد الأجر وتركها لا يبطل الوضوء.", "ب) السنن تبطل الوضوء بتركها، والفروض مستحبة.", "ج) الفروض تُفعل مرة واحدة في الأسبوع فقط.", "د) لا فرق بينهما عند الفقهاء."], correct: 0, seconds: 30 },
+  { q: "11. أيٌّ من الحالات الآتية يشرع فيها «التيمم» بدلاً من الوضوء أو الغسل؟", options: ["أ) وجود الماء البارد مع القدرة على تسخينه وعدم الضرر.", "ب) فقد الماء حقيقة، أو العجز عن استعماله لمرض يخشى زيادته أو تأخر برئه.", "ج) الكسل عن القيام إلى الوضوء في الشتاء.", "د) الرغبة في اختصار الوقت قبل خروج وقت الصلاة مع توفر الماء."], correct: 1, seconds: 30 },
+  { q: "12. ما صفة «التيمم» الصحيحة؟", options: ["أ) مسح الوجه واليدين إلى المرفقين بالماء.", "ب) النية، ثم ضرب الصعيد الطاهر (التراب الطاهر) باليدين ضربة واحدة، ومسح الوجه والكفين.", "ج) مسح الرأس والقدمين بالتراب.", "د) غسل الوجه بالتراب ثم غسله بالماء."], correct: 1, seconds: 30 },
+  { q: "13. متى يبطل «التيمم»؟", options: ["أ) بمجرد وجود الماء والقدرة على استعماله (قبل الدخول في الصلاة أو بعدها بحسب التفصيل)، أو بحدوث ما يبطل الوضوء.", "ب) إذا مشى المتيمم عشر خطوات.", "ج) إذا تكلم بكلام مباح بعد التيمم.", "د) لا يبطل التيمم أبداً ولو وجد الماء."], correct: 0, seconds: 30 },
+  { q: "14. ما الفرق بين «الحدث الأصغر» و«الحدث الأكبر» من حيث ما يرفعهما؟", options: ["أ) الحدث الأصغر يرفعه الوضوء، والحدث الأكبر يرفعه الغسل (أو التيمم عند العجز).", "ب) كلاهما يرتفع بغسل اليدين فقط.", "ج) الحدث الأكبر يرتفع بالوضوء وحده دائماً.", "د) الحدث الأصغر يوجب الغسل الكامل في كل مرة."], correct: 0, seconds: 30 },
+  { q: "15. أيٌّ من الآتي يُعدّ من موجبات «الغسل» الواجب؟", options: ["أ) النوم الخفيف أو خروج الريح.", "ب) الجنابة، وانقطاع دم الحيض والنفاس، وإسلام الكافر.", "ج) أكل لحم الإبل.", "د) لمس التراب الطاهر."], correct: 1, seconds: 30 },
+  { q: "16. ما الفرق بين «الغسل الواجب» و«الغسل المستحب»؟", options: ["أ) الواجب لا تصح الصلاة والطواف إلا به (كغسل الجنابة)، والمستحب يُثاب فاعله ولا يأثم تاركه (كغسل الجمعة والعيدين).", "ب) المستحب يرفع الحدث الأكبر، والواجب يرفع الحدث الأصغر.", "ج) كلاهما واجب يأثم المسلم بتركه.", "د) الغسل المستحب لا يصح إلا في رمضان."], correct: 0, seconds: 30 },
+  { q: "17. كم حقاً ذُكر في حديث «حق المسلم على المسلم ست»؟", options: ["أ) أربعة حقوق.", "ب) ستة حقوق: ردّ السلام، وإجابة الدعوة، والنصح إذا استنصح، وتشميت العاطس إذا حمد الله، وعيادة المريض، واتباع الجنازة.", "ج) ثلاثة حقوق فقط.", "د) ثمانية حقوق مالية."], correct: 1, seconds: 30 },
+  { q: "18. ما الحكمة من تقييد تشميت العاطس بقوله ﷺ: «إذا عطس فحمد الله»؟", options: ["أ) لأن حمد الله هو سبب استحقاق الدعاء له بالرحمة، وتذكير بنعمة العافية بعد العطاس.", "ب) لأن العاطس لا يجوز له أن يحمد الله بصوت مسموع.", "ج) لأن التشميت واجب حتى لو لم يحمد الله.", "د) لأن العطاس يبطل الوضوء."], correct: 0, seconds: 30 },
+  { q: "19. ما المقصود بـ «وإذا استنصحك فانصح له»؟", options: ["أ) إذا طلب منك الرأي والمشورة الصادقة، فأخلص له النصح بما ينفعه في دينه ودنياه دون غش أو مجاملة ضارة.", "ب) أن تتدخل في شؤونه الخاصة بالقوة دون استشارة أو أدب.", "ج) أن تخدعه لمصلحتك الشخصية.", "د) أن تفضح أخطاءه أمام الناس."], correct: 0, seconds: 30 },
+  { q: "20. ما الأثر الاجتماعي لتطبيق «عيادة المريض» و«اتباع الجنازة» في المجتمع المسلم؟", options: ["أ) تقوية أواصر المحبة والمواساة، وإشعار المسلم وأهله بأن المجتمع يقف معهم في السراء والضراء.", "ب) إثقال كاهل المريض بالزيارات الطويلة والمزعجة.", "ج) الاقتصار على زيارة الأغنياء وذوي المناصب.", "د) إهمال حقوق الأحياء والانشغال بالبكاء فقط."], correct: 0, seconds: 30 },
+  { q: "21. أي عبارة تلخّص المقصد العام من حديث «حق المسلم على المسلم»؟", options: ["أ) تحويل الأخوة الإيمانية من شعار نظري إلى سلوك عملي يومي يبني مجتمعاً متراحماً متماسكاً.", "ب) حصر حقوق المسلم في المناسبات السنوية فقط.", "ج) إلغاء التعامل مع غير المسلمين في المجتمع.", "د) جعل رد السلام مستحباً غير مطلوب شرعاً."], correct: 0, seconds: 30 },
+  { q: "22. كيف بدأت علاقة قبيلة «جرهم» بمكة المكرمة؟", options: ["أ) قدموا من الشام لقتال قريش.", "ب) نزلوا مكة بإذن السيدة هاجر أم إسماعيل عليه السلام بعد تفجر بئر زمزم، وتعلم منهم إسماعيل العربية وتزوج منهم.", "ج) أسسوا دار الندوة قبل بناء الكعبة.", "د) جاؤوا إلى مكة بعد هجرة النبي ﷺ."], correct: 1, seconds: 30 },
+  { q: "23. ما السبب الرئيس في زوال ولاية «جرهم» عن مكة وإخراجهم منها؟", options: ["أ) التزامهم بالعدل وحفظ حرمة البيت.", "ب) ظلمهم واستخفافهم بحرمة البيت الحرام وأكلهم مال الكعبة، فاجتمعت عليهم خزاعة وبنو بكر وأخرجوهم.", "ج) هجرتهم الطوعية إلى المدينة المنورة.", "د) انتهاء موسم الحج في زمانهم."], correct: 1, seconds: 30 },
+  { q: "24. من الذي أدخل عبادة الأصنام إلى مكة في عهد ولاية «خزاعة»؟", options: ["أ) قصي بن كلاب.", "ب) عمرو بن لحي الخزاعي، حين جلب صنم «هُبَل» من الشام ودعا الناس إلى عبادته فغيّر دين إبراهيم عليه السلام.", "ج) عبد المطلب بن هاشم.", "د) أبو طالب."], correct: 1, seconds: 30 },
+  { q: "25. من هو «قريش» الذي تُنسب إليه قبيلة قريش؟", options: ["أ) فهر بن مالك (أو النضر بن كنانة على قول عند أهل النسب)، وهو الجد الجامع للبطون القرشية.", "ب) عمرو بن لحي الخزاعي.", "ج) أبرهة الحبشي.", "د) زيد بن حارثة."], correct: 0, seconds: 30 },
+  { q: "26. من القائد القرشي الذي جمع بطون قريش واستعاد ولاية مكة والبيت الحرام من خزاعة؟", options: ["أ) قصي بن كلاب.", "ب) أبو لهب.", "ج) أمية بن خلف.", "د) الوليد بن المغيرة."], correct: 0, seconds: 30 },
+  { q: "27. ما المقصود بـ «السدانة» (الحجابة) في مناصب مكة القديمة؟", options: ["أ) إطعام الحجاج الفقراء في موسم الحج.", "ب) تولّي أمر الكعبة المشرفة، وحفظ مفتاحها، وفتحها وإغلاقها، والقيام على شؤونها.", "ج) قيادة الجيش في الحروب الخارجية.", "د) حفر الآبار في الطائف."], correct: 1, seconds: 30 },
+  { q: "28. ما الفرق بين «السقاية» و«الرفادة» في خدمة الحجيج بمكة؟", options: ["أ) السقاية هي توفير الماء للحجيج وسقيهم، والرفادة هي جمع المال أو الطعام لإطعام الحجاج الفقراء والمنقطعين.", "ب) السقاية هي إطعام الحجاج، والرفادة هي حراسة الكعبة ليلاً.", "ج) كلاهما يعني قيادة القوافل التجارية إلى اليمن.", "د) السقاية خاصة بأهل الطائف، والرفادة خاصة بأهل المدينة."], correct: 0, seconds: 30 },
+  { q: "29. ما الوظيفة الأساسية لـ «دار الندوة» التي أسسها قصي بن كلاب؟", options: ["أ) مكان لتخزين البضائع التجارية فقط.", "ب) مجلس شورى قريش ومقر اجتماع زعمائها للتشاور في شؤون مكة والحرب والسلم وعقد الزواج والأمور العامة.", "ج) معبد لوضع الأصنام داخل الكعبة.", "د) سجن للمخالفين في المدينة."], correct: 1, seconds: 30 },
+  { q: "30. ما الدرس التاريخي والتربوي المستفاد من تعاقب ولاية «جرهم وخزاعة وقريش» على مكة؟", options: ["أ) أن شرف المكانة والمسؤولية مرتبط بالعدل وتعظيم الحرمات وخدمة الناس، وأن الظلم والانحراف سبب لزوال النعم والولاية.", "ب) أن السيادة تدوم بالظلم والاستبداد مهما طال الزمن.", "ج) أن مكة لم تكن ذات مكانة قبل الإسلام.", "د) أن خدمة الحجاج كانت سبباً في ضعف قريش وفقرها."], correct: 0, seconds: 30 }
+];
+
+const G8_QUESTIONS = [
+  { q: "1. ما الذي يجمع بين وظائف الملائكة المتعددة (مثل جبريل، وميكائيل، وإسرافيل، وملك الموت، والكرام الكاتبين)؟", options: ["أ) أنهم يتصرفون في الكون باستقلال تام عن أمر الله.", "ب) أنهم عباد مكرمون لا يعصون الله ما أمرهم ويفعلون ما يؤمرون، وكلٌّ موكّل بمهمة في نظام الكون والهداية والحساب.", "ج) أنهم يشاركون الله في الخلق والرزق.", "د) أنهم يكتبون الحسنات فقط دون السيئات."], correct: 1, seconds: 35 },
+  { q: "2. ما الأثر التربوي لإيمان المسلم بعمل «الكرام الكاتبين» و«المعقّبات»؟", options: ["أ) الشعور الدائم بالمراقبة الذاتية والانضباط في الأقوال والأفعال في السر والعلن.", "ب) الاستهانة بالصغائر لأنها لا تُكتب في الصحائف.", "ج) الاتكال على الملائكة وترك الأخذ بالأسباب.", "د) الخوف المرضي من الخروج للعمل وطلب العلم."], correct: 0, seconds: 35 },
+  { q: "3. أيٌّ من الأزواج الآتية يطابق بدقة بين الملَك والعمل الموكّل إليه؟", options: ["أ) جبريل عليه السلام: النفخ في الصور — إسرافيل عليه السلام: تبليغ الوحي.", "ب) ميكائيل عليه السلام: القَطْر والنبات — مالك عليه السلام: خازن النار.", "ج) رضوان عليه السلام: قبض الأرواح — ملك الموت: خازن الجنة.", "د) الكرام الكاتبون: إنزال المطر — ميكائيل عليه السلام: كتابة الأعمال."], correct: 1, seconds: 35 },
+  { q: "4. ما المراتب الأربع التي لا يكتمل «الإيمان بالقدر» إلا بالإيمان بها جميعاً؟", options: ["أ) العلم، والكتابة، والمشيئة، والخلق.", "ب) النية، والقول، والعمل، والترك.", "ج) الصبر، والشكر، والرضا، والتوكل.", "د) الرجاء، والخوف، والمحبة، والخشية."], correct: 0, seconds: 35 },
+  { q: "5. كيف يردّ المؤمن على من يحتج بالقدر على ترك الطاعة أو فعل المعصية؟", options: ["أ) يوافقه لأن الإنسان مجبور تماماً كالريشة في مهب الريح.", "ب) يبين له أن الله وهب الإنسان عقلاً وإرادة واختياراً، وأمره بالطاعة ونهاه عن المعصية، فلا يصح الاحتجاج بالقدر على المعائب بل يُصبر به على المصائب.", "ج) ينكر علم الله السابق بأفعال العباد.", "د) يقول إن القدر يختص بالأمور المالية فقط."], correct: 1, seconds: 35 },
+  { q: "6. ما الفرق بين «التواكل» و«التوكل» في ضوء الإيمان بالقدر؟", options: ["أ) التوكل هو اعتماد القلب على الله مع بذل الأسباب المشروعة، أما التواكل فهو ترك الأسباب والقعود عن العمل بحجة القدر.", "ب) التواكل هو الأخذ بالأسباب، والتوكل هو تركها.", "ج) كلاهما محمود في الشريعة الإسلامية.", "د) التوكل يغني عن الدعاء والاجتهاد."], correct: 0, seconds: 35 },
+  { q: "7. ما الثمرة النفسية الأبرز للإيمان الصحيح بالقدر خيره وشره؟", options: ["أ) الجزع عند المصيبة والغرور عند النعمة.", "ب) السكينة والثبات؛ فلا ييأس عند الفوات لأنه يعلم أن ما أصابه لم يكن ليخطئه، ولا يبطر عند النجاح لأنه يراه من فضل الله.", "ج) الكسل وترك التخطيط للمستقبل.", "د) التشاؤم المستمر من الأيام والشهور."], correct: 1, seconds: 35 },
+  { q: "8. ما التعريف الشرعي الدقيق لـ «الصيام»؟", options: ["أ) الإمساك عن الطعام والشراب فقط من شروق الشمس إلى غروبها.", "ب) التعبد لله تعالى بالإمساك عن المفطرات من طلوع الفجر الصادق إلى غروب الشمس بنية.", "ج) الامتناع عن الكلام والعمل طوال شهر رمضان.", "د) صيام ثلاثة أيام من كل شهر هجري على سبيل الفرض."], correct: 1, seconds: 35 },
+  { q: "9. ما الفرق بين «ركن الصيام» و«مبطلات الصيام»؟", options: ["أ) الركن هو ما يقوم عليه الصيام (الإمساك عن المفطرات من الفجر إلى المغرب مع النية)، والمبطلات هي ما يفسده كالأكل والشرب عمداً.", "ب) المبطلات هي السنن المستحبة في السحور والإفطار.", "ج) الركن هو تعجيل الفطر وتأخير السحور.", "د) لا يبطل الصيام بالأكل العمد إذا كان الصائم عطشاناً."], correct: 0, seconds: 35 },
+  { q: "10. أيٌّ من الحالات الآتية لا يُفطر فيها الصائم وصيامه صحيح؟", options: ["أ) من أكل أو شرب ناسياً ثم تذكر فأمسك فوراً.", "ب) من تعمّد الشرب في نهار رمضان لشدة الحر.", "ج) من تعمّد القيء (الاستقاءة) بغير عذر.", "د) من أفطر قبل غروب الشمس ظاناً غروبها ثم تبين بقاء النهار."], correct: 0, seconds: 35 },
+  { q: "11. ما البُعد التربوي والتقوي لقوله تعالى: ﴿لَعَلَّكُمْ تَتَّقُونَ﴾ في آية فرض الصيام؟", options: ["أ) أن الصيام يدرب المسلم على مراقبة الله وترك المباحات طاعة له، فيكون أقدر على ترك المحرمات في سائر حياته.", "ب) أن الصيام يقتصر أثره على الجوع والعطش البدني.", "ج) أن الصائم معفى من حفظ لسانه عن الغيبة والكذب.", "د) أن التقوى تتحقق بالجوع دون استحضار النية والإخلاص."], correct: 0, seconds: 35 },
+  { q: "12. ما التعريف الشرعي الدقيق لـ «الزكاة»؟", options: ["أ) تبرع اختياري يخرجه المسلم متى شاء دون مقدار محدد.", "ب) حق واجب في مال مخصوص، لطائفة مخصوصة، في وقت مخصوص بشروط شرعية محددة.", "ج) ضريبة تفرض على الفقراء لصالح خزينة الدولة.", "د) هدية تُعطى للأقارب الأغنياء في الأعياد."], correct: 1, seconds: 35 },
+  { q: "13. ما العلاقة الشرعية بين «النصاب» و«الحول» في وجوب زكاة النقود وعروض التجارة؟", options: ["أ) لا تجب الزكاة إلا إذا بلغ المال «النصاب» (القدر الأدنى المحدد شرعاً) وحال عليه «الحول» (مرور عام قمري كامل وهو في ملك صاحبه).", "ب) يجب إخراج الزكاة بمجرد امتلاك أي مبلغ ولو ليوم واحد.", "ج) الحول يُشترط في زكاة الزروع والثمار، والنصاب لا يُشترط فيها.", "د) إذا نقص المال عن النصاب أثناء العام وبقي ناقصاً وجبت فيه الزكاة."], correct: 0, seconds: 35 },
+  { q: "14. كم عدد «مصارف الزكاة» الثمانية المحددة في سورة التوبة، ومن منهم «الغارمون»؟", options: ["أ) ثمانية مصارف؛ والغارمون هم المدينون العاجزون عن سداد ديونهم المشروعة.", "ب) ستة مصارف؛ والغارمون هم المسافرون في طلب العلم.", "ج) ثمانية مصارف؛ والغارمون هم جامعو الزكاة والعاملون عليها.", "د) سبعة مصارف؛ والغارمون هم الأغنياء أصحاب المتاجر."], correct: 0, seconds: 35 },
+  { q: "15. ما الفرق بين «الفقير» و«المسكين» في مصارف الزكاة؟", options: ["أ) الفقير أشد حاجة لأنه لا يجد شيئاً أو يجد أقل من نصف كفايته، والمسكين يجد نصف كفايته أو أكثر لكنه لا يملك تمام الكفاية.", "ب) المسكين أشد حاجة من الفقير ولا يملك شيئاً مطلقاً.", "ج) كلاهما يملك نصاب الزكاة وزيادة.", "د) الفقير يُعطى من الزكاة، والمسكين لا يُعطى منها."], correct: 0, seconds: 35 },
+  { q: "16. ما الحكمة الاقتصادية والاجتماعية من تشريع الزكاة؟", options: ["أ) تجميد الأموال ومنع تداولها في الأسواق.", "ب) تحقيق التكافل الاجتماعي، وتطهير النفس من البخل، وتحريك المال في المجتمع وتقليل الفقر والحقد الطبقي.", "ج) إعفاء الأغنياء من العمل والإنتاج.", "د) حصر الثروة في فئة محدودة من الناس."], correct: 1, seconds: 35 },
+  { q: "17. بماذا شبّه النبي ﷺ «الذي يذكر ربه والذي لا يذكر ربه» في الحديث الصحيح؟", options: ["أ) بالبحر والنهر.", "ب) بالحي والميت؛ لأن الذكر حياة القلوب وطمأنينتها، والغفلة موت معنوي للقلب.", "ج) بالشمس والقمر.", "د) بالغني والفقير."], correct: 1, seconds: 35 },
+  { q: "18. ما المفهوم الصحيح لـ «ذكر الله» الذي يثمر الأجر والطمأنينة؟", options: ["أ) تحريك اللسان بالألفاظ مع سرحان القلب الدائم وعدم التدبر.", "ب) تواطؤ القلب واللسان على تعظيم الله وتسبيحه وحمده وتلاوة كتابه واستحضار مراقبته في كل حال.", "ج) الاقتصار على الذكر بعد صلاة الفجر فقط.", "د) رفع الصوت بالذكر في الأسواق لإسماع الناس."], correct: 1, seconds: 35 },
+  { q: "19. ما أبرز ما يبيّنه حديث «فضل المجاهد في سبيل الله» من مكانة المجاهد؟", options: ["أ) أن المجاهد الصادق الذي يخرج لتكون كلمة الله هي العليا ينال أعظم الدرجات، وتكفّل الله له بالجنة إن استشهد أو بالأجر والغنيمة إن رجع.", "ب) أن الجهاد يُشرع لأجل الغنيمة والشهرة والظلم.", "ج) أن فضل الجهاد ينال بالرياء والسمعة.", "د) أن الجهاد لا ضوابط أخلاقية له في التعامل مع غير المقاتلين."], correct: 0, seconds: 35 },
+  { q: "20. كيف يرتبط «فضل الذكر» بـ «فضل المجاهد في سبيل الله» في بناء شخصية المسلم؟", options: ["أ) الذكر يمدّ القلب بالسكينة والثبات والصلة بالله، والجهاد يترجم الإيمان إلى بذل وتضحية لحماية الدين والأوطان والحرمات.", "ب) الذكر يغني عن الدفاع عن النفس والوطن عند الاعتداء.", "ج) الجهاد يمنع المسلم من ذكر الله في أوقات الشدة.", "د) كلاهما خاص بزمن الصحابة دون غيرهم."], correct: 0, seconds: 35 },
+  { q: "21. أي شرط أساسي يجمع بين قبول «الذكر» وقبول «الجهاد»؟", options: ["أ) الإخلاص لله تعالى ومتابعة هدي النبي ﷺ.", "ب) كثرة الحديث عنهما أمام الناس.", "ج) تحصيل مكاسب دنيوية عاجلة.", "د) أداؤهما دون نية أو قصد."], correct: 0, seconds: 35 },
+  { q: "22. ما الدافع الاستراتيجي والدعوي لهجرة الصحابة إلى «الحبشة»؟", options: ["أ) الفرار بالدين من فتنة قريش وتعذيبها، وإيجاد قاعدة آمنة يحفظون فيها عقيدتهم عند ملك عادل هو النجاشي.", "ب) الاستقرار الدائم في الحبشة وترك مكة والمدينة نهائياً.", "ج) طلب المساعدة العسكرية من الروم لقتال قريش.", "د) البحث عن المناصب السياسية في بلاط النجاشي."], correct: 0, seconds: 35 },
+  { q: "23. كيف أدار «جعفر بن أبي طالب» رضي الله عنه الحوار أمام النجاشي حين أرسلت قريش وفدها لرد المهاجرين؟", options: ["أ) هاجم النجاشي ورفض الإجابة عن أسئلته.", "ب) عرض مبادئ الإسلام بوضوح وحكمة، وقرأ آيات من سورة مريم فبكى النجاشي وأمّن المسلمين ورفض تسليمهم.", "ج) أنكر علاقة الإسلام بعيسى ومريم عليهما السلام.", "د) وافق على العودة مع وفد قريش إلى مكة."], correct: 1, seconds: 35 },
+  { q: "24. في أي مرحلة من السيرة النبوية خرج النبي ﷺ إلى «الطائف»؟", options: ["أ) في السنة الأولى للبعثة قبل الجهر بالدعوة.", "ب) بعد «عام الحزن» الذي توفي فيه عمه أبو طالب وزوجته خديجة رضي الله عنها واشتد فيه أذى قريش.", "ج) بعد غزوة بدر الكبرى.", "د) بعد صلح الحديبية."], correct: 1, seconds: 35 },
+  { q: "25. ما دلالة دعاء النبي ﷺ المشهور في الطائف («اللهم إليك أشكو ضعف قوتي وقلة حيلتي وهواني على الناس...»؟", options: ["أ) اليأس من نصر الله والتوقف عن تبليغ الرسالة.", "ب) كمال التضرع والافتقار إلى الله، وطلب رضاه فوق كل شيء رغم شدة الأذى الجسدي والنفسي.", "ج) الدعاء على أهل الطائف بالهلاك الفوري.", "د) الندم على الخروج للدعوة إلى الله."], correct: 1, seconds: 35 },
+  { q: "26. ما الفرق بين «الإسراء» و«المعراج»؟", options: ["أ) الإسراء هو الرحلة الأرضية الليلية من المسجد الحرام إلى المسجد الأقصى، والمعراج هو العروج السماوي من بيت المقدس إلى السماوات العلا فما فوقها.", "ب) الإسراء هو الصعود إلى السماء، والمعراج هو السير إلى الطائف.", "ج) الإسراء كان بالروح فقط، والمعراج كان في المنام فقط.", "د) الإسراء وقع بعد الهجرة إلى المدينة، والمعراج قبل البعثة."], correct: 0, seconds: 35 },
+  { q: "27. ما دلالة صلاة النبي ﷺ إماماً بالأنبياء في المسجد الأقصى ليلة الإسراء؟", options: ["أ) وحدة رسالة الأنبياء جميعاً في التوحيد، ووراثة النبي محمد ﷺ وقيادته للرسالات السماوية الخاتمة.", "ب) إلغاء مكانة المسجد الأقصى في الإسلام.", "ج) أن الأنبياء السابقين كانوا يدعون إلى أديان متناقضة.", "د) أن الصلاة لم تُفرض إلا بعد الهجرة بخمس سنوات."], correct: 0, seconds: 35 },
+  { q: "28. أي عبادة عظيمة فُرضت ليلة «المعراج» مباشرة دون واسطة؟", options: ["أ) صيام شهر رمضان.", "ب) الصلوات الخمس في اليوم والليلة.", "ج) زكاة الفطر.", "د) الحج إلى بيت الله الحرام."], correct: 1, seconds: 35 },
+  { q: "29. ما دلالة موقف «أبي بكر الصديق» رضي الله عنه من خبر الإسراء والمعراج حين كذّبه المشركون؟", options: ["أ) التردد والانتظار حتى يتأكد من قوافل قريش.", "ب) كمال اليقين والتصديق المطلق بخبر الوحي الصادق، وبذلك استحق لقب «الصدّيق».", "ج) كتمان الخبر وعدم إخبار أحد من الصحابة.", "د) طلب معجزة مادية أخرى قبل التصديق."], correct: 1, seconds: 35 },
+  { q: "30. ما الخيط الجامع بين «الهجرة إلى الحبشة» و«رحلة الطائف» و«الإسراء والمعراج» في السيرة النبوية؟", options: ["أ) أنها تمثل سنة الابتلاء والتمحيص في طريق الدعوة، وأن الفرج والتكريم الإلهي يأتيان بعد الصبر وبذل الوسع.", "ب) أنها جميعاً انتهت بانتصار عسكري مباشر على قريش في مكة.", "ج) أنها وقعت في شهر رمضان من عام واحد.", "د) أنها تثبت أن الدعوة لا تحتاج إلى صبر أو تضحية."], correct: 0, seconds: 35 }
+];
+
+const G9_QUESTIONS = [
+  { q: "1. ما الضابط الدقيق الذي حدده النبي ﷺ للغيبة؟", options: ["أ) ذكر أخيك بما يكره لو سمعه، سواء كان حقاً فيه أم لم يكن.", "ب) ذكرك أخاك بما فيه مما يكرهه في غيبته؛ فإن لم يكن فيه ما تقول فقد بهته.", "ج) ذكر عيوب الآخرين أمامهم بقصد المزاح فقط.", "د) تحذير الناس من شخص يرتكب جرماً صريحاً أو يضر الآخرين بنية النصيحة."], correct: 1, seconds: 35 },
+  { q: "2. ما الفرق بين «الغيبة» و«البهتان» في التعامل مع أعراض الناس؟", options: ["أ) الغيبة ذكر ما يكره في الشخص وهو حق فيه، والبهتان رميه بما ليس فيه من الكذب والافتراء.", "ب) الغيبة كذب محض، والبهتان صدق في غياب الشخص.", "ج) البهتان أخف إثماً من الغيبة بكثير.", "د) لا فرق بينهما في الحكم الشرعي أو اللفظ."], correct: 0, seconds: 35 },
+  { q: "3. لماذا مثّل القرآن الكريم المغتاب بـ «من يأكل لحم أخيه ميتاً»؟", options: ["أ) لأن الميت لا يشعر ولا يستطيع الدفاع عن نفسه، تماماً كالغائب، ولأن أكل لحم الإنسان مستبشع في الفطرة.", "ب) لأن الغيبة تزيد من حسنات المغتاب تلقائياً.", "ج) لأن الميت يردّ الغيبة يوم القيامة بنفسه دون حساب.", "د) لأن التحريم خاص بالغيبة في شهر رمضان فقط."], correct: 0, seconds: 35 },
+  { q: "4. ما القاعدة التي يجمع بينها قوله تعالى: ﴿لَيْسَ كَمِثْلِهِ شَيْءٌ وَهُوَ السَّمِيعُ الْبَصِيرُ﴾؟", options: ["أ) نفي مماثلة المخلوق في ﴿لَيْسَ كَمِثْلِهِ شَيْءٌ﴾ وإثبات الكمال الذاتي في ﴿وَهُوَ السَّمِيعُ الْبَصِيرُ﴾ دون تشبيه ولا تعطيل.", "ب) إثبات الصفة مع تشبيهها بصفة الإنسان لكي تُفهم.", "ج) نفي السمع والبصر عن الله خشية التشبيه.", "د) قصر الكمال على الأفعال دون الأسماء والصفات."], correct: 0, seconds: 35 },
+  { q: "5. ما معنى أن الله «السميع البصير» في ضوء التنزيه والإثبات معاً؟", options: ["أ) أن له سمعاً وبصراً يليقان بجلاله وعظمته، يحيط بهما بكل مسموع ومرئي في السر والعلن، لا يشبهان سمع المخلوقين وبصرهم.", "ب) أنه يدرك الأصوات فقط دون المبصرات.", "ج) أن سمعه وبصره محدودان بزمان ومكان معينين.", "د) أنه يدرك المجاز فقط دون الحقيقة."], correct: 0, seconds: 35 },
+  { q: "6. أيٌّ من الأخطاء العقدية الآتية يقع فيها من يقول إن صفة «الرحمة» أو «العلم» عند الله مثل رحمة الإنسان وعلمه؟", options: ["أ) التمثيل والتشبيه، لأنه سوّى بين الخالق والمخلوق في حقيقة الصفة.", "ب) التعطيل المحض للأسماء والصفات.", "ج) التورع المشروع في باب الغيب.", "د) التدبر الصحيح في آيات القرآن."], correct: 0, seconds: 35 },
+  { q: "7. كيف ينعكس فهم معاني «أسماء الله الحسنى» على سلوك المسلم اليومي؟", options: ["أ) يبني علاقة متوازنة بين الخوف والرجاء، والخشية والمحبة، والتوكل والعمل، وفق مقتضى كل اسم.", "ب) يكتفي بحفظ الأسماء سرداً دون استشعار لمعانيها أو أثرها.", "ج) يجعل المسلم يتواكل ويترك الأخذ بالأسباب.", "د) يقتصر أثرها على الدعاء في المناسبات الخاصة فقط."], correct: 0, seconds: 35 },
+  { q: "8. ما الفرق بين «التعطيل» و«التكييف» في مسائل الصفات؟", options: ["أ) التعطيل هو جحد الصفات أو نفي معانيها الحقيقية، والتكييف هو تحديد هيئة الصفة وكيفيتها من غير علم ولا نص.", "ب) التعطيل هو إثبات الصفة بلا تشبيه، والتكييف هو الدعاء بالاسم الحسن.", "ج) كلاهما من أصول العقيدة الصحيحة.", "د) التعطيل يخص الأفعال فقط، والتكييف يخص الذات فقط."], correct: 0, seconds: 35 },
+  { q: "9. ما المقصود بـ «الإعجاز في القرآن الكريم»؟", options: ["أ) عجز البشر والجن عن الإتيان بمثله أو بسورة من مثله، مع ظهور دلائل صدقه وعلو شأنه في بيانه وهدايته وتشريعه وغيبه.", "ب) صعوبة قراءة ألفاظه على العرب في زمن النزول.", "ج) اقتصار معانيه على لغة واحدة لا تُترجم ولا تُفهم.", "د) كونه كتاباً أدبياً خالياً من الأحكام والهداية."], correct: 0, seconds: 35 },
+  { q: "10. أيٌّ من الوجوه الآتية يُعدّ من وجوه إعجاز القرآن الكريم؟", options: ["أ) الإعجاز البياني والبلاغي، والتشريعي، والغيبي، والعلمي (توافق حقائقه مع سنن الكون الثابتة دون تحميل النص ما لا يحتمل).", "ب) الإعجاز العددي المتكلف المبني على الظن فقط.", "ج) تناقض أحكامه باختلاف الأعراف والمصالح.", "د) اقتصاره على أخبار الماضي دون المستقبل."], correct: 0, seconds: 35 },
+  { q: "11. ما دلالة تدرّج القرآن الكريم في التحدي (من القرآن كله، إلى عشر سور، إلى سورة واحدة)؟", options: ["أ) إقامة الحجة القاطعة على المعاندين وإظهار عجزهم حتى في أقصر سورة رغم فصاحتهم وبلاغتهم.", "ب) لأن العرب كانوا يقبلون التحدي في السور الطوال دون القصيرة.", "ج) لأن القرآن لم يكن مكتملاً وقت التحدي.", "د) لأن التحدي كان موجهاً للملائكة وحدهم."], correct: 0, seconds: 35 },
+  { q: "12. ما الواجب العملي للمسلم تجاه كتاب معجز كالقرآن الكريم؟", options: ["أ) تعظيمه، وتلاوته، وتدبر معانيه، والعمل بأحكامه، والدعوة إلى هدايته.", "ب) جعله للبركة في البيوت فقط دون تلاوة أو عمل.", "ج) الاكتفاء بسماع تلاوته دون فهم أو تطبيق.", "د) تقديم آراء البشر على أحكامه عند الاختلاف."], correct: 0, seconds: 35 },
+  { q: "13. ما الفرق الجوهري بين «ركن الحج» و«واجب الحج»؟", options: ["أ) الركن لا يصح الحج بدونه ولا يُجبر بدم، أما الواجب فيُجبر تركه بدم (فدية) ولا يبطل الحج بتركه عمداً أو سهواً عند جمهور الفقهاء.", "ب) الواجب يبطل الحج ولا يُجبر بدم، والركن يُجبر بدم.", "ج) كلاهما سنة مستحبة لا يترتب على تركه شيء.", "د) الركن يُفعل في العمرة فقط، والواجب في الحج فقط."], correct: 0, seconds: 35 },
+  { q: "14. أيٌّ من الآتي يُعدّ من «واجبات الحج»؟", options: ["أ) الوقوف بعرفة.", "ب) طواف الإفاضة.", "ج) الإحرام من الميقات، والمبيت بمنى ليالي التشريق، ورمي الجمار، وحلق الشعر أو تقصيره.", "د) السعي بين الصفا والمروة (عند من يعده ركناً)."], correct: 2, seconds: 35 },
+  { q: "15. ما المقصود بـ «محظورات الإحرام»؟", options: ["أ) الأمور التي يُمنع منها المحرم بسبب إحرامه، مثل: قص الشعر أو تقليم الأظفار، والطيب، ولبس المخيط للرجل، وقتل صيد البر، وعقد النكاح.", "ب) الأعمال التي تجب على المحرم في كل يوم.", "ج) الأماكن التي يُمنع دخولها في مكة.", "د) الأدعية المستحبة أثناء الطواف."], correct: 0, seconds: 35 },
+  { q: "16. ما الحكم إذا ارتكب المحرم محظوراً من محظورات الإحرام لعذر (كالمرض أو الأذى)؟", options: ["أ) يأثم وتبطل حجته فوراً.", "ب) لا يأثم لوجود العذر، ولكن تجب عليه الفدية (كإطعام ستة مساكين، أو صيام ثلاثة أيام، أو ذبح شاة) بحسب نوع المحظور.", "ج) يكتفي بالاستغفار ولا فدية عليه مطلقاً.", "د) يُعيد الحج من العام القادم."], correct: 1, seconds: 35 },
+  { q: "17. ما الفرق بين «حج التمتع» و«حج القِران» و«حج الإفراد»؟", options: ["أ) التمتع: أن يحرم بالعمرة في أشهر الحج ويفرغ منها ثم يحرم بالحج من مكة مع الهدي؛ القِران: أن يحرم بالحج والعمرة معاً ويبقى على إحرامه حتى يوم النحر مع الهدي؛ الإفراد: أن يحرم بالحج وحده دون عمرة ولا يلزمه هدي واجب.", "ب) الإفراد هو الجمع بين الحج والعمرة مع هدي واجب، والتمتع هو الحج وحده دون عمرة.", "ج) القِران يقتصر على أهل مكة دون غيرهم.", "د) لا فرق بين الأنواع الثلاثة في صفة الإحرام أو الهدي."], correct: 0, seconds: 35 },
+  { q: "18. أيُّ أنواع الحج الثلاثة أمر النبي ﷺ أصحابه بالعدول إليه في حجة الوداع لمن لم يسقِ الهدي؟", options: ["أ) حج التمتع.", "ب) حج الإفراد.", "ج) حج القِران.", "د) العمرة المفردة في رجب."], correct: 0, seconds: 35 },
+  { q: "19. إذا أحرم الحاج بالحج وحده، وأتم أركانه وواجباته، فما نوع نسكه؟", options: ["أ) مفرد.", "ب) متمتع.", "ج) قارن.", "د) معتمر فقط."], correct: 0, seconds: 35 },
+  { q: "20. ما المراتب الأولى التي بدأ بها النبي ﷺ في حديث «ألا أنبئكم بأكبر الكبائر»؟", options: ["أ) الشرك بالله، وعقوق الوالدين، وشهادة الزور (أو قول الزور).", "ب) الغيبة، والنميمة، وكثرة المزاح.", "ج) تأخير الصلاة عن أول وقتها، وترك صيام التطوع.", "د) السفر للتجارة، وبيع العروض."], correct: 0, seconds: 35 },
+  { q: "21. لماذا جلس النبي ﷺ معتدلاً بعد أن كان متكئاً حين قال: «ألا وقول الزور...» وكررها؟", options: ["أ) لبيان خطورة شهادة الزور وقول الزور وما يترتب عليهما من إضاعة الحقوق، وظلم الأبرياء، وتزوير الواقع.", "ب) لأنه شعر بالتعب من الاتكاء فقط.", "ج) لأن قول الزور أخف من سائر الكبائر.", "د) لأن المجلس قد انتهى."], correct: 0, seconds: 35 },
+  { q: "22. ما العلاقة بين «الشرك بالله» و«عقوق الوالدين» في ترتيب الحديث؟", options: ["أ) الشرك يمسّ حق الله الأعظم، وعقوق الوالدين يمسّ أعظم حق للمخلوقين بعد حق الله، فاجتمعا في التحذير الشديد.", "ب) عقوق الوالدين أشد من الشرك بالله.", "ج) لا رابط بينهما في الحديث.", "د) الشرك يختص بالقول فقط، والعقوق يختص بالعمل فقط."], correct: 0, seconds: 35 },
+  { q: "23. كيف يحمي المسلم نفسه من الوقوع في «شهادة الزور وقول الزور»؟", options: ["أ) بتحري الصدق في الشهادة والقول، وعدم الشهادة بما لا يعلم، ورفض المجاملة الباطلة التي تضر بالحق أو بالناس.", "ب) بالشهادة لصديقه أو قريبه حتى لو كان مخطئاً.", "ج) بالسكوت عن الحق إذا خشي ملامة الناس.", "د) بتغيير الوقائع لتوافق مصلحة الفرد."], correct: 0, seconds: 35 },
+  { q: "24. ما السبب المباشر الذي أدى إلى «فتح مكة» في السنة الثامنة للهجرة؟", options: ["أ) نقض قريش لصلح الحديبية بإعانتها لبني بكر على خزاعة (حلفاء النبي ﷺ) ليلاً وقتلهم في الحرم.", "ب) هجوم المسلمين على مكة دون أي عهد سابق.", "ج) رغبة قريش في تسليم مفاتيح الكعبة طواعية في صلح الحديبية.", "د) وفاة أبي سفيان بن حرب."], correct: 0, seconds: 35 },
+  { q: "25. ما دلالة قول النبي ﷺ لأهل مكة يوم الفتح: «ما تظنون أني فاعل بكم؟» ثم قوله: «اذهبوا فأنتم الطلقاء»؟", options: ["أ) عظمة عفو النبي ﷺ وحلمه وقدرته عند المقدرة، وتحويل العداوة التاريخية إلى صفحة جديدة من التسامح والهداية.", "ب) إقرار الشرك وبقاء الأصنام حول الكعبة.", "ج) إلغاء الحرمات والأحكام الشرعية في مكة.", "د) مصادرة أموال أهل مكة جميعاً."], correct: 0, seconds: 35 },
+  { q: "26. ماذا فعل النبي ﷺ بالكعبة المشرفة يوم فتح مكة؟", options: ["أ) طهّرها من الأصنام والأوثان التي كانت حولها، وقال: ﴿وَقُلْ جَاءَ الْحَقُّ وَزَهَقَ الْبَاطِلُ إِنَّ الْبَاطِلَ كَانَ زَهُوقًا﴾، وصلى داخلها.", "ب) هدم قواعدها لإعادة بنائها من جديد.", "ج) أبقى الأصنام في أركانها إرضاءً لزعماء قريش.", "د) أغلق بابها ومنع الناس من دخولها."], correct: 0, seconds: 35 },
+  { q: "27. ما الأثر الاستراتيجي لفتح مكة في انتشار الإسلام في الجزيرة العربية؟", options: ["أ) زوال المعقل الرئيس لمعاداة الإسلام، ودخول الناس في دين الله أفواجاً، وتغير ميزان القوى لصالح الدولة الإسلامية.", "ب) توقف الدعوة الإسلامية واقتصارها على مكة والمدينة.", "ج) عودة المسلمين إلى المدينة دون أي أثر سياسي أو دعوي.", "د) قيام حرب أهلية داخل مكة بعد خروج النبي ﷺ."], correct: 0, seconds: 35 },
+  { q: "28. متى وقعت «غزوة حنين» وما السبب الرئيس لاندلاعها؟", options: ["أ) وقعت بعد فتح مكة مباشرة في شوال من السنة الثامنة للهجرة، بسبب تجمع قبيلتي هوازن وثقيف ومن حالفهما لقتال المسلمين.", "ب) وقعت قبل الهجرة إلى المدينة.", "ج) وقعت بعد غزوة بدر بسنة.", "د) وقعت في السنة العاشرة للهجرة في حجة الوداع."], correct: 0, seconds: 35 },
+  { q: "29. ما الدرس الأبرز الذي وقع في بداية غزوة حنين حين أعجب بعض المسلمين بكثرتهم؟", options: ["أ) أن النصر من عند الله وحده ولا يُنال بالاعتماد على الكثرة العددية أو العدة، فبدأ المسلمون بانكشاف ثم ثبتوا بنداء النبي ﷺ وصحبه ونصرهم الله.", "ب) أن الكثرة العددية تضمن النصر دائماً دون توكل أو ثبات.", "ج) أن الانسحاب النهائي كان قراراً دائماً في حنين.", "د) أن هوازن وثقيف لم يشاركوا في المعركة."], correct: 0, seconds: 35 },
+  { q: "30. كيف تعامل النبي ﷺ مع «المؤلفة قلوبهم» بعد غزوة حنين في توزيع الغنائم؟", options: ["أ) أعطاهم عطايا جزيلة تأليفاً لقلوبهم وترسيخاً لإسلامهم، وبيّن للأنصار أن ما يرجع به النبي ﷺ من رسول الله أفضل مما يرجعون به من الدنيا.", "ب) حرمهم من الغنائم تماماً رغم إسلامهم الحديث.", "ج) وزّع الغنائم على المهاجرين والقبائل فقط وترك الأنصار دون تطييب لخاطرهم.", "د) جعل الغنائم ملكاً خاصاً لنفسه دون قسمة."], correct: 0, seconds: 35 }
+];
+
+const G10_QUESTIONS = [
+  { q: "1. ما العلاقة التلازمية بين «الإسلام» و«الإيمان» إذا اجتمعا في سياق واحد؟", options: ["أ) الإسلام يمثل الأعمال الظاهرة والانقياد العملي، والإيمان يمثل التصديق الباطن واليقين القلبي، ولا يستغني أحدهما عن الآخر.", "ب) الإسلام يخص غير العرب، والإيمان يخص العرب وحدهم.", "ج) الإيمان أعمال بدنية فقط، والإسلام اعتقاد قلبي مجرد.", "د) إذا انفرد أحدهما بالذكر دلّ الآخر على نقيضه."], correct: 0, seconds: 35 },
+  { q: "2. ما المعنى الدقيق لـ «الإحسان» كما عرّفه النبي ﷺ في حديث جبريل عليه السلام؟", options: ["أ) كثرة الصدقات المالية فقط دون مراعاة الإخلاص.", "ب) أن تعبد الله كأنك تراه، فإن لم تكن تراه فإنه يراك؛ وهو مقام المراقبة والإتقان.", "ج) أداء الفرائض عند وجود الرقباء من الناس فقط.", "د) التوسع في الجدل الكلامي حول الصفات."], correct: 1, seconds: 35 },
+  { q: "3. لماذا يُعدّ «الإحسان» ذروة مراتب الدين الثلاث؟", options: ["أ) لأنه يرقى بالمسلم من مجرد الامتثال الشكلي إلى استحضار عظمة الله ومراقبته في الخلوة والجلوة وإتقان العمل.", "ب) لأنه يُسقط وجوب أركان الإسلام وأركان الإيمان عن صاحبه.", "ج) لأنه خاص بالعبادات الشعائرية ولا يدخل في المعاملات والأخلاق.", "د) لأنه يعتمد على الكثرة العددية في الأعمال دون جودة أو إخلاص."], correct: 0, seconds: 35 },
+  { q: "4. أيٌّ من الحالات الآتية تعبّر عن خلل في توازن مراتب الدين؟", options: ["أ) إتقان العمل الظاهر والعبادة أمام الناس مع التهاون في مراقبة الله في السر والغفلة عن تصحيح العقيدة.", "ب) الجمع بين سلامة الاعتقاد، وصحة العمل، ومراقبة الله في السر والعلن.", "ج) تقديم طاعة الله على هوى النفس عند اشتباه الأمور.", "د) محاسبة النفس باستمرار وتجديد النية."], correct: 0, seconds: 35 },
+  { q: "5. كيف تتجلى ثمرة «الإحسان» في مجال العمل والطلب العلمي لدى طالب الصف العاشر؟", options: ["أ) بإتقان الواجب والدراسة ومراعاة الأمانة حتى لو لم يراقبه معلم أو رقيب.", "ب) بالاكتفاء بالحد الأدنى من الجهد ما دامت الدرجة مضمونة.", "ج) بنقل الإجابات وتقليد الآخرين دون فهم.", "د) بتأجيل المهام إلى ما بعد فوات وقتها دائماً."], correct: 0, seconds: 35 },
+  { q: "6. ما مقتضى شهادة «أن لا إله إلا الله» من حيث النفي والإثبات على مستوى الاعتقاد والعمل؟", options: ["أ) نفي استحقاق العبادة عن كل ما سوى الله تعالى، وإثباتها لله وحده قلباً ولساناً وجوارح، مع البراءة من الشرك وأهله.", "ب) مجرد الإقرار بأن الله قادر على الخلق مع جواز دعاء غيره في الشدائد.", "ج) النطق باللفظ دون معرفة معناه أو التزام لوازمه.", "د) حصر الألوهية في جانب الرزق دون التشريع والعبادة."], correct: 0, seconds: 35 },
+  { q: "7. ما دلالة ارتباط شهادة «أن محمداً رسول الله» بشهادة «أن لا إله إلا الله»؟", options: ["أ) لأن الرسول ﷺ هو المبلّغ عن الله والمبيّن لكيفية عبادته؛ فلا يُعبد الله إلا بما شرعه رسوله ﷺ.", "ب) لأن شهادة الرسالة مستقلة تماماً عن توحيد الله.", "ج) لأن طاعة الرسول ﷺ مقيدة بالمزاج الشخصي لا بالوحي.", "د) لأن الرسالة النبوية تختص بأهل المدينة فقط."], correct: 0, seconds: 35 },
+  { q: "8. ما الفرق بين «العلم» و«الصدق» و«الإخلاص» و«الانقياد» كشروط لشهادة التوحيد؟", options: ["أ) العلم: معرفة معناها المنافي للجهل؛ الصدق: قولها حقاً من القلب المنافي للنفاق؛ الإخلاص: تصفيتها من الشرك والرياء؛ الانقياد: الخضوع لمقتضاها عملاً المنافي للترك.", "ب) جميعها ألفاظ مترادفة لمعنى واحد هو النطق باللسان فقط.", "ج) الانقياد يعني رفض الأحكام الشرعية، والإخلاص يعني طلب مدح الناس.", "د) الصدق يُشترط في الدنيا فقط، والعلم يُشترط في الآخرة فقط."], correct: 0, seconds: 35 },
+  { q: "9. إذا قبل شخص أحكاماً مخالفة لشرع الله وفضّلها على حكم الله ورسوله وهو عالم بالحكم، فما الخلل الذي مسّ مقتضى الشهادتين؟", options: ["أ) خلل في «القبول والانقياد» والتحاكم إلى شرع الله ورسوله ﷺ.", "ب) زيادة في كمال التوحيد والإيمان.", "ج) خطأ لغوي في نطق الشهادة لا يؤثر في المعنى.", "د) مسألة فرعية تتعلق بآداب السفر فقط."], correct: 0, seconds: 35 },
+  { q: "10. ما الثمرة العقدية الأعمق لتحقيق الشهادتين في حياة الفرد؟", options: ["أ) تحرير الإنسان من عبودية الهوى والخلق، وتوحيد وجهته في الخوف والرجاء والتشريع والاتباع.", "ب) الاعتماد الكامل على الظروف والأشخاص دون توكل على الله.", "ج) الفصل بين العقيدة والسلوك اليومي.", "د) التشكيك في أخبار الغيب والبعث."], correct: 0, seconds: 35 },
+  { q: "11. ما المقصود بـ «الحكم الشرعي»؟", options: ["أ) خطاب الله تعالى المتعلق بأفعال المكلفين بالاقتضاء أو التخيير أو الوضع.", "ب) العادات والتقاليد المتوارثة في المجتمعات دون نص أو دليل.", "ج) القوانين الوضعية المتغيرة بتغير الأهواء.", "د) رأي الفرد في المسائل الدنيوية فقط."], correct: 0, seconds: 35 },
+  { q: "12. ما الفرق بين «الواجب (الفرض)» و«المندوب (السنة/المستحب)» و«المباح» في خطاب الاقتضاء والتخيير؟", options: ["أ) الواجب يُطلب فعله طلباً جازماً ويُذم تاركه ويُثاب فاعله؛ والمندوب يُطلب فعله طلباً غير جازم ويُثاب فاعله ولا يأثم تاركه؛ والمباح يُخيّر المكلف بين فعله وتركه ولا ثواب ولا عقاب في أصله.", "ب) المباح يُعاقب فاعله، والمندوب يأثم تاركه، والواجب يُخيّر فيه.", "ج) الواجب والمندوب سواء في العقاب على الترك.", "د) المندوب أوجب من الواجب في أصول الفقه."], correct: 0, seconds: 35 },
+  { q: "13. ما منزلة «السنة النبوية» بالنسبة للقرآن الكريم في تشريع الأحكام؟", options: ["أ) المصدر الثاني للتشريع الإسلامي؛ تأتي مؤكدة لما في القرآن، أو مبيّنة ومفصّلة لمجمله ومقيّدة لمطلقه، أو مستقلة بحكم لم يرد في القرآن.", "ب) تلغي أحكام القرآن متى شاء المجتهد.", "ج) لا يُعمل بها إلا إذا ورد نص حرفي يكررها في القرآن.", "د) تختص بالمواعظ والقصص ولا تثبت بها الأحكام الشرعية."], correct: 0, seconds: 35 },
+  { q: "14. ما تعريف «الإجماع» وما شرط اعتباره دليلاً شرعياً؟", options: ["أ) اتفاق جميع مجتهدي الأمة الإسلامية في عصر من العصور بعد وفاة النبي ﷺ على حكم شرعي؛ ويشترط استناده إلى دليل شرعي معتبر.", "ب) رأي عالم واحد في مسألة خلافية.", "ج) اتفاق عامة الناس على عادة اجتماعية دون نظر في الأدلة.", "د) تصويت أغلبية طلاب العلم في بلد واحد فقط."], correct: 0, seconds: 35 },
+  { q: "15. ما المقصود بـ «القياس» في أصول الفقه، وما أركانه الأربعة؟", options: ["أ) إلحاق مسألة لم يرد فيها نص بحكم مسألة ورد فيها نص لاشتراكهما في علة الحكم؛ وأركانه: الأصل، والفرع، وحكم الأصل، والعلة.", "ب) مقارنة نصوص القرآن ببعضها دون علة.", "ج) استنباط الحكم من الهوى والمصلحة المتوهمة المخالفة للنص.", "د) تقديم القياس على النص الصريح عند وجودهما."], correct: 0, seconds: 35 },
+  { q: "16. إذا ورد نص صريح من القرآن أو السنة في مسألة، فهل يُلجأ إلى القياس في مخالفته؟", options: ["أ) لا؛ لأن القياس إنما يُصار إليه عند فقد النص أو الإجماع، ولا قياس مع وجود النص الصريح.", "ب) نعم؛ يُقدّم القياس دائماً على النص الصريح.", "ج) يُلغى النص الصريح إذا خالف القياس العقلي.", "د) يُعمل بالنص والقياس المتناقضين معاً."], correct: 0, seconds: 35 },
+  { q: "17. ما الأصل في «الحلف» في الشريعة الإسلامية؟", options: ["أ) أن يكون بالله تعالى وبأسمائه وصفاته فقط، ولا يُحلف بغير الله كالنبي أو الكعبة أو الأمانة أو الآباء.", "ب) جواز الحلف بأسماء الآباء والزعماء والمخلوقات ما دام الحالف صادقاً.", "ج) وجوب الحلف في كل كلام عادي لتأكيد المعنى.", "د) تحريم الحلف بالله مطلقاً حتى عند القضاء أو تأكيد الحق."], correct: 0, seconds: 35 },
+  { q: "18. ما حكم «اليمين الغموس» ولماذا سُمّيت بهذا الاسم؟", options: ["أ) محرمة من كبائر الذنوب؛ وسُمّيت غموساً لأنها تغمس صاحبها في الإثم ثم في النار، ولا تنعقد فيها كفارة عند جمهور الفقهاء بل تجب فيها التوبة النصوح (مع رد الحقوق إن تعلقت بحق آدمي).", "ب) مباحة إذا كانت لحفظ مال تافه.", "ج) يجزئ فيها صيام ثلاثة أيام وتُكفّر بسهولة.", "د) مكروهة فقط إذا كانت في مزاح."], correct: 0, seconds: 35 },
+  { q: "19. ما الفرق بين «اليمين اللغو» و«اليمين المنعقدة»؟", options: ["أ) اليمين اللغو ما يجري على اللسان من غير قصد الحلف (كقول «لا والله» و«بلى والله» في سياق الحديث العادي) ولا كفارة فيها؛ واليمين المنعقدة ما يقصدها الحالف على أمر مستقبل، وفي الحنث فيها تجب الكفارة.", "ب) اليمين اللغو فيها إطعام ستين مسكيناً، واليمين المنعقدة لا كفارة فيها.", "ج) كلاهما يوجب القصاص والحد الشرعي.", "د) اليمين المنعقدة لا تصح إلا أمام القاضي."], correct: 0, seconds: 35 },
+  { q: "20. ما الأدب النبوي في الإكثار من الحلف بالله حتى لو كان الحالف صادقاً؟", options: ["أ) النهي عن كثرة الحلف؛ لأن كثرة الحلف تُعرّض صاحبه للكذب أو الحنث وتذهب بوقار القسم وتعظيم الله.", "ب) الأمر بالإكثار من الحلف في كل جملة لتقوية الكلام.", "ج) الحلف بالله مرة واحدة يكفي عن الصدق في المعاملة.", "د) كثرة الحلف تزيد في أجر الصدقة."], correct: 0, seconds: 35 },
+  { q: "21. كيف كانت حالة الإمبراطوريتين العظميين «الفرس والروم» قبيل بعثة النبي ﷺ؟", options: ["أ) كانتا تعانيان من الاستبداد السياسي، والظلم الاجتماعي، والطبقية الحادة، والصراعات والحروب المستمرة، والانحراف العقدي والديني.", "ب) كانتا نموذجاً للعدل والمساواة وحرية المعتقد وحقوق الإنسان.", "ج) كانتا تعيشان سلاماً دائماً بلا حروب أو نزاعات حدودية.", "د) كانتا تدعوان إلى التوحيد الخالص وتنشران العلم والرحمة."], correct: 0, seconds: 35 },
+  { q: "22. ما أبرز سمات الانحراف الديني في «الإمبراطورية الرومانية» و«الإمبراطورية الفارسية» قبل الإسلام؟", options: ["أ) في الروم وقع التحريف والغلو والخلافات المذهبية العنيفة، وفي الفرس انتشرت المجوسية وثنائية النور والظلمة وتقديس بعض الظواهر والملوك.", "ب) كانت كلتاهما تعبد إلهاً واحداً بلا أي شوائب أو انحراف.", "ج) كانت الوثنية غائبة تماماً عن العالم كله قبل الإسلام.", "د) كانتا تمنعان أي ممارسات دينية في أراضيهما."], correct: 0, seconds: 35 },
+  { q: "23. ما حال الطبقات الاجتماعية في ظل الأنظمة الإمبراطورية قبل الإسلام؟", options: ["أ) طبقية مجحفة تمنح الأشراف والنبلاء امتيازات مطلقة وتستعبد العامة والفقراء وتهدر كرامتهم.", "ب) مساواة تامة بين الحاكم والمحكوم والغني والفقير.", "ج) إلغاء الرق والاستغلال قبل ظهور الإسلام بقرون.", "د) سيادة الشورى والعدالة الاجتماعية في كل الأقاليم."], correct: 0, seconds: 35 },
+  { q: "24. لماذا كانت الحاجة إلى «رسالة عالمية خاتمة» ملحّة في ذلك العصر؟", options: ["أ) لأن الرسالات السابقة قد لحقها التحريف أو النسيان أو التقييد بقوم بعينهم، والعالم كان غارقاً في الظلم والوثنية والفرقة فاحتاج إلى هداية شاملة وعادلة.", "ب) لأن البشرية كانت قد بلغت الكمال الأخلاقي والروحي واستغنت عن الوحي.", "ج) لأن الحروب كانت قد انتهت تماماً في الشرق والغرب.", "د) لأن الرسالة المحمدية كانت خاصة بأهل مكة وحدهم."], correct: 0, seconds: 35 },
+  { q: "25. ما الدرس التاريخي من سقوط أو إنهاك القوى المستبدة المتناحرة قبل الإسلام؟", options: ["أ) أن الظلم والفساد والانقسام الداخلي يضعف الدول ويُهلك الأمم مهما بلغت قوتها المادية.", "ب) أن القوة العسكرية وحدها تحفظ الدول إلى الأبد ولو انتشر فيها الظلم.", "ج) أن الصراعات الداخلية تقوّي الأمم وتزيد من استقرارها.", "د) أن العدالة لا أثر لها في بقاء المجتمعات."], correct: 0, seconds: 35 },
+  { q: "26. ما المقصود بـ «الجاهلية» في الاصطلاح الإسلامي؟", options: ["أ) الحالة التي كان عليها العرب وغيرهم قبل بعثة النبي ﷺ من الجهل بالله وشرائعه، والانحراف في العقيدة والأخلاق والسلوك (وليس مجرد الجهل بالقراءة والكتابة).", "ب) عدم معرفة اللغة العربية أو الشعر والبلاغة.", "ج) الفترة التي تلت فتح مكة مباشرة.", "د) العيش في المدن الكبيرة دون البادية."], correct: 0, seconds: 35 },
+  { q: "27. ما أبرز مظاهر الانحراف العقدي والاجتماعي عند العرب في الجاهلية؟", options: ["أ) عبادة الأصنام والأوثان، ووأد البنات، والعصبية القبلية والحروب لأتفه الأسباب، والربا، وظلم الضعفاء والنساء.", "ب) التوحيد الخالص، وإكرام المرأة وحفظ حقوقها، ونبذ الثأر والربا.", "ج) قيام دولة مركزية موحدة تحكمها الشريعة السماوية.", "د) انتشار المساواة التامة بين القبائل دون أي عصبية."], correct: 0, seconds: 35 },
+  { q: "28. رغم مساوئ الجاهلية، وُجدت عند العرب بعض الخصال الحميدة التي أقرّها الإسلام وهذّبها، مثل:", options: ["أ) الكرم، والشجاعة، وحفظ الجوار، والوفاء بالعهد، والصدق.", "ب) وأد البنات، وأكل الربا، وقطع الرحم، والغدر.", "ج) عبادة الأصنام، والاستقسام بالأزلام.", "د) ظلم المستضعفين وهضم حقوقهم."], correct: 0, seconds: 35 },
+  { q: "29. كيف تعامل الإسلام مع «العصبية القبلية» التي كانت سائدة في الجاهلية؟", options: ["أ) أبطلها ونهى عنها، واستبدل بها الأخوة الإيمانية، وجعل التفاضل بالتقوى والعمل الصالح لا بالنسب أو القبيلة.", "ب) أقرّها وجعلها أساس الحكم والقضاء والولاء.", "ج) حوّلها إلى عصبية إقليمية قائمة على الثأر.", "د) أبقى على الثارات القبلية دون مصالحة أو عفو."], correct: 0, seconds: 35 },
+  { q: "30. ما التحول الجذري الذي أحدثه الإسلام في حياة العرب بعد الجاهلية؟", options: ["أ) نقلهم من الفرقة والوثنية والظلم والانحلال إلى التوحيد والوحدة والعدل والعلم وبناء الحضارة الإنسانية.", "ب) أبقاهم على عاداتهم الجاهلية دون تغيير في العقيدة أو الأخلاق.", "ج) عزلهم عن العالم ومنعهم من التواصل الحضاري والمعرفي.", "د) حصر رسالتهم في حدود القبيلة الواحدة."], correct: 0, seconds: 35 }
+];
+
+const G11_SEC2_30_QUESTIONS = [
+  { q: "1. ما الفارق الجوهري في اصطلاح علوم الحديث بين «الحديث الضعيف» و«الحديث الموضوع»؟", options: ["أ) الحديث الضعيف هو ما فُقد فيه شرط أو أكثر من شروط القبول دون تعمد الكذب غالباً، أما الحديث الموضوع فهو المختلق المكذوب المتعمد نسبته إلى النبي ﷺ ظلماً وعدواناً.", "ب) الحديث الموضوع أصح من الحديث الضعيف ويُحتج به في الأحكام الشرعية.", "ج) الحديث الضعيف هو ما رواه الصحابة وحدهم دون التابعين.", "د) لا فرق بينهما في الحكم أو الرواية أو التحذير."], correct: 0, seconds: 30 },
+  { q: "2. ما حكم رواية «الحديث الموضوع» إذا علم الراوي أو المتحدث أنه موضوع؟", options: ["أ) تجوز روايته مطلقاً ما دام في فضائل الأعمال أو الترغيب والترهيب.", "ب) تحرم روايته مطلقاً إلا لبيان وضعه والتحذير منه لئلا يغتر به الناس.", "ج) يجوز روايته إذا وافق هوى القائل أو مصلحته.", "د) يرقى إلى درجة الحسن بمجرد انتشاره بين الناس."], correct: 1, seconds: 30 },
+  { q: "3. ما الضوابط العلمية التي يعتمد عليها المحدثون في الحكم على حديث بأنه «ضعيف» أو «موضوع»؟", options: ["أ) دراسة السند والمتن معاً؛ بالنظر في اتصال السند، وعدالة الرواة وضبطهم، وخلو المتن من الشذوذ والعلة القادحة أو ركاكة المعنى ومخالفة القطعيات.", "ب) الاكتفاء بكثرة تداول الحديث في المجالس أو الكتب الأدبية.", "ج) قبول كل حديث يوافق ذوق السامع دون النظر في الإسناد.", "د) ردّ الأحاديث لمجرد غرابة لفظها دون فحص علمي."], correct: 0, seconds: 30 },
+  { q: "4. ما خطورة التساهل في نشر الأحاديث الضعيفة أو الموضوعة في المنصات والخطب؟", options: ["أ) تشويه صورة السنة النبوية، ونسبة أحكام أو فضائل إلى النبي ﷺ لم يقلها، وإشاعة الباطل باسم الدين.", "ب) تقوية الاستدلال الشرعي وزيادة اليقين عند العامة.", "ج) عدم ترتب أي أثر على العقيدة أو العمل.", "د) إلغاء الحاجة إلى علم الجرح والتعديل."], correct: 0, seconds: 30 },
+  { q: "5. ما البُعد السلوكي والتربوي الأعمق لقوله ﷺ: «من حُسن إسلام المرء تركه ما لا يعنيه»؟", options: ["أ) ضبط النفس وتهذيب اللسان والجوارح عن الفضول، والانشغال بما يخص الإنسان في دينه ودنياه مما ينفعه ولا يضر غيره.", "ب) الانقطاع التام عن المجتمع وترك الأمر بالمعروف والنهي عن المنكر.", "ج) عدم الاهتمام بقضايا المسلمين أو الشأن العام مطلقاً.", "د) الاقتصار على ترك الكلام في المسائل الدنيوية فقط."], correct: 0, seconds: 30 },
+  { q: "6. كيف يفرّق المسلم بين «ما لا يعنيه» المنهي عنه وبين «النصيحة» و«الأمر بالمعروف» الواجبين؟", options: ["أ) «ما لا يعنيه» هو التدخل الفضولي أو الخوض فيما لا يخص ولا يترتب عليه مصلحة شرعية؛ أما النصيحة والأمر بالمعروف والنهي عن المنكر فواجب شرعي عند وجود المنكر أو الحاجة المعتبرة وفق الحكمة.", "ب) كل سؤال أو نصيحة يُعدّ من «ما لا يعنيه» ويُمنع منه.", "ج) النهي عن المنكر يقتصر على من يملك سلطة رسمية فقط دون نصيحة أو إنكار قلبي.", "د) لا يوجد فرق بين الفضول والواجب الشرعي."], correct: 0, seconds: 30 },
+  { q: "7. ما أثر تطبيق هذا الحديث في الحد من الشائعات والخصومات في المجتمع؟", options: ["أ) يقطع الطريق على تتبع عورات الناس والخوض في شؤونهم بغير علم أو حق، فيصون الأعراض ويحفظ العلاقات.", "ب) يزيد من الفضول والمراقبة المتبادلة بين الأفراد.", "ج) يجعل الناس يتجنبون الصدق والوضوح في تعاملاتهم.", "د) يضعف الثقة بين أفراد الأسرة والمجتمع."], correct: 0, seconds: 30 },
+  { q: "8. لماذا وُصفت الكبائر السبع في الحديث بأنها «الموبقات»؟", options: ["أ) لأنها المُهلِكات العظمى التي توبق صاحبها وتُهلكه في الدنيا والآخرة بعواقبها الوخيمة.", "ب) لأنها ذنوب يسيرة تُغفر تلقائياً دون توبة.", "ج) لأنها تقع بالخطأ والنسيان غالباً.", "د) لأنها خاصة بأهل الكتاب وحدهم."], correct: 0, seconds: 30 },
+  { q: "9. أيٌّ من المجموعات الآتية تضم من «السبع الموبقات» المذكورة في الحديث النبوي؟", options: ["أ) الشرك بالله، والسحر، وقتل النفس التي حرم الله إلا بالحق، وأكل الربا، وأكل مال اليتيم، والتولي يوم الزحف، وقذف المحصنات الغافلات المؤمنات.", "ب) الغيبة، والنميمة، وكثرة الضحك، والسهر، وتأخير النافلة.", "ج) ترك صلاة الضحى، وصيام الاثنين، وقراءة سورة الكهف، والصدقة السر.", "د) الكذب في المزاح، والنسيان، وكثرة السؤال، والسفر الطويل."], correct: 0, seconds: 30 },
+  { q: "10. ما الرابط المشترك بين «أكل الربا» و«أكل مال اليتيم» في سياق السبع الموبقات؟", options: ["أ) كلاهما عدوان ظالم على الأموال والحقوق؛ فالربا استغلال واستنزاف للحاجات وتدمير للبركة، وأكل مال اليتيم اعتداء على فئة ضعيفة عاجزة عن حماية حقها.", "ب) كلاهما مباح إذا كان برضا الطرفين في كل الأحوال.", "ج) الربا يخص العقارات فقط، ومال اليتيم يخص الديون فقط.", "د) لا ارتباط بينهما في المقاصد الشرعية."], correct: 0, seconds: 30 },
+  { q: "11. لماذا قرن النبي ﷺ «قذف المحصنات الغافلات المؤمنات» بهذه المهلكات العظمى؟", options: ["أ) لأن رمي العفيفات الغافلات بالفاحشة يمزق الأعراض، ويهدم الثقة والأسرة، ويشيع الفاحشة في المجتمع.", "ب) لأن القذف من صغائر الذنوب التي لا تضر أحداً.", "ج) لأن عقوبته تقتصر على اللوم اللفظي دون أثر اجتماعي.", "د) لأنه يختص بالرجال دون النساء."], correct: 0, seconds: 30 },
+  { q: "12. ما مراتب تغيير المنكر التي قررها النبي ﷺ في حديث «من رأى منكم منكراً فليغيره بيده...»؟", options: ["أ) التغيير باليد لمن يقدر وله سلطة أو ولاية دون مفسدة أكبر، فإن لم يستطع فبلسانه بالحكمة والموعظة، فإن لم يستطع فبقلبه، وذلك أضعف الإيمان.", "ب) التغيير باللسان أولاً لمن يملك القوة، ثم باليد، ثم بالقلب.", "ج) التغيير بالقلب وحده يكفي في كل حال ولو أمكن التغيير باليد أو اللسان.", "د) التغيير بالقوة واجب على كل فرد حتى لو أدى إلى فتنة أشد أو ضرر أعظم."], correct: 0, seconds: 30 },
+  { q: "13. ما معنى قوله ﷺ في آخر الحديث: «وذلك أضعف الإيمان»؟", options: ["أ) أن الإنكار بالقلب أدنى مراتب التغيير العملي الظاهر؛ أما في ذاته فهو واجب متعيّن لا يسقط عن المسلم ولا يخلّ بأصل الإيمان إذا عجز عن اليد واللسان.", "ب) أن من أنكر بقلبه فقد ضعف إيمانه وخرج من دائرة المؤمنين.", "ج) أن الإنكار بالقلب مستحب غير مطلوب شرعاً.", "د) أن التغيير بالقلب يغني عن كل إنكار آخر حتى عند القدرة."], correct: 0, seconds: 30 },
+  { q: "14. ما الضابط الشرعي المهم عند إنكار المنكر باليد أو اللسان؟", options: ["أ) مراعاة القدرة، والحكمة، وحسن الأسلوب، وأن لا يفضي الإنكار إلى منكر أعظم أو مفسدة أشد.", "ب) الشدة والغلظة والإحراج العلني في كل موقف.", "ج) إنكار الأمور الاجتهادية المختلف فيها وكأنها منكرات مجمع عليها.", "د) تجاهل المآلات والنتائج تماماً."], correct: 0, seconds: 30 },
+  { q: "15. ما المقصود بـ «الإيجاب والقبول» في عقد البيع؟", options: ["أ) الإيجاب هو اللفظ أو الدلالة الصادرة أولاً من أحد المتعاقدين (غالباً البائع) الدالة على إنشاء البيع، والقبول هو الموافقة والرضى الصادر من الطرف الآخر الدال على انعقاد العقد.", "ب) الإيجاب هو دفع الثمن نقداً، والقبول هو تسليم الفاتورة.", "ج) الإيجاب هو عرض السلعة دون تحديد الثمن، والقبول هو تأجيل الدفع إلى أجل مجهول.", "د) الإيجاب والقبول ركنان في النكاح فقط ولا علاقة لهما بالبيع."], correct: 0, seconds: 30 },
+  { q: "16. لماذا اشترطت الشريعة التراضي والوضوح في «الإيجاب والقبول» لصحة البيع؟", options: ["أ) لأن البيع يقوم على التراضي المشروع وتحديد المبيع والثمن بوضوح، فإذا شابه إكراه أو جهالة مفضية إلى النزاع اختل العقد.", "ب) لأن الإكراه يزيد من بركة البيع وصحته.", "ج) لأن الغموض في الثمن أو المبيع يسهل المعاملة.", "د) لأن العقد ينعقد دون أي دلالة على القبول."], correct: 0, seconds: 30 },
+  { q: "17. ما المقصود بـ «البيوع المنهية» في الفقه الإسلامي، وما علّة النهي عنها؟", options: ["أ) هي العقود والمعاملات التي نهى عنها الشارع لوجود ربا، أو غرر وجهالة، أو غش وتدليس، أو ظلم وأكل لأموال الناس بالباطل.", "ب) هي كل بيع يتم عبر الوسائل الحديثة أو الدفع الإلكتروني.", "ج) هي البيوع التي تتضمن ربحاً مشروعاً متفقاً عليه.", "د) هي البيوع التي تتم في الأسواق الأسبوعية."], correct: 0, seconds: 30 },
+  { q: "18. أيٌّ من المعاملات الآتية يُعدّ من «البيوع المنهية» شرعاً؟", options: ["أ) بيع الغرر (كبيع ما لا يُعلم مقداره أو صفته أو قدرته على التسليم)، أو بيع ما لا يملك البائع ولا يستطيع تسليمه، أو البيع المشتمل على الربا والغش.", "ب) البيع بثمن معلوم وسلعة معلومة برضا الطرفين.", "ج) البيع بالآجل بثمن متفق عليه واضح من غير ربا.", "د) المرابحة الواضحة المعلومة الثمن والربح."], correct: 0, seconds: 30 },
+  { q: "19. ما الفرق بين «الغش والتدليس» و«الربح المشروع» في التجارة؟", options: ["أ) الغش والتدليس إخفاء عيب أو تزيين باطل لخداع المشتري، وهو محرم؛ أما الربح المشروع فكسب مباح مبني على الصدق والبيان والتراضي دون استغلال أو خداع.", "ب) لا فرق بينهما؛ فكل ربح يُعدّ غشاً في الشريعة.", "ج) الغش مباح إذا كان البائع بحاجة إلى المال.", "د) الربح المشروع لا يجوز أن يتجاوز نسبة محددة بنص قرآني واحد."], correct: 0, seconds: 30 },
+  { q: "20. ما التحول الاستراتيجي الذي مثلته «الهجرة إلى المدينة المنورة» في مسيرة الدعوة الإسلامية؟", options: ["أ) الانتقال من مرحلة الدعوة السرية والجهرية في ظل الاستضعاف بمكة إلى مرحلة إقامة المجتمع والدولة والنظام والتمكين.", "ب) التوقف عن الدعوة والاكتفاء بالعبادة الفردية في البيوت.", "ج) العودة إلى مكة بعد شهر واحد من الوصول إلى يثرب.", "د) إلغاء الروابط بين المسلمين والتركيز على التجارة فقط."], correct: 0, seconds: 30 },
+  { q: "21. كيف تعامل النبي ﷺ مع التنوع السكاني والاجتماعي في المدينة عند صياغة «وثيقة المدينة»؟", options: ["أ) أقرّ مبدأ التعايش، وحفظ الحقوق، والتكافل في دفع العدوان الخارجي، ورسّخ مرجعية التحاكم إلى الله ورسوله ﷺ، مع الحزم ضد من ينقض العهد أو يغدر.", "ب) أقصى جميع سكان المدينة غير المسلمين وألغى أي حقوق أو عهود معهم.", "ج) جعل العصبية القبلية والثار هما أساس القضاء في المدينة.", "د) قسّم المدينة إلى دويلات متناحرة بلا مرجعية جامعة."], correct: 0, seconds: 30 },
+  { q: "22. ما دلالة تسمية «يثرب» بـ «المدينة المنورة» أو «طيبة» بعد الهجرة النبوية؟", options: ["أ) دلالة على أن الهجرة أنارتها بالإيمان والهداية والعدل والنظام، وحوّلتها إلى دار إسلام واستقرار.", "ب) لأنها كانت خالية من السكان قبل قدوم النبي ﷺ.", "ج) لأن اسمها القديم كان يرمز إلى الكفر دائماً.", "د) لأنها أصبحت عاصمة تجارية فقط دون بُعد ديني أو حضاري."], correct: 0, seconds: 30 },
+  { q: "23. ما الدرس المستفاد من «وثيقة المدينة» في بناء المجتمعات المستقرة؟", options: ["أ) أن الاستقرار المجتمعي يقوم على العدل، وحفظ الحقوق، والالتزام بالعهود والمواثيق، ومرجعية القانون والشرع في فض النزاعات.", "ب) أن العهود والمواثيق لا قيمة لها إذا تغيرت الظروف.", "ج) أن الأمن يتحقق بالظلم والاستبداد.", "د) أن التعايش السلمي يتعارض مع الثبات على العقيدة."], correct: 0, seconds: 30 },
+  { q: "24. ما المنهج العقدي الصحيح لأهل السنة والجماعة في باب «أسماء الله وصفاته»؟", options: ["أ) إثبات ما أثبته الله لنفسه في كتابه أو أثبته له رسوله ﷺ في سنته الصحيحة من أسماء وصفات، على الوجه اللائق بجلاله، من غير تحريف ولا تعطيل ولا تكييف ولا تمثيل.", "ب) نفي الصفات الخبرية أو تأويلها جميعاً عن ظاهرها دون دليل، أو تشبيهها بصفات المخلوقين.", "ج) الاقتصار على الأسماء دون الصفات.", "د) اختراع أسماء جديدة لله من عند العقل دون نص."], correct: 0, seconds: 35 },
+  { q: "25. ما الفرق بين «الاسم» و«الصفة» في العقيدة الإسلامية؟", options: ["أ) الاسم يدل على الذات وعلى المعنى الذي تضمنه (كالسميع، العليم، الرحيم)، والصفة هي المعنى القائم بالله تعالى الذي يدل عليه الاسم أو يرد به النص (كالسمع، العلم، الرحمة).", "ب) الاسم يخص المخلوق والصفة تخص الخالق فقط.", "ج) الصفة لا تدل على أي معنى في الذات الإلهية.", "د) لا يوجد أي فرق في الاستعمال العقدي أو اللغوي بين الاسم والصفة."], correct: 0, seconds: 30 },
+  { q: "26. ما القاعدة العقدية في «صفات الله الذاتية» و«صفات الله الفعلية»؟", options: ["أ) الصفات الذاتية لا تنفك عن ذات الله تعالى كالحياة والعلم والسمع والبصر، والصفات الفعلية متعلقة بمشيئته وحكمته كالخلق والرزق والنزول والاستواء على الوجه اللائق به.", "ب) الصفات الفعلية منفصلة عن مشيئة الله وحكمته.", "ج) الصفات الذاتية حادثة مخلوقة مثل صفات البشر.", "د) لا يصح وصف الله بأي فعل في القرآن أو السنة."], correct: 0, seconds: 30 },
+  { q: "27. ما خطر «التكييف» و«التمثيل» و«التعطيل» على العقيدة؟", options: ["أ) التكييف والتمثيل يوقعان في تشبيه الخالق بالمخلوق ونفي كمال تنزيهه، والتعطيل يوقع في جحد كماله ونقصان وصفه؛ وكلاهما انحراف عن الوسطية العقدية.", "ب) جميعها وسائل مشروعة لفهم الغيب بدقة.", "ج) التكييف هو التسليم التام لله، والتعطيل هو إثبات الكمال.", "د) أثرها يقتصر على المسائل اللغوية فقط دون العقيدة."], correct: 0, seconds: 30 },
+  { q: "28. ما المقصود بـ «مقتضيات الإيمان بالله»؟", options: ["أ) اللوازم والآثار القلبية والعملية والسلوكية التي يقتضيها الإيمان الصحيح بالله، فلا يكفي مجرد الادعاء دون تحقق لوازمه.", "ب) المعرفة النظرية المجردة التي لا تظهر في العبادة أو الخلق أو التعامل.", "ج) أداء شعيرة واحدة في السنة تغني عن بقية الطاعات.", "د) التعلق بالأسباب المادية ونسيان مسببها."], correct: 0, seconds: 30 },
+  { q: "29. أيٌّ من الآتي يُعدّ من أبرز «مقتضيات الإيمان بالله» في قلب المؤمن وسلوكه؟", options: ["أ) الإخلاص لله، والتوكل عليه، ومحبته وخشيته ورجاؤه، والانقياد لأمره، والصبر على قضائه، وشكر نعمه.", "ب) الرياء في العمل، واليأس من رحمة الله، والجزع عند البلاء.", "ج) التحاكم إلى الهوى عند تعارضه مع حكم الله.", "د) ظلم الناس وهضم حقوقهم مع ادعاء الإيمان."], correct: 0, seconds: 30 },
+  { q: "30. كيف يرتبط «الإيمان بالله» و«مقتضياته» بالعمل الصالح وبناء الشخصية؟", options: ["أ) الإيمان الصحيح يحرك الجوارح نحو الطاعة والبر والعدل، ويكبح النفس عن الظلم والمعصية، فتتجلى استقامة المؤمن في عبادته ومعاملته وأخلاقه.", "ب) الإيمان مجرد شعار قلبي لا يقتضي عملاً ولا انضباطاً سلوكياً.", "ج) العمل الصالح يُعدّ زائداً لا أثر له في كمال الإيمان.", "د) الإيمان يقتصر على أوقات الشدة فقط."], correct: 0, seconds: 30 }
+];
+
+const CONFIG = {
+  GOOGLE_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbygFNrz5pNx2Zgg8Oo9YWc5TDbozTNG3BD8gKrzrvLVsdhpOBJ00dx-XWrxJCf9lrI/exec",
+  TEACHER_PASSWORD: "1234",
+  PEER_CONFIG: {
+    config: {
+      iceServers: [
+        { urls: "stun:stun.l.google.com:19302" },
+        { urls: "stun:stun1.l.google.com:19302" },
+        { urls: "stun:stun2.l.google.com:19302" },
+        { urls: "stun:stun3.l.google.com:19302" },
+        { urls: "stun:stun4.l.google.com:19302" },
+        { urls: "stun:stun.stunprotocol.org:3478" }
+      ],
+      iceCandidatePoolSize: 4
+    }
+  },
+  CLASS_QUESTIONS: {
+    "g4": G4_QUESTIONS, "g4nov": G4_QUESTIONS, "g4a": G4_QUESTIONS, "g4b": G4_QUESTIONS, "g4-isl": G4_QUESTIONS,
+    "g5": G5_QUESTIONS, "g5nov": G5_QUESTIONS, "g5a": G5_QUESTIONS, "g5b": G5_QUESTIONS,
+    "g6": G6_QUESTIONS, "g6nov": G6_QUESTIONS, "g6a": G6_QUESTIONS, "g6b": G6_QUESTIONS,
+    "g7": G7_QUESTIONS, "g7nov": G7_QUESTIONS, "g7a": G7_QUESTIONS, "g7b": G7_QUESTIONS,
+    "g8": G8_QUESTIONS, "g8nov": G8_QUESTIONS, "g8a": G8_QUESTIONS, "g8b": G8_QUESTIONS,
+    "g9": G9_QUESTIONS, "g9nov": G9_QUESTIONS, "g9a": G9_QUESTIONS, "g9b": G9_QUESTIONS,
+    "g10": G10_QUESTIONS, "g10nov": G10_QUESTIONS, "g10a": G10_QUESTIONS, "g10b": G10_QUESTIONS,
+    "g11": G11_SEC2_30_QUESTIONS, "g11nov": G11_SEC2_30_QUESTIONS, "g11a": G11_SEC2_30_QUESTIONS, "g11b": G11_SEC2_30_QUESTIONS, "g11-sec2": G11_SEC2_30_QUESTIONS
+  },
+  DEFAULT_QUESTIONS: G4_QUESTIONS
+};
+
+function normalizeSessionKey(rawCode) {
+  return String(rawCode || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+}
+
+function buildRoomPeerId(rawCode) {
+  const key = normalizeSessionKey(rawCode);
+  let hash = 2166136261;
+  for (let i = 0; i < key.length; i++) {
+    hash ^= key.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  const unsignedHash = (hash >>> 0).toString(36);
+  const safeSlug = key.replace(/[^a-z0-9]/g, "").slice(0, 14) || "room";
+  return "TEACHER_" + safeSlug + "_" + unsignedHash;
+}
+
+function buildStudentStableKey(name, grade = "", sess = "") {
+  const cleanName = String(name || "طالب").trim().toLowerCase().replace(/\s+/g, "_");
+  const cleanGrade = String(grade || "").trim().toLowerCase().replace(/\s+/g, "_");
+  const cleanSess = normalizeSessionKey(sess);
+  const raw = `${cleanSess}__${cleanGrade}__${cleanName}`;
+  let h = 2166136261;
+  for (let i = 0; i < raw.length; i++) {
+    h ^= raw.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return "stu_" + (h >>> 0).toString(36);
+}
+
+function resolveQuestionsFromGradeOrCode(gradeLabel, rawCode) {
+  const gText = String(gradeLabel || "").toLowerCase();
+  if (gText.includes("رابع") || /\b4\b/.test(gText)) return G4_QUESTIONS;
+  if (gText.includes("خامس") || /\b5\b/.test(gText)) return G5_QUESTIONS;
+  if (gText.includes("سادس") || /\b6\b/.test(gText)) return G6_QUESTIONS;
+  if (gText.includes("سابع") || /\b7\b/.test(gText)) return G7_QUESTIONS;
+  if (gText.includes("ثامن") || /\b8\b/.test(gText)) return G8_QUESTIONS;
+  if (gText.includes("تاسع") || /\b9\b/.test(gText)) return G9_QUESTIONS;
+  if (gText.includes("عاشر") || /\b10\b/.test(gText)) return G10_QUESTIONS;
+  if (gText.includes("حادي") || gText.includes("ثاني ثانوي") || /\b11\b/.test(gText)) return G11_SEC2_30_QUESTIONS;
+
+  const key = normalizeSessionKey(rawCode);
+  if (CONFIG.CLASS_QUESTIONS[key]) return CONFIG.CLASS_QUESTIONS[key];
+
+  const matchGrade = key.match(/\bg?(11|10|9|8|7|6|5|4)\b/) || key.match(/(?:g|grade|s|sec|class)[-_]?([1-9]|10|11)/);
+  const gNum = matchGrade ? matchGrade[1] : "";
+  if (gNum === "4" || key.includes("رابع")) return G4_QUESTIONS;
+  if (gNum === "5" || key.includes("خامس")) return G5_QUESTIONS;
+  if (gNum === "6" || key.includes("سادس")) return G6_QUESTIONS;
+  if (gNum === "7" || key.includes("سابع")) return G7_QUESTIONS;
+  if (gNum === "8" || key.includes("ثامن")) return G8_QUESTIONS;
+  if (gNum === "9" || key.includes("تاسع")) return G9_QUESTIONS;
+  if (gNum === "10" || key.includes("عاشر")) return G10_QUESTIONS;
+  if (gNum === "11" || key.includes("حادي") || key.includes("ثاني ثانوي")) return G11_SEC2_30_QUESTIONS;
+
+  return CONFIG.DEFAULT_QUESTIONS;
+}
+
+function resolveGradeFromCode(rawCode) {
+  const key = normalizeSessionKey(rawCode);
+  const matchGrade = key.match(/\bg?(11|10|9|8|7|6|5|4)\b/) || key.match(/(?:g|grade|s|sec|class)[-_]?([1-9]|10|11)/);
+  const gNum = matchGrade ? matchGrade[1] : "";
+  if (gNum === "4" || key.includes("رابع")) return "الصف الرابع";
+  if (gNum === "5" || key.includes("خامس")) return "الصف الخامس";
+  if (gNum === "6" || key.includes("سادس")) return "الصف السادس";
+  if (gNum === "7" || key.includes("سابع")) return "الصف السابع";
+  if (gNum === "8" || key.includes("ثامن")) return "الصف الثامن";
+  if (gNum === "9" || key.includes("تاسع")) return "الصف التاسع";
+  if (gNum === "10" || key.includes("عاشر")) return "الصف العاشر";
+  if (gNum === "11" || key.includes("حادي") || key.includes("ثاني ثانوي")) return "الصف الثاني الثانوي";
+  return "";
+}
+
+function computeScoreOutOfFive(score, total) {
+  if (!total || total <= 0) return 0;
+  return Math.round(((score / total) * 5) * 100) / 100;
+}
+
+function getPerformanceFeedback(gradeFive) {
+  if (gradeFive >= 4.5) {
+    return {
+      isHigh: true,
+      title: "🌟 أحسنت وبارك الله فيك! أداء متميز ومشرف جداً",
+      message: "ما شاء الله عليك! لقد أظهرت فهماً رائعاً وتركيزاً عالياً وثباتاً مميزاً في مادة التربية الإسلامية. استمر على هذا التفوق والتألق، فمستقبلك مشرق بإذن الله."
+    };
+  }
+  if (gradeFive >= 3.5) {
+    return {
+      isHigh: true,
+      title: "👏 بارك الله فيك! نتيجة جيدة جداً ومثمرة",
+      message: "أحسنت على اجتهادك وحرصك! لقد حققت نتيجة طيبة تدل على متابعتك، ومع قليل من المراجعة الإضافية ستصل بإذن الله إلى الدرجة الكاملة."
+    };
+  }
+  return {
+    isHigh: false,
+    title: "💪 لا تتوقف هنا! خطوة أولى نحو التفوق بإذن الله",
+    message: "كل مجتهد يتعلم من محاولاته؛ هذه النتيجة فرصة رائعة لتعرف النقاط التي تحتاج مراجعة هادئة مع معلمك وأسرتك. ثقتنا بك كبيرة، ومع المحاولة والمثابرة ستكون نتائجك القادمة أجمل وأقوى بإذن الله."
+  };
+}
+
+let peer = null;
+let dataConn = null;
+let localStream = null;
+let teacherMicStream = null;
+let teacherMicLocked = false;
+let activeTeacherCalls = [];
+let talkingMode = null;
+let examAllowedByTeacher = false;
+let examStartedForStudent = false;
+let cameraMonitorInterval = null;
+let callRetryTimer = null;
+let activeOutCall = null;
+let studentToTeacherCall = null;
+let studentMicStream = null;
+let studentTalkingToTeacher = false;
+let studentQuestions = [];
+let currentQIndex = 0;
+let selectedOption = null;
+let studentAnswers = [];
+let questionTimerInterval = null;
+let totalTimerInterval = null;
+let timeLeft = 0;
+let totalTimeLeft = 900;
+let violations = 0;
+let examSubmitted = false;
+let studentName = "";
+let studentGrade = "";
+let studentStableKey = "";
+let teacherGrade = "";
+let supervisorRole = "teacher";
+let sessionId = "";
+let lastScore = 0;
+let lastTotal = 0;
+let lastGradeFive = 0;
+let tileSizeMode = "auto";
+let crowdLiteEnabled = false;
+let audioCtxInstance = null;
+let pendingIncomingAudioStream = null;
+
+const studentKeyToPeerId = {};
+const connectedStudents = {};
+const studentDataConnections = {};
+const studentRemoteStreams = {};
+const studentVideoCallsMap = {};
+
+async function verifyCameraOnly() {
+  const statusEl = document.getElementById("permStatusText");
+  getAudioContext();
+  if (statusEl) {
+    statusEl.style.color = "#0369a1";
+    statusEl.textContent = "⏳ جاري التحقق من الكاميرا...";
+  }
+  try {
+    const camStream = await acquireLowQualityStudentVideo();
+    const tracks = camStream.getVideoTracks();
+    const ok = tracks.length > 0 && tracks[0].readyState === "live";
+    tracks.forEach(t => t.stop());
+    if (statusEl) {
+      statusEl.style.color = ok ? "#15803d" : "#dc2626";
+      statusEl.textContent = ok
+        ? "✔ التحقق من الكاميرا ناجح: الكاميرا تعمل وتستجيب."
+        : "✘ التحقق من الكاميرا: لم يتم العثور على بث نشط.";
+    }
+  } catch (err) {
+    if (statusEl) {
+      statusEl.style.color = "#dc2626";
+      statusEl.textContent = "✘ فشل التحقق من الكاميرا: " + explainMediaErrorReason(err, "الكاميرا");
+    }
+  }
+}
+
+async function verifyAndRefreshStudentCamera() {
+  if (examSubmitted) return;
+  const camLabel = document.getElementById("camStatusLabel");
+  if (camLabel) {
+    camLabel.textContent = "⏳ جاري التحقق من الكاميرا وإعادة إرسال البث...";
+    camLabel.style.color = "#fde68a";
+  }
+  try {
+    const freshStream = await acquireLowQualityStudentVideo();
+    if (localStream) {
+      localStream.getTracks().forEach(t => t.stop());
+    }
+    localStream = freshStream;
+    attachStreamToVideo(document.getElementById("localVideo"), localStream);
+    const teacherPeerId = buildRoomPeerId(sessionId);
+    sendVideoCallToTeacher(teacherPeerId);
+    if (camLabel) {
+      camLabel.textContent = "✔ الكاميرا مفعلة ومتصلة";
+      camLabel.style.color = "#d1fae5";
+    }
+  } catch (e) {
+    if (camLabel) {
+      camLabel.textContent = "✘ مشكلة في الكاميرا";
+      camLabel.style.color = "#fca5a5";
+    }
+    alert("تعذر تشغيل الكاميرا: " + explainMediaErrorReason(e, "الكاميرا"));
+  }
+}
+
+async function requestMicAndCameraPermission() {
+  const statusEl = document.getElementById("permStatusText");
+  getAudioContext();
+
+  const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  const isSecure = Boolean(window.isSecureContext) || isLocal || location.protocol === "https:";
+  const embedded = isEmbeddedFrame();
+
+  if (!isSecure) {
+    if (statusEl) {
+      statusEl.style.color = "#dc2626";
+      statusEl.textContent = `⚠ حالة الإذن: المتصفح يمنع الوصول لأن العنوان (${location.protocol}) ليس HTTPS أو localhost.`;
+    }
+    return;
+  }
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    if (statusEl) {
+      statusEl.style.color = "#dc2626";
+      statusEl.textContent = "⚠ حالة الإذن: واجهة getUserMedia غير متاحة في العارض الحالي؛ افتح الرابط مباشرة في Google Chrome.";
+    }
+    return;
+  }
+
+  if (statusEl) {
+    statusEl.style.color = "#0369a1";
+    statusEl.textContent = "⏳ جاري فحص الميكروفون والكاميرا بشكل منفصل...";
+  }
+
+  let micResult = "غير مختبر";
+  let camResult = "غير مختبر";
+
+  try {
+    const micStream = await navigator.mediaDevices.getUserMedia({
+      audio: { echoCancellation: true, noiseSuppression: true },
+      video: false
+    });
+    micStream.getTracks().forEach(t => t.stop());
+    micResult = "✔ مقبول";
+  } catch (err) {
+    const code = err && err.name ? err.name : "Error";
+    micResult = `✘ مرفوض (${code})`;
+  }
+
+  try {
+    const camStream = await navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: { facingMode: "user" }
+    });
+    camStream.getTracks().forEach(t => t.stop());
+    camResult = "✔ مقبول";
+  } catch (err) {
+    const code = err && err.name ? err.name : "Error";
+    camResult = `✘ مرفوض (${code})`;
+  }
+
+  if (statusEl) {
+    const allOk = micResult.startsWith("✔") && camResult.startsWith("✔");
+    statusEl.style.color = allOk ? "#15803d" : "#dc2626";
+    const frameNote = embedded ? " | تنبيه: الصفحة داخل إطار/عارض مدمج" : "";
+    statusEl.textContent = `الميكروفون: ${micResult} — الكاميرا: ${camResult}${frameNote}`;
+  }
+}
+
+function isEmbeddedFrame() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
+
+function getExternalBrowserUrl() {
+  const href = window.location.href || "";
+  if (href.startsWith("http://") || href.startsWith("https://")) {
+    return href;
+  }
+  return "";
+}
+
+function openInExternalBrowser() {
+  const url = getExternalBrowserUrl();
+  const reportEl = document.getElementById("diagReportBox");
+  const ua = navigator.userAgent || "";
+
+  if (!url) {
+    if (reportEl) {
+      reportEl.classList.remove("hidden");
+      reportEl.textContent = "الصفحة مفتوحة من ملف محلي (file://)؛ يرجى فتحها عبر خادم محلي أو رابط HTTPS في Google Chrome.";
+    }
+    return;
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).catch(() => {});
+  }
+
+  if (/Android/i.test(ua)) {
+    const withoutScheme = url.replace(/^https?:\/\//i, "");
+    const scheme = url.startsWith("https://") ? "https" : "http";
+    const intentUrl = `intent://${withoutScheme}#Intent;scheme=${scheme};package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(url)};end`;
+    try {
+      window.location.href = intentUrl;
+      return;
+    } catch (e) {}
+  }
+
+  const win = window.open(url, "_blank", "noopener,noreferrer");
+  if (!win && reportEl) {
+    reportEl.classList.remove("hidden");
+    reportEl.textContent = "تم نسخ الرابط؛ افتح Google Chrome والصقه مباشرة في شريط العنوان: " + url;
+  }
+}
+
+async function runEnvironmentDiagnostics() {
+  const reportEl = document.getElementById("diagReportBox");
+  if (!reportEl) return;
+  reportEl.classList.remove("hidden");
+
+  const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  const isSecure = Boolean(window.isSecureContext) || isLocal || location.protocol === "https:";
+  const embedded = isEmbeddedFrame();
+  const hasMedia = Boolean(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+  let camProbeResult = "لم يُفحص";
+  let permState = "غير متاح";
+
+  if (navigator.permissions && navigator.permissions.query) {
+    try {
+      const p = await navigator.permissions.query({ name: "camera" });
+      permState = p.state || "غير معروف";
+    } catch (e) {
+      permState = "مقيد بالمتصفح";
+    }
+  }
+
+  if (!isSecure) {
+    camProbeResult = "محجوب لأن البروتوكول ليس HTTPS أو localhost";
+  } else if (!hasMedia) {
+    camProbeResult = "واجهة getUserMedia غير متاحة في العارض الحالي";
+  } else {
+    try {
+      const testStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false });
+      testStream.getTracks().forEach(t => t.stop());
+      camProbeResult = "الكاميرا قابلة للفتح بنجاح";
+    } catch (err) {
+      camProbeResult = `${err && err.name ? err.name + ": " : ""}${explainMediaErrorReason(err, "الكاميرا")}`;
+    }
+  }
+
+  reportEl.innerHTML =
+    `<div>• العنوان الحالي: <strong>${location.href}</strong></div>` +
+    `<div>• البروتوكول والأمان: <strong>${isSecure ? "آمن (" + location.protocol + ")" : "غير آمن (" + location.protocol + ")"}</strong></div>` +
+    `<div>• داخل إطار / عارض مدمج: <strong>${embedded ? "نعم (قد يقيّد الكاميرا)" : "لا (نافذة مستقلة)"}</strong></div>` +
+    `<div>• حالة إذن الكاميرا في المتصفح: <strong>${permState}</strong></div>` +
+    `<div>• نتيجة فحص الكاميرا: <strong>${camProbeResult}</strong></div>`;
+}
+
+function checkEnvironmentSecurityNotice() {
+  const noticeEl = document.getElementById("envSecurityNotice");
+  const textEl = document.getElementById("envSecurityText");
+  if (!noticeEl || !textEl) return;
+
+  const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  const isSecure = Boolean(window.isSecureContext) || isLocal || location.protocol === "https:";
+  const hasMediaApi = Boolean(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+  const embedded = isEmbeddedFrame();
+
+  if (!isSecure || !hasMediaApi || embedded) {
+    let reasonText = "تنبيه أمني للمتصفح: ";
+    if (!isSecure) {
+      reasonText += "الصفحة غير مفتوحة عبر اتصال آمن (HTTPS) أو localhost؛ المتصفح يمنع الوصول إلى الكاميرا والميكروفون. ";
+    } else if (!hasMediaApi || embedded) {
+      reasonText += "الرابط مفتوح داخل نافذة أو عارض مدمج يقيّد صلاحيات الكاميرا والميكروفون لأسباب أمنية. ";
+    }
+    reasonText += "يمكنك فتح المنصة مباشرة في متصفح خارجي أو فحص سبب الحظر.";
+    textEl.textContent = reasonText;
+    noticeEl.classList.remove("hidden");
+  } else {
+    noticeEl.classList.add("hidden");
+  }
+}
+
+function purgeStaleLinksAndConnectionsOnBoot() {
+  try {
+    if (window.location && (window.location.search || window.location.hash)) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  } catch (e) {}
+
+  try {
+    Object.keys(sessionStorage || {}).forEach(k => {
+      if (k.includes("peer") || k.includes("rtc") || k.includes("session_link")) {
+        sessionStorage.removeItem(k);
+      }
+    });
+  } catch (e) {}
+
+  cleanupPeerSession();
+  checkEnvironmentSecurityNotice();
+}
+
+function detectNetworkProfile() {
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (!navigator.onLine) return { label: "بدون شبكة (حفظ محلي)", videoBps: 22000, fps: 2 };
+  if (!conn) return { label: "متصل بالشبكة", videoBps: 36000, fps: 3 };
+  const eff = conn.effectiveType || "";
+  if (eff === "slow-2g" || eff === "2g") {
+    return { label: "شبكة ضعيفة جداً (2G) — وضع خفيف", videoBps: 18000, fps: 2 };
+  }
+  if (eff === "3g") {
+    return { label: "شبكة متوسطة/ضعيفة (3G) — متكيّف", videoBps: 28000, fps: 3 };
+  }
+  return { label: "اتصال نشط (" + (eff || "عالي").toUpperCase() + ")", videoBps: 45000, fps: 4 };
+}
+
+function updateNetworkBadge() {
+  const badge = document.getElementById("netIndicator");
+  if (!badge) return;
+  const profile = detectNetworkProfile();
+  badge.textContent = profile.label;
+}
+
+function explainMediaErrorReason(err, deviceKind = "الميكروفون") {
+  const label = deviceKind;
+  const isLocal = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+  const isSecure = Boolean(window.isSecureContext) || isLocal || location.protocol === "https:";
+
+  if (!isSecure) {
+    return `الرابط غير مؤمّن بـ HTTPS أو localhost — افتح الرابط عبر HTTPS في Chrome`;
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    return `العارض أو المتصفح الحالي لا يدعم الوصول المباشر إلى ${label} — افتح الرابط في Chrome`;
+  }
+  const name = err && err.name ? err.name : "";
+  if (name === "NotAllowedError" || name === "PermissionDeniedError") {
+    return isEmbeddedFrame()
+      ? `تم حظر إذن ${label} داخل الإطار أو العارض المدمج — افتح الرابط مباشرة في متصفح Chrome`
+      : `إذن ${label} مرفوض أو محظور في المتصفح أو إعدادات الجهاز`;
+  }
+  if (name === "NotFoundError" || name === "DevicesNotFoundError") {
+    return `لم يتم العثور على ${label} متصل بالجهاز`;
+  }
+  if (name === "NotReadableError" || name === "TrackStartError") {
+    return `${label} مشغول أو محجوز بتطبيق آخر أو عارض آخر`;
+  }
+  if (name === "SecurityError") {
+    return `تم حظر الوصول إلى ${label} لأسباب أمنية — افتح الرابط مباشرة في متصفح Chrome`;
+  }
+  return `تحقق من أذونات ${label} في Chrome وإعدادات الجهاز`;
+}
+
+function applyAdaptiveBitrateToCall(callInstance, maxAudioBps = 22000) {
+  if (!callInstance || !callInstance.peerConnection || !callInstance.peerConnection.getSenders) return;
+  const profile = detectNetworkProfile();
+  try {
+    const senders = callInstance.peerConnection.getSenders();
+    senders.forEach(sender => {
+      if (!sender || !sender.track || typeof sender.getParameters !== "function" || typeof sender.setParameters !== "function") return;
+      const params = sender.getParameters();
+      if (!params.encodings || params.encodings.length === 0) {
+        params.encodings = [{}];
+      }
+      if (sender.track.kind === "video") {
+        params.encodings[0].maxBitrate = profile.videoBps;
+        params.encodings[0].maxFramerate = profile.fps;
+      } else if (sender.track.kind === "audio") {
+        params.encodings[0].maxBitrate = maxAudioBps;
+      }
+      sender.setParameters(params).catch(() => {});
+    });
+  } catch (e) {}
+}
+
+function clearTeacherRoomState() {
+  Object.keys(studentKeyToPeerId).forEach(k => delete studentKeyToPeerId[k]);
+  Object.keys(connectedStudents).forEach(k => delete connectedStudents[k]);
+  Object.keys(studentDataConnections).forEach(k => delete studentDataConnections[k]);
+  Object.keys(studentRemoteStreams).forEach(k => delete studentRemoteStreams[k]);
+  Object.keys(studentVideoCallsMap).forEach(k => delete studentVideoCallsMap[k]);
+  const grid = document.getElementById("studentsGrid");
+  if (grid) grid.innerHTML = "";
+  const emptyMsg = document.getElementById("emptyRoomMsg");
+  if (emptyMsg) emptyMsg.classList.remove("hidden");
+  const countEl = document.getElementById("connectedCount");
+  if (countEl) countEl.textContent = "0";
+  const speakBanner = document.getElementById("studentSpeakingBanner");
+  if (speakBanner) speakBanner.classList.add("hidden");
+  const sAudio = document.getElementById("studentVoiceAudio");
+  if (sAudio) sAudio.srcObject = null;
+}
+
+function stopStudentMicToTeacher() {
+  studentTalkingToTeacher = false;
+  if (studentToTeacherCall) {
+    try { studentToTeacherCall.close(); } catch (e) {}
+    studentToTeacherCall = null;
+  }
+  if (studentMicStream) {
+    studentMicStream.getAudioTracks().forEach(t => { t.enabled = false; });
+  }
+  const btn = document.getElementById("studentTalkBtn");
+  if (btn) {
+    btn.classList.remove("talking");
+    btn.textContent = "🎙 تحدث للمعلم (خاص)";
+  }
+  if (dataConn && dataConn.open) {
+    dataConn.send({
+      type: "student_voice_stop",
+      name: studentName,
+      studentKey: studentStableKey
+    });
+  }
+}
+
+async function toggleStudentMicToTeacher() {
+  if (!peer || peer.destroyed || examSubmitted) return;
+  getAudioContext();
+  enableStudentIncomingAudio();
+
+  if (studentTalkingToTeacher) {
+    stopStudentMicToTeacher();
+    return;
+  }
+
+  const teacherPeerId = buildRoomPeerId(sessionId);
+  try {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      throw new Error("MEDIA_UNAVAILABLE");
+    }
+    if (!studentMicStream || !studentMicStream.getAudioTracks().some(t => t.readyState === "live")) {
+      studentMicStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          channelCount: 1,
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true
+        },
+        video: false
+      });
+    } else {
+      studentMicStream.getAudioTracks().forEach(t => { t.enabled = true; });
+    }
+  } catch (e) {
+    alert("تعذر تشغيل الميكروفون: " + explainMediaErrorReason(e, "الميكروفون"));
+    return;
+  }
+
+  studentTalkingToTeacher = true;
+  const btn = document.getElementById("studentTalkBtn");
+  if (btn) {
+    btn.classList.add("talking");
+    btn.textContent = "⏹ إيقاف التحدث للمعلم";
+  }
+
+  if (dataConn && dataConn.open) {
+    dataConn.send({
+      type: "student_voice_start",
+      name: studentName,
+      studentKey: studentStableKey
+    });
+  }
+
+  if (studentToTeacherCall) {
+    try { studentToTeacherCall.close(); } catch (e) {}
+  }
+  studentToTeacherCall = peer.call(teacherPeerId, studentMicStream, {
+    metadata: {
+      role: "student_voice",
+      name: studentName,
+      grade: studentGrade,
+      studentKey: studentStableKey
+    }
+  });
+  applyAdaptiveBitrateToCall(studentToTeacherCall, 22000);
+}
+
+function cleanupPeerSession() {
+  studentTalkingToTeacher = false;
+  if (studentToTeacherCall) {
+    try { studentToTeacherCall.close(); } catch (e) {}
+    studentToTeacherCall = null;
+  }
+  if (studentMicStream) {
+    studentMicStream.getTracks().forEach(t => t.stop());
+    studentMicStream = null;
+  }
+  if (callRetryTimer) {
+    clearInterval(callRetryTimer);
+    callRetryTimer = null;
+  }
+  if (activeOutCall) {
+    try { activeOutCall.close(); } catch (e) {}
+    activeOutCall = null;
+  }
+  stopTeacherVoiceBroadcast(true);
+  if (dataConn) {
+    try { dataConn.close(); } catch (e) {}
+    dataConn = null;
+  }
+  if (peer) {
+    try { peer.destroy(); } catch (e) {}
+    peer = null;
+  }
+  examAllowedByTeacher = false;
+  examStartedForStudent = false;
+  pendingIncomingAudioStream = null;
+  const audioEl = document.getElementById("teacherVoiceAudio");
+  if (audioEl) audioEl.srcObject = null;
+  const banner = document.getElementById("teacherVoiceBanner");
+  if (banner) banner.classList.add("hidden");
+  clearTeacherRoomState();
+}
+
+function getAudioContext() {
+  if (!audioCtxInstance) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (Ctx) audioCtxInstance = new Ctx();
+  }
+  if (audioCtxInstance && audioCtxInstance.state === "suspended") {
+    audioCtxInstance.resume().catch(() => {});
+  }
+  return audioCtxInstance;
+}
+
+function updateLiveClock() {
+  const now = new Date();
+  document.getElementById("liveClock").textContent = now.toLocaleTimeString("ar-YE", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+}
+setInterval(updateLiveClock, 1000);
+updateLiveClock();
+updateNetworkBadge();
+
+window.addEventListener("online", () => {
+  updateNetworkBadge();
+  if (peer && !peer.destroyed && peer.disconnected) {
+    peer.reconnect();
+  }
+  if (sessionId && !document.getElementById("studentExamScreen").classList.contains("hidden") && !examSubmitted) {
+    sendVideoCallToTeacher(buildRoomPeerId(sessionId));
+  }
+  retryPendingSubmissions();
+});
+window.addEventListener("offline", () => {
+  updateNetworkBadge();
+});
+window.addEventListener("resize", applyStudentsGridSizing);
+window.addEventListener("DOMContentLoaded", purgeStaleLinksAndConnectionsOnBoot);
+
+document.addEventListener("pointerdown", () => {
+  getAudioContext();
+  if (!examSubmitted && !document.getElementById("studentExamScreen").classList.contains("hidden")) {
+    enableStudentIncomingAudio();
+  }
+  if (!document.getElementById("teacherDashboardScreen").classList.contains("hidden")) {
+    const sAudio = document.getElementById("studentVoiceAudio");
+    if (sAudio && sAudio.srcObject && sAudio.paused) {
+      sAudio.play().catch(() => {});
+    }
+  }
+}, { passive: true });
+
+function switchRole(role) {
+  const isStudent = role === "student";
+  const isTeacher = role === "teacher";
+  const isPrincipal = role === "principal";
+
+  document.getElementById("tabStudent").classList.toggle("active", isStudent);
+  document.getElementById("tabTeacher").classList.toggle("active", isTeacher);
+  document.getElementById("tabPrincipal").classList.toggle("active", isPrincipal);
+
+  document.getElementById("studentLoginForm").classList.toggle("hidden", !isStudent);
+  document.getElementById("teacherLoginForm").classList.toggle("hidden", !isTeacher);
+  document.getElementById("principalLoginForm").classList.toggle("hidden", !isPrincipal);
+}
+
+function toggleCustomGrade() {
+  const sel = document.getElementById("studentGradeSelect").value;
+  const customInput = document.getElementById("studentCustomGradeInput");
+  customInput.classList.toggle("hidden", sel !== "other");
+}
+
+function toggleTeacherCustomGrade() {
+  const sel = document.getElementById("teacherGradeSelect").value;
+  const customInput = document.getElementById("teacherCustomGradeInput");
+  customInput.classList.toggle("hidden", sel !== "other");
+}
+
+function togglePrincipalCustomGrade() {
+  const sel = document.getElementById("principalGradeSelect").value;
+  const customInput = document.getElementById("principalCustomGradeInput");
+  customInput.classList.toggle("hidden", sel !== "other");
+}
+
+function getSelectedSupervisorGrade(roleType, codeForFallback = "") {
+  const isPrincipal = roleType === "principal";
+  const selId = isPrincipal ? "principalGradeSelect" : "teacherGradeSelect";
+  const customId = isPrincipal ? "principalCustomGradeInput" : "teacherCustomGradeInput";
+  const sel = document.getElementById(selId).value;
+  if (sel === "other") {
+    return document.getElementById(customId).value.trim() || resolveGradeFromCode(codeForFallback) || "تلقائي حسب الرمز";
+  }
+  if (sel) return sel;
+  return resolveGradeFromCode(codeForFallback) || "تلقائي حسب الرمز";
+}
+
+function getSelectedGrade(codeForFallback = "") {
+  const sel = document.getElementById("studentGradeSelect").value;
+  if (sel === "other") {
+    return document.getElementById("studentCustomGradeInput").value.trim() || resolveGradeFromCode(codeForFallback) || "حصة عامة";
+  }
+  if (sel) return sel;
+  return resolveGradeFromCode(codeForFallback) || "حصة عامة";
+}
+
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function playStudentAlertSound(freq = 760, duration = 0.22) {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    osc.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  } catch (e) {}
+}
+
+function showStudentWarning(msg) {
+  const banner = document.getElementById("studentAlertBanner");
+  banner.textContent = "⚠ " + msg;
+  banner.classList.remove("hidden");
+  playStudentAlertSound(760, 0.22);
+}
+
+function clearStudentWarning() {
+  document.getElementById("studentAlertBanner").classList.add("hidden");
+}
+
+function attachStreamToVideo(videoEl, stream) {
+  if (!videoEl || !stream) return;
+  if (videoEl.srcObject !== stream) {
+    videoEl.srcObject = stream;
+  }
+  const playPromise = videoEl.play();
+  if (playPromise && typeof playPromise.catch === "function") {
+    playPromise.catch(() => {
+      setTimeout(() => {
+        videoEl.play().catch(() => {});
+      }, 450);
+    });
+  }
+}
+
+function playAudioStreamToStudent(stream) {
+  if (!stream) return;
+  pendingIncomingAudioStream = stream;
+  const audioEl = document.getElementById("teacherVoiceAudio");
+  const banner = document.getElementById("teacherVoiceBanner");
+  const msgEl = document.getElementById("teacherVoiceMsg");
+
+  if (banner) banner.classList.remove("hidden");
+  if (!audioEl) return;
+
+  if (audioEl.srcObject !== stream) {
+    audioEl.srcObject = stream;
+  }
+  audioEl.muted = false;
+  audioEl.volume = 1.0;
+
+  const p = audioEl.play();
+  if (p && typeof p.then === "function") {
+    p.then(() => {
+      if (msgEl) msgEl.textContent = "🔊 الصوت المباشر من أ. أحمد الحداد يعمل الآن";
+    }).catch(() => {
+      if (msgEl) msgEl.textContent = "🔊 الصوت جاهز؛ اضغط (تشغيل الصوت) أو أي إجابة لسماعه";
+    });
+  }
+}
+
+function enableStudentIncomingAudio() {
+  getAudioContext();
+  const audioEl = document.getElementById("teacherVoiceAudio");
+  const msgEl = document.getElementById("teacherVoiceMsg");
+
+  if (pendingIncomingAudioStream && audioEl && audioEl.srcObject !== pendingIncomingAudioStream) {
+    audioEl.srcObject = pendingIncomingAudioStream;
+  }
+
+  if (audioEl && audioEl.srcObject) {
+    audioEl.muted = false;
+    audioEl.volume = 1.0;
+    const p = audioEl.play();
+    if (p && typeof p.then === "function") {
+      p.then(() => {
+        if (msgEl) msgEl.textContent = "🔊 الصوت المباشر من أ. أحمد الحداد يعمل الآن";
+      }).catch(() => {});
+    }
+  }
+}
+
+async function acquireLowQualityStudentVideo() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    throw new Error("MEDIA_UNAVAILABLE");
+  }
+  const profile = detectNetworkProfile();
+  const constraintsList = [
+    {
+      video: {
+        facingMode: "user",
+        width: { ideal: 160, max: 240 },
+        height: { ideal: 120, max: 180 },
+        frameRate: { ideal: profile.fps, max: 4 }
+      },
+      audio: false
+    },
+    { video: { facingMode: "user" }, audio: false },
+    { video: true, audio: false }
+  ];
+
+  let lastErr = null;
+  for (const c of constraintsList) {
+    try {
+      return await navigator.mediaDevices.getUserMedia(c);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw lastErr || new Error("CAMERA_DENIED");
+}
+
+function sendVideoCallToTeacher(teacherPeerId) {
+  if (!peer || peer.destroyed || !localStream || examSubmitted) return;
+  const videoTracks = localStream.getVideoTracks();
+  if (!videoTracks.length) return;
+  videoTracks.forEach(t => { t.enabled = true; });
+  try {
+    if (activeOutCall) {
+      try { activeOutCall.close(); } catch (e) {}
+    }
+    activeOutCall = peer.call(teacherPeerId, localStream, {
+      metadata: {
+        role: "student_video",
+        name: studentName,
+        grade: studentGrade,
+        studentKey: studentStableKey
+      }
+    });
+    if (activeOutCall && activeOutCall.peerConnection) {
+      const senders = activeOutCall.peerConnection.getSenders ? activeOutCall.peerConnection.getSenders() : [];
+      const hasVideoSender = senders.some(s => s.track && s.track.kind === "video");
+      if (!hasVideoSender) {
+        try {
+          activeOutCall.peerConnection.addTrack(videoTracks[0], localStream);
+        } catch (e) {}
+      }
+    }
+    applyAdaptiveBitrateToCall(activeOutCall, 20000);
+  } catch (e) {}
+}
+
+function beginStudentQuestionsFlow() {
+  if (examStartedForStudent || examSubmitted) return;
+  examStartedForStudent = true;
+  clearStudentWarning();
+
+  const bank = resolveQuestionsFromGradeOrCode(studentGrade, sessionId);
+  studentQuestions = shuffleArray(bank).map(qObj => {
+    const mappedOptions = qObj.options.map((text, idx) => ({
+      text,
+      isCorrect: idx === qObj.correct
+    }));
+    return {
+      q: qObj.q,
+      options: shuffleArray(mappedOptions),
+      seconds: qObj.seconds || 30
+    };
+  });
+
+  totalTimeLeft = studentQuestions.reduce((sum, item) => sum + (item.seconds || 30), 0);
+  renderQuestion();
+  startTotalExamTimer();
+
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  }
+}
+
+async function startStudentExam() {
+  cleanupPeerSession();
+  enableStudentIncomingAudio();
+  studentName = document.getElementById("studentNameInput").value.trim();
+  sessionId = document.getElementById("sessionCodeInput").value.trim();
+  studentGrade = getSelectedGrade(sessionId);
+  studentStableKey = buildStudentStableKey(studentName, studentGrade, sessionId);
+  const pledgeChecked = document.getElementById("studentPledgeCheck").checked;
+
+  if (!studentName || !sessionId) {
+    alert("يرجى إدخال اسمك الكامل ورمز الحصة.");
+    return;
+  }
+  if (!pledgeChecked) {
+    alert("يرجى وضع علامة الموافقة على التنبيهات والتعليمات قبل بدء الاختبار.");
+    return;
+  }
+
+  try {
+    localStream = await acquireLowQualityStudentVideo();
+    attachStreamToVideo(document.getElementById("localVideo"), localStream);
+  } catch (err) {
+    alert("تعذر تشغيل الكاميرا: " + explainMediaErrorReason(err, "الكاميرا"));
+    return;
+  }
+
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("studentExamScreen").classList.remove("hidden");
+  document.getElementById("questionText").textContent = "⏳ بانتظار سماح أ. أحمد الحداد ببدء الاختبار...";
+  document.getElementById("optionsContainer").innerHTML = "";
+  document.getElementById("nextBtn").disabled = true;
+  startCameraHealthMonitor();
+
+  const teacherPeerId = buildRoomPeerId(sessionId);
+  peer = new Peer(CONFIG.PEER_CONFIG);
+
+  peer.on("open", () => {
+    sendVideoCallToTeacher(teacherPeerId);
+    dataConn = peer.connect(teacherPeerId, { reliable: true });
+
+    dataConn.on("open", () => {
+      sendStatusToTeacher("waiting", "بانتظار إذن المدرس بالبدء");
+    });
+
+    dataConn.on("data", (msg) => {
+      if (!msg || examSubmitted) return;
+      if (msg.type === "exam_permission") {
+        examAllowedByTeacher = !!msg.allowed;
+        if (examAllowedByTeacher) {
+          document.getElementById("nextBtn").disabled = false;
+          beginStudentQuestionsFlow();
+        } else if (!examStartedForStudent) {
+          document.getElementById("nextBtn").disabled = true;
+          document.getElementById("questionText").textContent = "⏳ بانتظار سماح أ. أحمد الحداد ببدء الاختبار...";
+        }
+      } else if (msg.type === "teacher_alert") {
+        violations++;
+        document.getElementById("violationCounterText").textContent = "مرات التنبيه والمخالفة: " + violations;
+        showStudentWarning(msg.message || "تنبيه من أ. أحمد الحداد: التزم بالكاميرا والتركيز في الاختبار.");
+      } else if (msg.type === "voice_start") {
+        document.getElementById("teacherVoiceBanner").classList.remove("hidden");
+        document.getElementById("teacherVoiceMsg").textContent = "🔊 الصوت المباشر يعمل الآن...";
+        enableStudentIncomingAudio();
+      } else if (msg.type === "voice_stop") {
+        document.getElementById("teacherVoiceBanner").classList.add("hidden");
+        const audioEl = document.getElementById("teacherVoiceAudio");
+        if (audioEl) audioEl.srcObject = null;
+        pendingIncomingAudioStream = null;
+      }
+    });
+
+    if (callRetryTimer) clearInterval(callRetryTimer);
+    callRetryTimer = setInterval(() => {
+      if (examSubmitted) {
+        clearInterval(callRetryTimer);
+        return;
+      }
+      updateNetworkBadge();
+      if (peer && !peer.destroyed && peer.disconnected) {
+        peer.reconnect();
+      }
+      if (!dataConn || !dataConn.open) {
+        dataConn = peer.connect(teacherPeerId, { reliable: true });
+      } else {
+        sendStatusToTeacher(
+          examStartedForStudent ? "active" : "waiting",
+          examStartedForStudent ? `السؤال ${currentQIndex + 1} من ${studentQuestions.length}` : "بانتظار إذن المدرس بالبدء"
+        );
+      }
+      const needsVideoCall = !activeOutCall || !activeOutCall.open;
+      if (needsVideoCall) {
+        sendVideoCallToTeacher(teacherPeerId);
+      } else {
+        applyAdaptiveBitrateToCall(activeOutCall, 20000);
+      }
+    }, 5500);
+  });
+
+  peer.on("disconnected", () => {
+    if (!examSubmitted && peer && !peer.destroyed) {
+      setTimeout(() => {
+        if (!examSubmitted && peer && !peer.destroyed && peer.disconnected) {
+          peer.reconnect();
+        }
+      }, 1200);
+    }
+  });
+
+  peer.on("call", (incomingCall) => {
+    if (incomingCall.metadata && incomingCall.metadata.role === "principal_no_video") {
+      return;
+    }
+    incomingCall.answer();
+
+    const bindRemoteStream = (remoteStream) => {
+      if (!remoteStream) return;
+      const audioTracks = remoteStream.getAudioTracks();
+      if (audioTracks.length > 0) {
+        audioTracks.forEach(t => { t.enabled = true; });
+      }
+      playAudioStreamToStudent(remoteStream);
+    };
+
+    incomingCall.on("stream", bindRemoteStream);
+
+    if (incomingCall.peerConnection) {
+      incomingCall.peerConnection.addEventListener("track", (ev) => {
+        if (ev.streams && ev.streams[0]) {
+          bindRemoteStream(ev.streams[0]);
+        } else if (ev.track) {
+          bindRemoteStream(new MediaStream([ev.track]));
+        }
+      });
+    }
+
+    incomingCall.on("close", () => {
+      document.getElementById("teacherVoiceBanner").classList.add("hidden");
+    });
+  });
+
+  document.addEventListener("visibilitychange", handleAntiCheat);
+  window.addEventListener("blur", handleAntiCheat);
+}
+
+function startCameraHealthMonitor() {
+  if (cameraMonitorInterval) clearInterval(cameraMonitorInterval);
+  cameraMonitorInterval = setInterval(() => {
+    if (examSubmitted || !localStream) return;
+    const videoTrack = localStream.getVideoTracks()[0];
+    const camLabel = document.getElementById("camStatusLabel");
+
+    if (!videoTrack || videoTrack.readyState !== "live" || !videoTrack.enabled || videoTrack.muted) {
+      violations++;
+      document.getElementById("violationCounterText").textContent = "مرات التنبيه والمخالفة: " + violations;
+      if (camLabel) {
+        camLabel.textContent = "الكاميرا متوقفة! أعد تشغيلها فوراً";
+        camLabel.style.color = "#fca5a5";
+      }
+      showStudentWarning("تم رصد إيقاف أو حجب الكاميرا؛ يرجى إبقاء الكاميرا مفتوحة طوال الاختبار.");
+      sendStatusToTeacher("warning", "الكاميرا متوقفة (" + violations + ")");
+    } else {
+      if (camLabel) {
+        camLabel.textContent = "الكاميرا مفعلة";
+        camLabel.style.color = "#d1fae5";
+      }
+    }
+  }, 6000);
+}
+
+function startTotalExamTimer() {
+  clearInterval(totalTimerInterval);
+  renderTotalTimer();
+  totalTimerInterval = setInterval(() => {
+    if (examSubmitted) {
+      clearInterval(totalTimerInterval);
+      return;
+    }
+    totalTimeLeft--;
+    renderTotalTimer();
+    if (totalTimeLeft <= 0) {
+      clearInterval(totalTimerInterval);
+      while (currentQIndex < studentQuestions.length) {
+        studentAnswers.push({
+          question: studentQuestions[currentQIndex].q,
+          chosen: "انتهى الوقت الكلي للاختبار",
+          isCorrect: false
+        });
+        currentQIndex++;
+      }
+      finishStudentExam();
+    }
+  }, 1000);
+}
+
+function renderTotalTimer() {
+  const safeSec = Math.max(0, totalTimeLeft);
+  const mins = String(Math.floor(safeSec / 60)).padStart(2, "0");
+  const secs = String(safeSec % 60).padStart(2, "0");
+  document.getElementById("totalTimer").textContent = `${mins}:${secs}`;
+}
+
+function handleAntiCheat() {
+  if (examSubmitted) return;
+  if (document.hidden || !document.hasFocus()) {
+    violations++;
+    document.getElementById("violationCounterText").textContent = "مرات التنبيه والمخالفة: " + violations;
+    showStudentWarning("تم رصد مغادرة صفحة الاختبار أو الالتفات عنها؛ يُرجى البقاء داخل الاختبار.");
+    sendStatusToTeacher("violation", "غادر الصفحة (" + violations + ")");
+  } else {
+    clearStudentWarning();
+    enableStudentIncomingAudio();
+  }
+}
+
+function sendStatusToTeacher(state, progressText) {
+  if (dataConn && dataConn.open) {
+    dataConn.send({
+      type: "status",
+      studentKey: studentStableKey,
+      name: studentName,
+      grade: studentGrade,
+      state: state,
+      violations: violations,
+      progress: progressText
+    });
+  }
+}
+
+function renderQuestion() {
+  clearInterval(questionTimerInterval);
+  selectedOption = null;
+
+  const qData = studentQuestions[currentQIndex];
+  const progressStr = `السؤال ${currentQIndex + 1} من ${studentQuestions.length}`;
+  document.getElementById("questionCounter").textContent = progressStr;
+  document.getElementById("questionText").textContent = qData.q;
+  document.getElementById("nextBtn").textContent =
+    currentQIndex === studentQuestions.length - 1 ? "إنهاء وتسليم الاختبار ✔" : "السؤال التالي ⬅";
+
+  sendStatusToTeacher("active", progressStr);
+
+  const container = document.getElementById("optionsContainer");
+  const frag = document.createDocumentFragment();
+  qData.options.forEach((opt, idx) => {
+    const div = document.createElement("div");
+    div.className = "option-item";
+    div.textContent = opt.text;
+    const selectChoice = () => {
+      enableStudentIncomingAudio();
+      container.querySelectorAll(".option-item").forEach(el => el.classList.remove("selected"));
+      div.classList.add("selected");
+      selectedOption = idx;
+    };
+    div.addEventListener("pointerdown", selectChoice, { passive: true });
+    div.onclick = selectChoice;
+    frag.appendChild(div);
+  });
+  container.replaceChildren(frag);
+
+  timeLeft = qData.seconds;
+  document.getElementById("questionTimer").textContent = timeLeft;
+  questionTimerInterval = setInterval(() => {
+    timeLeft--;
+    document.getElementById("questionTimer").textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(questionTimerInterval);
+      goToNextQuestion(true);
+    }
+  }, 1000);
+}
+
+function goToNextQuestion(autoTimeout = false) {
+  if (!examStartedForStudent) return;
+  enableStudentIncomingAudio();
+  clearInterval(questionTimerInterval);
+  if (currentQIndex >= studentQuestions.length) return;
+
+  const qData = studentQuestions[currentQIndex];
+  const chosenObj = selectedOption !== null ? qData.options[selectedOption] : null;
+
+  studentAnswers.push({
+    question: qData.q,
+    chosen: chosenObj ? chosenObj.text : (autoTimeout ? "انتهى الوقت دون إجابة" : "لم يُجب"),
+    isCorrect: chosenObj ? chosenObj.isCorrect : false
+  });
+
+  localStorage.setItem("backup_exam_" + studentName, JSON.stringify(studentAnswers));
+
+  currentQIndex++;
+  if (currentQIndex < studentQuestions.length) {
+    renderQuestion();
+  } else {
+    finishStudentExam();
+  }
+}
+
+function finishStudentExam() {
+  if (examSubmitted) return;
+  examSubmitted = true;
+  clearInterval(questionTimerInterval);
+  clearInterval(totalTimerInterval);
+  clearInterval(cameraMonitorInterval);
+  clearInterval(callRetryTimer);
+  stopStudentMicToTeacher();
+  if (studentMicStream) {
+    studentMicStream.getTracks().forEach(t => t.stop());
+    studentMicStream = null;
+  }
+  sendStatusToTeacher("finished", "أنهى الاختبار");
+
+  if (localStream) {
+    localStream.getTracks().forEach(track => track.stop());
+  }
+
+  lastScore = studentAnswers.filter(a => a.isCorrect).length;
+  lastTotal = studentQuestions.length;
+  lastGradeFive = computeScoreOutOfFive(lastScore, lastTotal);
+  const fb = getPerformanceFeedback(lastGradeFive);
+
+  const summaryText = studentAnswers
+    .map((a, i) => `س${i + 1}: ${a.chosen} (${a.isCorrect ? "صح" : "خطأ"})`)
+    .join(" | ");
+
+  const payload = {
+    id: Date.now(),
+    sessionId,
+    studentName,
+    studentGrade,
+    score: lastScore,
+    total: lastTotal,
+    gradeOutOf5: lastGradeFive,
+    violations,
+    answersSummary: summaryText
+  };
+
+  const queue = JSON.parse(localStorage.getItem("pending_drive_queue") || "[]");
+  queue.push(payload);
+  localStorage.setItem("pending_drive_queue", JSON.stringify(queue));
+
+  document.getElementById("studentExamScreen").classList.add("hidden");
+  document.getElementById("finishScreen").classList.remove("hidden");
+  document.getElementById("finalScoreText").textContent = `إجاباتك الصحيحة: ${lastScore} من ${lastTotal}`;
+  document.getElementById("finalGradeFiveText").textContent = `الدرجة النهائية: ${lastGradeFive} من 5`;
+
+  const fbBox = document.getElementById("studentEncouragementBox");
+  fbBox.className = "feedback-box " + (fb.isHigh ? "feedback-praise" : "feedback-encourage");
+  fbBox.innerHTML = `<div style="font-size:1.05rem; margin-bottom:4px;">${fb.title}</div><div>${fb.message}</div>`;
+
+  retryPendingSubmissions();
+}
+
+function downloadResultPDF() {
+  const fb = getPerformanceFeedback(lastGradeFive);
+  const accentColor = fb.isHigh ? "#15803d" : "#b45309";
+  const bannerBg = fb.isHigh ? "#ecfdf5" : "#fffbeb";
+  const bannerBorder = fb.isHigh ? "#16a34a" : "#d97706";
+
+  const rowsHtml = studentAnswers.map((a, idx) => `
+    <tr>
+      <td style="padding:7px 9px; border:1px solid #cbd5e1; text-align:center; font-weight:700;">${idx + 1}</td>
+      <td style="padding:7px 9px; border:1px solid #cbd5e1;">${a.question}</td>
+      <td style="padding:7px 9px; border:1px solid #cbd5e1;">${a.chosen}</td>
+      <td style="padding:7px 9px; border:1px solid #cbd5e1; text-align:center; font-weight:800; color:${a.isCorrect ? "#15803d" : "#dc2626"};">
+        ${a.isCorrect ? "✔ صحيحة" : "✘ تحتاج مراجعة"}
+      </td>
+    </tr>
+  `).join("");
+
+  const htmlDoc = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>نتيجة الاختبار - ${studentName || "طالب"}</title>
+  <style>
+    @page { size: A4; margin: 14mm; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      color: #102a43;
+      background: #fff;
+      margin: 0;
+    }
+    .sheet {
+      border: 2.5px solid #0f5132;
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .top-header {
+      background: linear-gradient(135deg, #102a43, #093621);
+      color: #fff;
+      padding: 16px 20px;
+      border-radius: 10px;
+      border-bottom: 4px solid #b48a2d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .school { color: #f3d078; font-weight: 700; font-size: 0.92rem; }
+    .main-title { margin: 4px 0; font-size: 1.35rem; font-weight: 800; }
+    .teacher { color: #d9f2e6; font-size: 0.9rem; }
+    .score-pill {
+      background: #fdf8ec;
+      color: #102a43;
+      border: 2px solid #b48a2d;
+      border-radius: 12px;
+      padding: 10px 16px;
+      text-align: center;
+      min-width: 130px;
+    }
+    .score-pill .num { font-size: 1.5rem; font-weight: 900; color: ${accentColor}; }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+    }
+    .msg-card {
+      background: ${bannerBg};
+      border: 1.5px solid ${bannerBorder};
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+    .msg-title { font-weight: 800; font-size: 1.05rem; color: ${accentColor}; margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th { background: #0f5132; color: #fff; padding: 8px; border: 1px solid #0f5132; }
+    .footer-note {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #52606d;
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 10px;
+    }
+    @media print {
+      .no-print { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print" style="text-align:center; margin-bottom:12px;">
+    <button onclick="window.print()" style="background:#0f5132; color:#fff; border:none; padding:10px 22px; border-radius:8px; font-weight:700; cursor:pointer; font-size:1rem;">
+      حفظ / طباعة كـ PDF
+    </button>
+  </div>
+  <div class="sheet">
+    <div class="top-header">
+      <div>
+        <div class="school">المدرسة العربية العالمية الحديثة - تعز</div>
+        <div class="main-title">إشعار نتيجة اختبار مادة التربية الإسلامية</div>
+        <div class="teacher">إشراف ومتابعة: أ. أحمد الحداد</div>
+      </div>
+      <div class="score-pill">
+        <div style="font-size:0.8rem; font-weight:700;">الدرجة النهائية</div>
+        <div class="num">${lastGradeFive} / 5</div>
+        <div style="font-size:0.82rem; font-weight:700;">(${lastScore} من ${lastTotal})</div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div><strong>اسم الطالب:</strong> ${studentName || "—"}</div>
+      <div><strong>الصف الدراسي:</strong> ${studentGrade || "—"}</div>
+      <div><strong>رمز الحصة:</strong> ${sessionId || "—"}</div>
+      <div><strong>مرات التنبيه والمخالفة:</strong> ${violations}</div>
+    </div>
+
+    <div class="msg-card">
+      <div class="msg-title">${fb.title}</div>
+      <div>${fb.message}</div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:45px;">م</th>
+          <th>السؤال</th>
+          <th>إجابة الطالب</th>
+          <th style="width:110px;">التقييم</th>
+        </tr>
+      </thead>
+      <tbody>${rowsHtml}</tbody>
+    </table>
+
+    <div class="footer-note">
+      المدرسة العربية العالمية الحديثة - تعز • مادة التربية الإسلامية • أ. أحمد الحداد
+    </div>
+  </div>
+  <script>
+    window.onload = function() {
+      setTimeout(function() { window.print(); }, 250);
+    };
+  <\/script>
+</body>
+</html>`;
+
+  const win = window.open("", "_blank");
+  if (win) {
+    win.document.open();
+    win.document.write(htmlDoc);
+    win.document.close();
+  } else {
+    alert("يرجى السماح بفتح النوافذ المنبثقة لحفظ النتيجة كملف PDF.");
+  }
+}
+
+async function retryPendingSubmissions() {
+  const queue = JSON.parse(localStorage.getItem("pending_drive_queue") || "[]");
+  if (queue.length === 0) return;
+
+  const statusBox = document.getElementById("uploadStatusBox");
+  if (!CONFIG.GOOGLE_SCRIPT_URL || CONFIG.GOOGLE_SCRIPT_URL.includes("ضع_رابط")) {
+    if (statusBox) {
+      statusBox.textContent = "تم حفظ إجابتك محلياً ويمكنك تحميل النتيجة PDF.";
+    }
+    return;
+  }
+
+  const remaining = [];
+  for (const item of queue) {
+    try {
+      await fetch(CONFIG.GOOGLE_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item)
+      });
+    } catch (err) {
+      remaining.push(item);
+    }
+  }
+
+  localStorage.setItem("pending_drive_queue", JSON.stringify(remaining));
+  if (statusBox) {
+    if (remaining.length === 0) {
+      statusBox.className = "status-banner status-ok";
+      statusBox.textContent = "✔ تم إرسال النتيجة (محسوبة من 5) إلى Google Drive بنجاح، ويمكنك الآن تحميل النتيجة PDF.";
+    } else {
+      statusBox.className = "status-banner status-wait";
+      statusBox.textContent = "الشبكة ضعيفة حالياً؛ تم حفظ نتيجتك محلياً وسيُعاد الإرسال إلى Google Drive تلقائياً...";
+      setTimeout(retryPendingSubmissions, 3000);
+    }
+  }
+}
+
+function downloadResultFile() {
+  const fb = getPerformanceFeedback(lastGradeFive);
+  const content =
+    `المدرسة العربية العالمية الحديثة - تعز\n` +
+    `المنصة الاختبارية لمادة التربية الإسلامية - أ. أحمد الحداد\n` +
+    `--------------------------------------------------\n` +
+    `اسم الطالب: ${studentName}\n` +
+    `الصف الدراسي: ${studentGrade}\n` +
+    `رمز الحصة: ${sessionId}\n` +
+    `الإجابات الصحيحة: ${lastScore} من ${lastTotal}\n` +
+    `الدرجة من 5: ${lastGradeFive} / 5\n` +
+    `مرات التنبيه والمخالفة: ${violations}\n\n` +
+    `${fb.title}\n${fb.message}\n\n` +
+    studentAnswers.map((a, i) => `${i + 1}. ${a.question}\nالإجابة: ${a.chosen} (${a.isCorrect ? "صحيحة" : "خاطئة"})`).join("\n\n");
+
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `نتيجة_${studentName || "طالب"}.txt`;
+  a.click();
+}
+
+function toggleCrowdLiteMode() {
+  crowdLiteEnabled = !crowdLiteEnabled;
+  const btn = document.getElementById("crowdModeBtn");
+  const grid = document.getElementById("studentsGrid");
+  if (grid) grid.classList.toggle("crowd-lite", crowdLiteEnabled);
+  if (btn) {
+    btn.classList.toggle("active-crowd", crowdLiteEnabled);
+    btn.textContent = crowdLiteEnabled
+      ? "⚡ وضع التزاحم: مفعّل (خفيف)"
+      : "⚡ وضع التزاحم (إخفاء الفيديو الثقيل)";
+  }
+}
+
+function cycleTileSizeMode() {
+  const labelText =
+    tileSizeMode === "auto"
+      ? "📐 حجم المربعات: مصغّر"
+      : tileSizeMode === "compact"
+      ? "📐 حجم المربعات: كبير"
+      : "📐 حجم المربعات: تلقائي";
+
+  tileSizeMode =
+    tileSizeMode === "auto"
+      ? "compact"
+      : tileSizeMode === "compact"
+      ? "large"
+      : "auto";
+
+  const btn = document.getElementById("tileSizeBtn");
+  if (btn) btn.textContent = labelText;
+  applyStudentsGridSizing();
+}
+
+function applyStudentsGridSizing() {
+  const grid = document.getElementById("studentsGrid");
+  if (!grid) return;
+  const count = document.querySelectorAll("#studentsGrid .student-tile").length;
+  const isMobile = window.innerWidth <= 640;
+
+  if (count >= 12 && !crowdLiteEnabled) {
+    grid.classList.add("crowd-lite");
+  } else if (!crowdLiteEnabled) {
+    grid.classList.remove("crowd-lite");
+  }
+
+  grid.classList.remove("compact-mode", "large-mode");
+  if (tileSizeMode === "compact") {
+    grid.classList.add("compact-mode");
+  } else if (tileSizeMode === "large") {
+    grid.classList.add("large-mode");
+  } else if ((isMobile && count >= 4) || count >= 8) {
+    grid.classList.add("compact-mode");
+  }
+}
+
+function toggleAllowExamStart() {
+  examAllowedByTeacher = !examAllowedByTeacher;
+  const btn = document.getElementById("allowExamBtn");
+  const badge = document.getElementById("examPermissionBadge");
+
+  if (examAllowedByTeacher) {
+    if (btn) {
+      btn.classList.add("allowed");
+      btn.textContent = "🔒 إيقاف البدء للطلاب";
+    }
+    if (badge) {
+      badge.textContent = "🔓 بدء الاختبار مسموح";
+      badge.style.color = "#15803d";
+    }
+  } else {
+    if (btn) {
+      btn.classList.remove("allowed");
+      btn.textContent = "🔓 السماح ببدء الاختبار";
+    }
+    if (badge) {
+      badge.textContent = "🔒 بدء الاختبار مغلق";
+      badge.style.color = "#b45309";
+    }
+  }
+
+  Object.keys(studentDataConnections).forEach(sPeerId => {
+    const conn = studentDataConnections[sPeerId];
+    if (conn && conn.open) {
+      conn.send({ type: "exam_permission", allowed: examAllowedByTeacher });
+    }
+  });
+}
+
+function notifyStudentsVoiceState(targetPeerId, state) {
+  const targetIds = targetPeerId === "ALL"
+    ? Object.keys(studentDataConnections)
+    : [targetPeerId];
+
+  targetIds.forEach(pId => {
+    const conn = studentDataConnections[pId];
+    if (conn && conn.open) {
+      conn.send({ type: state === "start" ? "voice_start" : "voice_stop" });
+    }
+  });
+}
+
+function setTeacherVoiceStatus(text, color = "#0369a1") {
+  const statusEl = document.getElementById("voiceStatusText");
+  if (!statusEl) return;
+  statusEl.textContent = text;
+  statusEl.style.color = color;
+}
+
+function stopTeacherVoiceBroadcast(releaseStream = false) {
+  const prevTarget = talkingMode;
+  activeTeacherCalls.forEach(c => {
+    try { c.close(); } catch (e) {}
+  });
+  activeTeacherCalls = [];
+
+  if (teacherMicStream) {
+    if (releaseStream) {
+      teacherMicStream.getTracks().forEach(t => t.stop());
+      teacherMicStream = null;
+      teacherMicLocked = false;
+    } else {
+      teacherMicStream.getAudioTracks().forEach(t => { t.enabled = false; });
+    }
+  }
+
+  if (prevTarget) {
+    notifyStudentsVoiceState(prevTarget, "stop");
+  }
+
+  talkingMode = null;
+  setTeacherVoiceStatus(
+    teacherMicLocked ? "✔ الميكروفون مثبّت وجاهز (متوقف حالياً)" : "الميكروفون متوقف",
+    teacherMicLocked ? "#15803d" : "#0369a1"
+  );
+  const allBtn = document.getElementById("talkAllBtn");
+  if (allBtn) {
+    allBtn.classList.remove("active-talk");
+    allBtn.textContent = "🎙 صوت للجميع";
+  }
+  document.querySelectorAll(".btn-mic-sm").forEach(btn => {
+    btn.classList.remove("active-talk");
+    btn.textContent = "🎤 صوت";
+  });
+}
+
+async function acquireLowQualityTeacherMic() {
+  if (teacherMicStream && teacherMicStream.getAudioTracks().some(t => t.readyState === "live")) {
+    teacherMicStream.getAudioTracks().forEach(t => { t.enabled = true; });
+    return { stream: teacherMicStream, reason: "" };
+  }
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    return { stream: null, reason: explainMediaErrorReason(null, "الميكروفون") };
+  }
+  const attempts = [
+    {
+      audio: {
+        channelCount: 1,
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true
+      },
+      video: false
+    },
+    { audio: true, video: false },
+    { audio: true }
+  ];
+
+  let lastErr = null;
+  for (const constraints of attempts) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      if (stream && stream.getAudioTracks().length > 0) {
+        teacherMicStream = stream;
+        teacherMicLocked = true;
+        return { stream, reason: "" };
+      }
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  return { stream: null, reason: explainMediaErrorReason(lastErr, "الميكروفون") };
+}
+
+async function testAndLockTeacherMic() {
+  getAudioContext();
+  setTeacherVoiceStatus("⏳ جاري فحص وتثبيت الميكروفون...", "#0369a1");
+
+  const { stream: lockedStream, reason } = await acquireLowQualityTeacherMic();
+  if (!lockedStream) {
+    setTeacherVoiceStatus("⚠ " + reason, "#dc2626");
+    return;
+  }
+
+  lockedStream.getAudioTracks().forEach(t => { t.enabled = false; });
+  setTeacherVoiceStatus("✔ الميكروفون جاهز ومثبّت للاستخدام", "#15803d");
+}
+
+function placeTeacherAudioCall(targetPeerId) {
+  if (!peer || peer.destroyed || !teacherMicStream || !targetPeerId) return;
+  if (studentDataConnections[targetPeerId]) {
+    notifyStudentsVoiceState(targetPeerId, "start");
+  }
+
+  const audioTracks = teacherMicStream.getAudioTracks();
+  audioTracks.forEach(t => { t.enabled = true; });
+
+  const call = peer.call(targetPeerId, teacherMicStream, {
+    metadata: {
+      role: supervisorRole === "principal" ? "principal_no_video" : "teacher_voice",
+      mode: talkingMode || "single"
+    }
+  });
+
+  if (call) {
+    if (call.peerConnection && audioTracks.length > 0) {
+      const senders = call.peerConnection.getSenders ? call.peerConnection.getSenders() : [];
+      const hasAudioSender = senders.some(s => s.track && s.track.kind === "audio");
+      if (!hasAudioSender) {
+        try {
+          call.peerConnection.addTrack(audioTracks[0], teacherMicStream);
+        } catch (e) {}
+      }
+    }
+    applyAdaptiveBitrateToCall(call, 22000);
+    call.on("error", () => {});
+    activeTeacherCalls.push(call);
+  }
+}
+
+async function toggleVoiceBroadcast(targetPeerId) {
+  if (!peer) return;
+  getAudioContext();
+
+  if (talkingMode === targetPeerId) {
+    stopTeacherVoiceBroadcast(false);
+    return;
+  }
+
+  stopTeacherVoiceBroadcast(false);
+
+  const { stream: micStream, reason } = await acquireLowQualityTeacherMic();
+  if (!micStream) {
+    setTeacherVoiceStatus("⚠ " + reason, "#dc2626");
+    return;
+  }
+
+  const targetIds = targetPeerId === "ALL"
+    ? Object.keys(connectedStudents)
+    : [targetPeerId];
+
+  if (targetIds.length === 0) {
+    micStream.getAudioTracks().forEach(t => { t.enabled = false; });
+    setTeacherVoiceStatus("⚠ لا يوجد طلاب متصلون حالياً لإرسال الصوت إليهم", "#b45309");
+    return;
+  }
+
+  talkingMode = targetPeerId;
+  targetIds.forEach(pId => {
+    placeTeacherAudioCall(pId);
+  });
+
+  if (targetPeerId === "ALL") {
+    setTeacherVoiceStatus("🔴 تبث بصوتك الآن لجميع الطلاب...", "#dc2626");
+    const allBtn = document.getElementById("talkAllBtn");
+    if (allBtn) {
+      allBtn.classList.add("active-talk");
+      allBtn.textContent = "⏹ إيقاف الصوت للجميع";
+    }
+  } else {
+    const sName = connectedStudents[targetPeerId] || "طالب";
+    setTeacherVoiceStatus(`🔴 تتحدث بصوتك الآن إلى: ${sName}`, "#dc2626");
+    const micBtn = document.getElementById("mic_" + targetPeerId);
+    if (micBtn) {
+      micBtn.classList.add("active-talk");
+      micBtn.textContent = "⏹ إيقاف";
+    }
+  }
+}
+
+function playStudentVoiceToTeacher(stream, speakerName) {
+  if (stream) {
+    stream.getAudioTracks().forEach(t => { t.enabled = true; });
+  }
+  const sAudio = document.getElementById("studentVoiceAudio");
+  const speakBanner = document.getElementById("studentSpeakingBanner");
+  if (speakBanner) {
+    speakBanner.textContent = `🎧 الطالب (${speakerName || "طالب"}) يتحدث إليك الآن...`;
+    speakBanner.classList.remove("hidden");
+  }
+  if (sAudio && stream) {
+    sAudio.srcObject = stream;
+    sAudio.muted = false;
+    sAudio.volume = 1.0;
+    sAudio.play().catch(() => {});
+  }
+}
+
+function hideStudentVoiceToTeacher() {
+  const speakBanner = document.getElementById("studentSpeakingBanner");
+  if (speakBanner) speakBanner.classList.add("hidden");
+  const sAudio = document.getElementById("studentVoiceAudio");
+  if (sAudio) sAudio.srcObject = null;
+}
+
+function startSupervisorDashboard(roleType = "teacher") {
+  cleanupPeerSession();
+  getAudioContext();
+  supervisorRole = roleType === "principal" ? "principal" : "teacher";
+
+  const isPrincipal = supervisorRole === "principal";
+  const sessInputId = isPrincipal ? "principalSessionInput" : "teacherSessionInput";
+  const passInputId = isPrincipal ? "principalPassInput" : "teacherPassInput";
+  const sess = document.getElementById(sessInputId).value.trim();
+  const pass = document.getElementById(passInputId).value.trim();
+
+  if (!sess || pass !== CONFIG.TEACHER_PASSWORD) {
+    alert("يرجى إدخال رمز الحصة وكلمة المرور الصحيحة.");
+    return;
+  }
+
+  sessionId = sess;
+  teacherGrade = getSelectedSupervisorGrade(supervisorRole, sess);
+  const teacherPeerId = buildRoomPeerId(sess);
+  peer = new Peer(teacherPeerId, CONFIG.PEER_CONFIG);
+
+  peer.on("open", () => {
+    document.getElementById("loginScreen").classList.add("hidden");
+    document.getElementById("teacherDashboardScreen").classList.remove("hidden");
+    document.getElementById("activeRoleBadge").textContent = isPrincipal ? "المديرة (بدون صورة)" : "المعلم";
+    document.getElementById("activeSessionBadge").textContent = sess;
+    document.getElementById("activeGradeBadge").textContent = teacherGrade;
+    const pNote = document.getElementById("principalPrivacyNote");
+    if (pNote) pNote.classList.toggle("hidden", !isPrincipal);
+  });
+
+  peer.on("disconnected", () => {
+    if (peer && !peer.destroyed) {
+      setTimeout(() => {
+        if (peer && !peer.destroyed && peer.disconnected) {
+          peer.reconnect();
+        }
+      }, 1200);
+    }
+  });
+
+  peer.on("error", (err) => {
+    if (err.type !== "peer-unavailable") {
+      setTeacherVoiceStatus("⚠ تنبيه في الاتصال: " + err.type, "#dc2626");
+    }
+  });
+
+  peer.on("call", (call) => {
+    const role = (call.metadata && call.metadata.role) ? call.metadata.role : "student_video";
+    const sKey = (call.metadata && call.metadata.studentKey) ? call.metadata.studentKey : "";
+    const sName = (call.metadata && call.metadata.name) ? call.metadata.name : (connectedStudents[call.peer] || "طالب");
+    const sGrade = (call.metadata && call.metadata.grade) ? call.metadata.grade : (teacherGrade !== "تلقائي حسب الرمز" ? teacherGrade : "");
+
+    if (role === "student_voice") {
+      call.answer();
+      call.on("stream", (remoteStream) => {
+        playStudentVoiceToTeacher(remoteStream, sName);
+      });
+      if (call.peerConnection) {
+        call.peerConnection.addEventListener("track", (ev) => {
+          if (ev.streams && ev.streams[0]) {
+            playStudentVoiceToTeacher(ev.streams[0], sName);
+          } else if (ev.track) {
+            playStudentVoiceToTeacher(new MediaStream([ev.track]), sName);
+          }
+        });
+      }
+      call.on("close", hideStudentVoiceToTeacher);
+      return;
+    }
+
+    const effectiveKey = sKey || buildStudentStableKey(sName, sGrade, sessionId);
+    const tileId = "tile_" + effectiveKey;
+    studentKeyToPeerId[effectiveKey] = call.peer;
+
+    if (studentVideoCallsMap[effectiveKey] && studentVideoCallsMap[effectiveKey] !== call) {
+      try { studentVideoCallsMap[effectiveKey].close(); } catch (e) {}
+    }
+    studentVideoCallsMap[effectiveKey] = call;
+
+    call.answer();
+    createOrGetStudentTile(tileId, sName, sGrade, call.peer, effectiveKey);
+
+    const bindStudentVideoStream = (remoteStream) => {
+      if (!remoteStream) return;
+      studentRemoteStreams[effectiveKey] = remoteStream;
+      studentRemoteStreams[call.peer] = remoteStream;
+      const videoEl = document.getElementById("vid_" + tileId);
+      attachStreamToVideo(videoEl, remoteStream);
+    };
+
+    call.on("stream", bindStudentVideoStream);
+
+    if (call.peerConnection) {
+      call.peerConnection.addEventListener("track", (ev) => {
+        if (ev.streams && ev.streams[0]) {
+          bindStudentVideoStream(ev.streams[0]);
+        } else if (ev.track) {
+          bindStudentVideoStream(new MediaStream([ev.track]));
+        }
+      });
+    }
+
+    call.on("close", () => {
+      if (studentKeyToPeerId[effectiveKey] === call.peer) {
+        updateStudentTileState(tileId, "warning", "يعيد الاتصال...");
+      }
+    });
+  });
+
+  peer.on("connection", (conn) => {
+    conn.on("data", (data) => {
+      if (!data) return;
+      const sName = data.name || connectedStudents[conn.peer] || "طالب";
+      const sGrade = data.grade || (teacherGrade !== "تلقائي حسب الرمز" ? teacherGrade : "");
+      const effectiveKey = data.studentKey || buildStudentStableKey(sName, sGrade, sessionId);
+      const tileId = "tile_" + effectiveKey;
+
+      studentKeyToPeerId[effectiveKey] = conn.peer;
+      studentDataConnections[conn.peer] = conn;
+      studentDataConnections[effectiveKey] = conn;
+
+      if (data.type === "student_voice_start") {
+        const speakBanner = document.getElementById("studentSpeakingBanner");
+        if (speakBanner) {
+          speakBanner.textContent = `🎧 الطالب (${sName}) يتحدث إليك الآن...`;
+          speakBanner.classList.remove("hidden");
+        }
+        return;
+      }
+      if (data.type === "student_voice_stop") {
+        hideStudentVoiceToTeacher();
+        return;
+      }
+
+      if (data.type === "status") {
+        const isNewStudent = !connectedStudents[effectiveKey];
+        createOrGetStudentTile(tileId, sName, sGrade, conn.peer, effectiveKey);
+        if (isNewStudent && talkingMode === "ALL" && teacherMicStream) {
+          placeTeacherAudioCall(conn.peer);
+        }
+        if (conn.open) {
+          conn.send({ type: "exam_permission", allowed: examAllowedByTeacher });
+        }
+        const cachedStream = studentRemoteStreams[effectiveKey] || studentRemoteStreams[conn.peer];
+        if (cachedStream) {
+          attachStreamToVideo(document.getElementById("vid_" + tileId), cachedStream);
+        }
+        if (data.state === "violation") {
+          updateStudentTileState(tileId, "danger", data.progress, `تنبيه خروج (${data.violations})`);
+          playBeepAlert();
+        } else if (data.state === "warning") {
+          updateStudentTileState(tileId, "warning", data.progress, "تنبيه كاميرا");
+          playBeepAlert();
+        } else if (data.state === "finished") {
+          updateStudentTileState(tileId, "finished", "أنهى الاختبار ✔");
+        } else {
+          updateStudentTileState(tileId, "active", data.progress);
+        }
+      }
+    });
+  });
+}
+
+function sendAlertToStudent(peerId, studentLabel) {
+  const conn = studentDataConnections[peerId] || studentDataConnections[studentKeyToPeerId[peerId]];
+  if (conn && conn.open) {
+    conn.send({
+      type: "teacher_alert",
+      message: `تنبيه للطالب ${studentLabel}: يرجى الانتباه للكاميرا والبقاء داخل صفحة الاختبار.`
+    });
+    setTeacherVoiceStatus(`🔔 تم إرسال تنبيه فوري إلى: ${studentLabel}`, "#b45309");
+  } else {
+    setTeacherVoiceStatus(`⚠ تعذر إرسال التنبيه إلى ${studentLabel} (الاتصال يعيد المحاولة)`, "#dc2626");
+  }
+}
+
+function createOrGetStudentTile(tileId, name, grade = "", peerId = "", studentKey = "") {
+  document.getElementById("emptyRoomMsg").classList.add("hidden");
+  const key = studentKey || tileId.replace(/^tile_/, "");
+  const existing = document.getElementById(tileId);
+
+  if (existing) {
+    if (name) {
+      const nEl = existing.querySelector(".tile-name");
+      if (nEl) nEl.textContent = name;
+    }
+    if (grade) {
+      const gEl = document.getElementById("grade_" + tileId);
+      if (gEl) gEl.textContent = grade;
+    }
+    if (peerId) {
+      connectedStudents[peerId] = name;
+      connectedStudents[key] = name;
+      studentKeyToPeerId[key] = peerId;
+      const micBtn = document.getElementById("mic_" + key);
+      if (micBtn) {
+        micBtn.onclick = () => toggleVoiceBroadcast(studentKeyToPeerId[key] || peerId);
+      }
+    }
+    const cachedStream = studentRemoteStreams[key] || studentRemoteStreams[peerId];
+    if (cachedStream) {
+      attachStreamToVideo(document.getElementById("vid_" + tileId), cachedStream);
+    }
+    return existing;
+  }
+
+  connectedStudents[key] = name;
+  if (peerId) {
+    connectedStudents[peerId] = name;
+    studentKeyToPeerId[key] = peerId;
+  }
+  document.getElementById("connectedCount").textContent = Object.keys(studentKeyToPeerId).length;
+
+  const tile = document.createElement("div");
+  tile.className = "student-tile";
+  tile.id = tileId;
+
+  const video = document.createElement("video");
+  video.id = "vid_" + tileId;
+  video.autoplay = true;
+  video.playsinline = true;
+  video.muted = true;
+
+  const info = document.createElement("div");
+  info.className = "tile-info";
+
+  const nameDiv = document.createElement("div");
+  nameDiv.className = "tile-name";
+  nameDiv.textContent = name;
+
+  const gradeDiv = document.createElement("div");
+  gradeDiv.className = "tile-grade";
+  gradeDiv.id = "grade_" + tileId;
+  gradeDiv.textContent = grade || "حصة عامة";
+
+  const statusDiv = document.createElement("div");
+  statusDiv.className = "tile-status";
+  statusDiv.innerHTML = `<span id="prog_${tileId}">متصل</span><span>مباشر</span>`;
+
+  const actionsDiv = document.createElement("div");
+  actionsDiv.className = "tile-actions";
+
+  const micBtn = document.createElement("button");
+  micBtn.type = "button";
+  micBtn.className = "btn-sm btn-mic-sm";
+  micBtn.id = "mic_" + key;
+  micBtn.textContent = "🎤 صوت";
+  micBtn.onclick = () => toggleVoiceBroadcast(studentKeyToPeerId[key] || peerId);
+
+  const alertBtn = document.createElement("button");
+  alertBtn.type = "button";
+  alertBtn.className = "btn-sm btn-warn-sm";
+  alertBtn.textContent = "🔔 تنبيه";
+  alertBtn.onclick = () => sendAlertToStudent(studentKeyToPeerId[key] || peerId, name);
+
+  actionsDiv.appendChild(micBtn);
+  actionsDiv.appendChild(alertBtn);
+
+  info.appendChild(nameDiv);
+  info.appendChild(gradeDiv);
+  info.appendChild(statusDiv);
+  info.appendChild(actionsDiv);
+
+  tile.appendChild(video);
+  tile.appendChild(info);
+
+  document.getElementById("studentsGrid").appendChild(tile);
+  applyStudentsGridSizing();
+  return tile;
+}
+
+function updateStudentTileState(tileId, stateClass, progressText, alertLabel = "") {
+  const tile = document.getElementById(tileId);
+  if (!tile) return;
+
+  tile.classList.remove("warning", "danger", "finished");
+  if (stateClass === "warning") tile.classList.add("warning");
+  if (stateClass === "danger") tile.classList.add("danger");
+  if (stateClass === "finished") tile.classList.add("finished");
+
+  const progEl = document.getElementById("prog_" + tileId);
+  if (progEl && progressText) progEl.textContent = progressText;
+
+  const oldPill = tile.querySelector(".alert-pill");
+  if (oldPill) oldPill.remove();
+
+  if (alertLabel) {
+    const pill = document.createElement("div");
+    pill.className = "alert-pill";
+    pill.textContent = alertLabel;
+    tile.appendChild(pill);
+  }
+}
+
+function playBeepAlert() {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const osc = ctx.createOscillator();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.25);
+  } catch (e) {}
+}
+</script>
+</body>
+</html>
