@@ -1,47 +1,92 @@
 name: Build Android APK
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-
-      - name: Create Android Project
-        run: |
-          mkdir app
-          cp index.html app/index.html
-          npm init -y
-          npm install @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init "منصة اختبارات التربية الإسلامية" "com.islamic.tests" --web-dir app
-          npx cap add android
-          npx cap sync android
+          node-version: '20'
 
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 21
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Build APK
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Prepare Web Wrapper
         run: |
-          cd android
+          rm -rf android-build
+          mkdir -p android-build/www
+          cat << 'EOF' > android-build/www/index.html
+          <!doctype html>
+          <html lang="ar" dir="rtl">
+          <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <meta http-equiv="refresh" content="0; url=https://fanciful-quokka-db6523.netlify.app/" />
+            <title>منصة الاختبار</title>
+          </head>
+          <body>
+            <script>
+              window.location.replace("https://fanciful-quokka-db6523.netlify.app/");
+            </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Capacitor Android
+        run: |
+          cd android-build
+          npm init -y
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap init "منصة الاختبار" "com.exam.islamic.platform" --web-dir=www
+          npx cap add android
+          cat << 'EOF' > capacitor.config.json
+          {
+            "appId": "com.exam.islamic.platform",
+            "appName": "منصة الاختبار",
+            "webDir": "www",
+            "server": {
+              "url": "https://fanciful-quokka-db6523.netlify.app/",
+              "cleartext": true
+            }
+          }
+          EOF
+          npx cap copy android
+
+      - name: Add Camera and Mic Permissions
+        run: |
+          python3 -c '
+          p = "android-build/android/app/src/main/AndroidManifest.xml"
+          s = open(p, encoding="utf-8").read()
+          perms = "    <uses-permission android:name=\"android.permission.INTERNET\" />\n    <uses-permission android:name=\"android.permission.CAMERA\" />\n    <uses-permission android:name=\"android.permission.RECORD_AUDIO\" />\n    <uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\" />\n    <uses-feature android:name=\"android.hardware.camera\" android:required=\"false\" />\n    <uses-feature android:name=\"android.hardware.microphone\" android:required=\"false\" />\n"
+          if "android.permission.CAMERA" not in s:
+              s = s.replace("<application", perms + "    <application", 1)
+          open(p, "w", encoding="utf-8").write(s)
+          '
+
+      - name: Build Debug APK
+        run: |
+          cd android-build/android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Islamic-Tests-APK
-         path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: exam-platform-apk
+          path: android-build/android/app/build/outputs/apk/debug/app-debug.apk
